@@ -7,6 +7,7 @@ namespace ASystem.Context
     {
         int Delete(int userId);
         int Insert(UserContextModel userContextModel);
+        UserContextModel Select(int userId);
         UserContextModel Select(string username);
         IEnumerable<UserContextModel> SelectAll();
         int Update(UserContextModel userContextModel);

@@ -17,8 +17,15 @@ namespace SASystem.Context
         public int Insert(UserContextModel userContextModel)
         {
             MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
-            string query = "INSERT INTO User (User, Username, Password, Status) values (@User, @Username, @Password, @Status)";
+            string query = "INSERT INTO User (Username, Password, Status) values (@Username, @Password, @Status)";
             return mySqlSingleton.Insert(query, userContextModel);
+        }
+        public UserContextModel Select(int userId)
+        {
+            MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
+            string query = "SELECT * FROM User WHERE UserId IN (@UserId)";
+            object param = new { UserId = userId};
+            return mySqlSingleton.Select<UserContextModel>(query, param);
         }
         public UserContextModel Select(string username)
         {
@@ -36,7 +43,7 @@ namespace SASystem.Context
         public int Update(UserContextModel userContextModel)
         {
             MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
-            string query = "UPDATE user SET Username = @Username, Password = @Password, Status = @Status WHERE UserId IN (@UserId)";
+            string query = "UPDATE User SET Username = @Username, Password = @Password, Status = @Status WHERE UserId IN (@UserId)";
             return mySqlSingleton.Update(query, userContextModel);
         }
     }
