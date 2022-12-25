@@ -139,8 +139,15 @@ namespace ASystem.Controllers
             {
                 return View(deleteViewModel);
             }
-            _userContext.Delete(deleteViewModel.UserContextModel.UserId);
-            return RedirectToAction(nameof(List));
+            try
+            {
+                _userContext.Delete(deleteViewModel.UserContextModel.UserId);
+                return RedirectToAction(nameof(List));
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Show", new { Code = 100, Controller = "User", Action = "List" });
+            }
         }
         private IEnumerable<ItemComponentModel> GetItemComponentModels()
         {
@@ -149,13 +156,13 @@ namespace ASystem.Controllers
             {
                 Name = "Insert",
                 Route = new ItemComponentModel.RouteModel() { Controller = "User", Action = "Insert" },
-                ImageUrl = "/img/icon/insert.pn"
+                ImageUrl = "/img/icon/insert.png"
             });
             itemModelList.Add(new ItemComponentModel()
             {
                 Name = "List",
                 Route = new ItemComponentModel.RouteModel() { Controller = "User", Action = "List" },
-                ImageUrl = "/img/icon/list.pn"
+                ImageUrl = "/img/icon/list.png"
             });
             return itemModelList;
         }

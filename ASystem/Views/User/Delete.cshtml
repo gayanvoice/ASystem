@@ -19,7 +19,7 @@
                                 string name = String.Concat("UserContextModel", ".", propertyInfo.Name);
                                 <div class="col-sm-12 mb-2">
                                     @Html.Label(name, null, new { @class = "form-label" })
-                                    @Html.Editor(name, null, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                                    @Html.Editor(name, null, new { htmlAttributes = new { @class = "form-control"} })
                                     @Html.ValidationMessage(name)
                                 </div>
                             }
