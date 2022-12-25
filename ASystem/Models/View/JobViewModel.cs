@@ -1,12 +1,11 @@
 ﻿using ASystem.Models.Component;
 using ASystem.Models.Context;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ASystem.Models.View
 {
-    public class AirportViewModel
+    public class JobViewModel
     {
         public IndexViewModel Index { get; set; }
         public ListViewModel List { get; set; }
@@ -23,32 +22,34 @@ namespace ASystem.Models.View
             public FormViewModel Form { get; set; }
             public class FormViewModel
             {
-                [Display(Name = "Airport Id")]
-                public int AirportId { get; set; }
-                public string Code { get; set; }
+                [Display(Name = "Job Id")]
+                public int JobId { get; set; }
                 public string Name { get; set; }
-                public string City { get; set; }
-                public string Country { get; set; }
-                public static FormViewModel FromAirportContextModel(AirportContextModel airportContextModel)
+                [Display(Name = "Pay Per Hour")]
+                public double PayPerHour { get; set; }
+                [Display(Name = "Pay Over Time")]
+                public double PayOverTime { get; set; }
+                [Display(Name = "Hours Weekly")]
+                public double HoursWeekly { get; set; }
+                public static FormViewModel FromJobContextModel(JobContextModel jobContextModel)
                 {
                     FormViewModel formViewModel = new FormViewModel();
-                    formViewModel.AirportId = airportContextModel.AirportId;
-                    formViewModel.Code = airportContextModel.Code;
-                    formViewModel.Name = airportContextModel.Name;
-                    formViewModel.City = airportContextModel.City;
-                    formViewModel.Country = airportContextModel.Country;
+                    formViewModel.JobId = jobContextModel.JobId;
+                    formViewModel.Name = jobContextModel.Name;
+                    formViewModel.PayPerHour = jobContextModel.PayPerHour;
+                    formViewModel.PayOverTime = jobContextModel.PayOverTime;
+                    formViewModel.HoursWeekly = jobContextModel.HoursWeekly;
                     return formViewModel;
                 }
             }
         }
         public class ListViewModel
         {
-            public IEnumerable<AirportContextModel> AirportContextModelEnumerable { get; set; }
+            public IEnumerable<JobContextModel> JobContextModelEnumerable { get; set; }
         }
         public class DeleteViewModel
         {
-            public string Title { get; set; }
-            public AirportContextModel AirportContextModel { get; set; }
+            public JobContextModel JobContextModel { get; set; }
         }
         public class EditViewModel
         {
@@ -56,32 +57,31 @@ namespace ASystem.Models.View
             public class FormViewModel
             {
                 [Required]
-                [Display(Name = "Airport Id")]
-                public int AirportId { get; set; }
-                [Required]
-                [DataType(DataType.Text)]
-                [StringLength(45)]
-                public string Code { get; set; }
+                [Display(Name = "Job Id")]
+                public int JobId { get; set; }
                 [Required]
                 [DataType(DataType.Text)]
                 [StringLength(45)]
                 public string Name { get; set; }
                 [Required]
-                [DataType(DataType.Text)]
-                [StringLength(45)]
-                public string City { get; set; }
+                [Display(Name = "Pay Per Hour")]
+                [DataType(DataType.Currency)]
+                public double PayPerHour { get; set; }
                 [Required]
-                [DataType(DataType.Text)]
-                [StringLength(45)]
-                public string Country{ get; set; }
-                public static FormViewModel FromAirportContextModel(AirportContextModel airportContextModel)
+                [Display(Name = "Pay Over Time")]
+                [DataType(DataType.Currency)]
+                public double PayOverTime { get; set; }
+                [Required]
+                [Display(Name = "Hours Weekly")]
+                public double HoursWeekly { get; set; }
+                public static FormViewModel FromJobContextModel(JobContextModel jobContextModel)
                 {
                     FormViewModel formViewModel = new FormViewModel();
-                    formViewModel.AirportId = airportContextModel.AirportId;
-                    formViewModel.Code = airportContextModel.Code;
-                    formViewModel.Name = airportContextModel.Name;
-                    formViewModel.City = airportContextModel.City;
-                    formViewModel.Country = airportContextModel.Country;
+                    formViewModel.JobId = jobContextModel.JobId;
+                    formViewModel.Name = jobContextModel.Name;
+                    formViewModel.PayPerHour = jobContextModel.PayPerHour;
+                    formViewModel.PayOverTime = jobContextModel.PayOverTime;
+                    formViewModel.HoursWeekly = jobContextModel.HoursWeekly;
                     return formViewModel;
                 }
             }
@@ -95,19 +95,18 @@ namespace ASystem.Models.View
                 [Required]
                 [DataType(DataType.Text)]
                 [StringLength(45)]
-                public string Code { get; set; }
-                [Required]
-                [DataType(DataType.Text)]
-                [StringLength(45)]
                 public string Name { get; set; }
                 [Required]
-                [DataType(DataType.Text)]
-                [StringLength(45)]
-                public string City { get; set; }
+                [Display(Name = "Pay Per Hour")]
+                [DataType(DataType.Currency)]
+                public double PayPerHour { get; set; }
                 [Required]
-                [DataType(DataType.Text)]
-                [StringLength(45)]
-                public string Country { get; set; }
+                [Display(Name = "Pay Over Time")]
+                [DataType(DataType.Currency)]
+                public double PayOverTime { get; set; }
+                [Required]
+                [Display(Name = "Hours Weekly")]
+                public double HoursWeekly { get; set; }
             }
         }
     }
