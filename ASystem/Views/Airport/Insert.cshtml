@@ -1,0 +1,51 @@
+﻿@model ASystem.Models.View.AirportViewModel.InsertViewModel
+@{
+    ViewData["Title"] = "Insert";
+    string controller = "Airport";
+}
+@section CSS {
+
+    <link href="https://getbootstrap.com/docs/5.0/examples/features/features.css" rel="stylesheet">
+}
+<div class="px-4 py-5" id="custom-cards">
+    <h2 class="pb-2 border-bottom">Insert</h2>
+    <div class="g-4 py-5">
+        <div class="row g-5">
+            <div class="col-md-7 col-lg-8">
+                <form class="needs-validation" form method="post" asp-controller="@controller" asp-action="Insert">
+                    <div class="row g-3 mb-2">
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.Code" class="form-label"></label>
+                            <input asp-for="Form.Code" class="form-control">
+                            <span asp-validation-for="Form.Code" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.Name" class="form-label"></label>
+                            <input asp-for="Form.Name" class="form-control">
+                            <span asp-validation-for="Form.Name" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.City" class="form-label"></label>
+                            <input asp-for="Form.City" class="form-control">
+                            <span asp-validation-for="Form.City" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.Country" class="form-label"></label>
+                            <input asp-for="Form.Country" class="form-control">
+                            <span asp-validation-for="Form.Country" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <a asp-controller="@controller" asp-action="Index" class="w-100 btn btn-secondary btn-lg">Back</a>
+                        </div>
+                        <div class="col-sm-6">
+                            <button class="w-100 btn btn-primary btn-lg" type="submit">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

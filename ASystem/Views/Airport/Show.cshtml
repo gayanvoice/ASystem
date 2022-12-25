@@ -1,0 +1,39 @@
+﻿@using System.Reflection;
+@model ASystem.Models.View.AirportViewModel.ShowViewModel;
+@{
+    ViewData["Title"] = "Show";
+    string controller = "Airport";
+}
+@section CSS {
+
+    <link href="https://getbootstrap.com/docs/5.0/examples/features/features.css" rel="stylesheet">
+}
+<div class="px-4 py-5" id="custom-cards">
+    <h2 class="pb-2 border-bottom">Show</h2>
+    <div class="g-4 py-5">
+        <div class="row g-5">
+            <div class="col-md-7 col-lg-8">
+                <form class="needs-validation">
+                    <div class="row g-3">
+                        @{
+                            foreach (PropertyInfo propertyInfo in Model.Form.GetType().GetProperties())
+                            {
+                                string name = String.Concat("Form", ".", propertyInfo.Name);
+                                <div class="col-sm-12 mb-2">
+                                    @Html.Label(name, null, new { @class = "form-label" })
+                                    @Html.Editor(name, null, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                                </div>
+                            }
+                        }
+                    </div>
+                    <hr class="my-4">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <a asp-controller="@controller" asp-action="List" class="w-100 btn btn-secondary btn-lg">Back</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

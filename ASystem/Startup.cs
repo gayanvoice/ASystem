@@ -24,6 +24,7 @@ namespace ASystem
             services.AddDataProtection();
             services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<IAirplaneManufacturerContext, AirplaneManufacturerContext>();
+            services.AddScoped<IAirportContext, AirportContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
