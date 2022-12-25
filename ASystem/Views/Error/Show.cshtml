@@ -1,0 +1,12 @@
+﻿@model ASystem.Models.View.ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<main class="flex-shrink-0">
+    <div class="container">
+        <h1 class="mt-5">@Model.Title</h1>
+        <p class="lead">"@Model.Description"</p>
+        <p>Go <a asp-controller="@Model.PreviousUrl.Action" asp-action="@Model.PreviousUrl.Action">Back</a></p>
+    </div>
+</main>

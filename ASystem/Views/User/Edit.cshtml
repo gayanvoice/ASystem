@@ -1,30 +1,37 @@
-﻿@using System.Reflection;
-@model ASystem.Models.View.UserViewModel.EditViewModel
+﻿@model ASystem.Models.View.UserViewModel.EditViewModel
 @{
-    ViewData["Title"] = "Edit Page";
+    ViewData["Title"] = "Edit";
 }
 
-<link href="https://getbootstrap.com/docs/5.2/examples/features/features.css" rel="stylesheet">
 <div class="px-4 py-5" id="custom-cards">
-    <h2 class="pb-2 border-bottom">Edit Page</h2>
+    <h2 class="pb-2 border-bottom">Edit</h2>
     <div class="g-4 py-5">
         <div class="row g-5">
             <div class="col-md-7 col-lg-8">
                 <form class="needs-validation" form method="post" asp-controller="User" asp-action="Edit">
                     <div class="row g-3">
-                        @{
-                            string[] columns = new[] { "UserId", "Username", "Password", "Status" };
-                            foreach (PropertyInfo propertyInfo in Model.Form.GetType().GetProperties()
-                                                .Where(type => columns.Contains(type.Name)))
-                            {
-                                string name = String.Concat("Form", ".", propertyInfo.Name);
-                                <div class="col-sm-12">
-                                    @Html.Label(name, null, new { @class = "form-label" })
-                                    @Html.Editor(name, null, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessage(name)
-                                </div>
-                            }
-                        }
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.UserId" class="form-label"></label>
+                            <input asp-for="Form.UserId" class="form-control" readonly>
+                            <span asp-validation-for="Form.UserId" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.Username" class="form-label"></label>
+                            <input asp-for="Form.Username" class="form-control">
+                            <span asp-validation-for="Form.Username" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.Password" class="form-label"></label>
+                            <input asp-for="Form.Password" class="form-control">
+                            <span asp-validation-for="Form.Password" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.Status" class="form-label"></label>
+                            <select asp-for="Form.Status" asp-items="@Model.StatusOption" class="form-control">
+                                <option value="">Choose...</option>
+                            </select>
+                            <span asp-validation-for="Form.Status" class="text-danger"></span>
+                        </div>
                     </div>
                     <hr class="my-4">
                     <div class="row g-3">

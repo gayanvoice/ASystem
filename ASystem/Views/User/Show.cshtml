@@ -16,7 +16,7 @@
                             foreach (PropertyInfo propertyInfo in Model.Form.GetType().GetProperties())
                             {
                                 string name = String.Concat("Form", ".", propertyInfo.Name);
-                                <div class="col-sm-12">
+                                <div class="col-sm-12 mb-2">
                                     @Html.Label(name, null, new { @class = "form-label" })
                                     @Html.Editor(name, null, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
                                 </div>

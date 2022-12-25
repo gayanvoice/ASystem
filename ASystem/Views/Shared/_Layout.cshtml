@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ASystem</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    @RenderSection("CSS", required: false)
 </head>
 <body>
     <div class="container">
@@ -13,14 +13,12 @@
     </div>
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
-            <li class="nav-item">Project <a href="https://github.com/gayanvoice/ASystem" class="nav-link px-2 text-muted">GitHub</a></li>
+            <li class="nav-item"><a href="/" class="nav-link text-muted">Home</a></li>
+            <li class="nav-item"><a href="https://github.com/gayanvoice/ASystem" class="nav-link text-muted">GitHub</a></li>
         </ul>
-        <p class="text-center text-muted">© 2022 SAASystem, University of Derby</p>
+        <p class="text-center text-muted">© 2022 ASystem, University of Derby</p>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+    <script src="~/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    @RenderSection("Js", required: false)
 </body>
 </html>
