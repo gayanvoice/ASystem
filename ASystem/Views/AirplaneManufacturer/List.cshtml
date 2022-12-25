@@ -1,0 +1,57 @@
+﻿@using System.Reflection;
+@using ASystem.Models.Context;
+@model ASystem.Models.View.AirplaneManufacturerViewModel.ListViewModel
+@{
+    ViewData["Title"] = "List";
+}
+<link href="https://getbootstrap.com/docs/5.2/examples/features/features.css" rel="stylesheet">
+<div class="px-4 py-5" id="custom-cards">
+    <h2 class="pb-2 border-bottom"><a asp-controller="AirplaneManufacturer" asp-action="Index" class="text-decoration-none">Airplane Manufacturer</a> / List</h2>
+
+    <div class="g-4 py-5">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        @{
+                            foreach (PropertyInfo propertyInfo in Model.AirplaneManufacturerContextModelEnumerable.First().GetType().GetProperties().Take(2))
+                            {
+                                <th scope="col">@propertyInfo.Name</th>
+                            }
+                            <th scope="col">Config</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (AirplaneManufacturerContextModel contextModel in Model.AirplaneManufacturerContextModelEnumerable)
+                        {
+                            int id = contextModel.AirplaneManufacturerId;
+                            <tr>
+                                @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties().Take(2))
+                                {
+                                    <td>@propertyInfo.GetValue(contextModel, null)</td>
+                                }
+                                <td>
+
+                                    <a asp-controller="AirplaneManufacturer"
+                                       asp-action="Show"
+                                       asp-route-Id="@id"
+                                       class="text-decoration-none p-1">Show</a>
+                                    <a asp-controller="AirplaneManufacturer"
+                                       asp-action="Edit"
+                                       asp-route-Id="@id"
+                                       class="text-decoration-none p-1">Edit</a>
+                                    <a asp-controller="AirplaneManufacturer"
+                                       asp-action="Delete"
+                                       asp-route-Id="@id"
+                                       class="text-decoration-none p-1">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

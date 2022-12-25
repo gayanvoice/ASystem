@@ -1,0 +1,42 @@
+﻿@model ASystem.Models.View.AirplaneManufacturerViewModel.EditViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="px-4 py-5" id="custom-cards">
+    <h2 class="pb-2 border-bottom">Edit</h2>
+    <div class="g-4 py-5">
+        <div class="row g-5">
+            <div class="col-md-7 col-lg-8">
+                <form class="needs-validation" form method="post" asp-controller="AirplaneManufacturer" asp-action="Edit">
+                    <div class="row g-3">
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.AirplaneManufacturerId" class="form-label"></label>
+                            <input asp-for="Form.AirplaneManufacturerId" class="form-control" readonly>
+                            <span asp-validation-for="Form.AirplaneManufacturerId" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.Name" class="form-label"></label>
+                            <input asp-for="Form.Name" class="form-control">
+                            <span asp-validation-for="Form.Name" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.Country" class="form-label"></label>
+                            <input asp-for="Form.Country" class="form-control">
+                            <span asp-validation-for="Form.Country" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <a asp-controller="AirplaneManufacturer" asp-action="List" class="w-100 btn btn-secondary btn-lg">Back</a>
+                        </div>
+                        <div class="col-sm-6">
+                            <button class="w-100 btn btn-primary btn-lg" type="submit">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
