@@ -24,6 +24,7 @@ namespace ASystem
             services.AddDataProtection();
             services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<IAirplaneManufacturerContext, AirplaneManufacturerContext>();
+            services.AddScoped<IAirplaneModelContext, AirplaneModelContext>();
             services.AddScoped<IAirportContext, AirportContext>();
             services.AddScoped<IJobContext, JobContext>();
             services.AddScoped<IPassportContext, PassportContext>();
