@@ -52,27 +52,27 @@ namespace ASystem.Builder
             _contextModel.CabinBaggageSize = cabinBaggageSize;
             return this;
         }
-        public ClassBuilder SetIsSeatSelection(int isSeatSelection)
+        public ClassBuilder SetIsSeatSelection(string isSeatSelection)
         {
             _contextModel.IsSeatSelection = isSeatSelection;
             return this;
         }
-        public ClassBuilder SetIsSkywardsMiles(int isSkywardsMiles)
+        public ClassBuilder SetIsSkywardsMiles(string isSkywardsMiles)
         {
             _contextModel.IsSkywardsMiles = isSkywardsMiles;
             return this;
         }
-        public ClassBuilder SetIsUpgrade(int isUpgrade)
+        public ClassBuilder SetIsUpgrade(string isUpgrade)
         {
             _contextModel.IsUpgrade = isUpgrade;
             return this;
         }
-        public ClassBuilder SetIsChangeFee(int isChangeFee)
+        public ClassBuilder SetIsChangeFee(string isChangeFee)
         {
             _contextModel.IsChangeFee = isChangeFee;
             return this;
         }
-        public ClassBuilder SetIsRefundFee(int isRefundFee)
+        public ClassBuilder SetIsRefundFee(string isRefundFee)
         {
             _contextModel.IsRefundFee = isRefundFee;
             return this;

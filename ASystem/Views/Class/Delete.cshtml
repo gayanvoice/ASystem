@@ -1,0 +1,42 @@
+﻿@using System.Reflection;
+@model ASystem.Models.View.ClassViewModel.DeleteViewModel
+@{
+    ViewData["Title"] = "Delete";
+    string controller = "Class";
+}
+
+<div class="px-4 py-5" id="custom-cards">
+    <h2 class="pb-2 border-bottom">Delete</h2>
+    <div class="g-4 py-5">
+        <div class="row g-5">
+            <div class="col-md-7 col-lg-8">
+                <form class="needs-validation" form method="post" asp-controller="@controller" asp-action="Delete">
+                    <div class="row g-3">
+                        @{
+                            string[] columns = new[] { "ClassId", "Name", "SubClass" };
+                            foreach (PropertyInfo propertyInfo in Model.ClassContextModel.GetType().GetProperties()
+                                                .Where(type => columns.Contains(type.Name)))
+                            {
+                                string name = String.Concat("ClassContextModel", ".", propertyInfo.Name);
+                                <div class="col-sm-12 mb-2">
+                                    @Html.Label(name, null, new { @class = "form-label" })
+                                    @Html.Editor(name, null, new { htmlAttributes = new { @class = "form-control"} })
+                                    @Html.ValidationMessage(name)
+                                </div>
+                            }
+                        }
+                    </div>
+                    <hr class="my-4">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <a asp-controller="@controller" asp-action="List" class="w-100 btn btn-secondary btn-lg">Back</a>
+                        </div>
+                        <div class="col-sm-6">
+                            <button class="w-100 btn btn-primary btn-lg" type="submit">Delete</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

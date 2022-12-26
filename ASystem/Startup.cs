@@ -27,6 +27,7 @@ namespace ASystem
             services.AddScoped<IAirplaneManufacturerContext, AirplaneManufacturerContext>();
             services.AddScoped<IAirplaneModelContext, AirplaneModelContext>();
             services.AddScoped<IAirportContext, AirportContext>();
+            services.AddScoped<IClassContext, ClassContext>();
             services.AddScoped<IJobContext, JobContext>();
             services.AddScoped<IPassportContext, PassportContext>();
         }
