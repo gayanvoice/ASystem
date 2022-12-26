@@ -30,7 +30,7 @@ namespace ASystem.Models.View
                 [Display(Name = "Flight Number")]
                 public string FlightNumber { get; set; }
                 [Display(Name = "Status")]
-                public int Status { get; set; }
+                public string Status { get; set; }
                 public static FormViewModel FromContextModel(AirplaneContextModel contextModel)
                 {
                     FormViewModel formViewModel = new FormViewModel();
@@ -53,6 +53,7 @@ namespace ASystem.Models.View
         public class EditViewModel
         {
             public IEnumerable<SelectListItem> AirplaneModelIdEnumerable { get; set; }
+            public IEnumerable<SelectListItem> StatusEnumerable { get; set; }
             public FormViewModel Form { get; set; }
             public class FormViewModel
             {
@@ -71,7 +72,7 @@ namespace ASystem.Models.View
                 public string FlightNumber { get; set; }
                 [Required]
                 [Display(Name = "Status")]
-                public int Status { get; set; }
+                public string Status { get; set; }
                 public static FormViewModel FromContextModel(AirplaneContextModel contextModel)
                 {
                     FormViewModel formViewModel = new FormViewModel();
@@ -86,6 +87,7 @@ namespace ASystem.Models.View
         public class InsertViewModel
         {
             public IEnumerable<SelectListItem> AirplaneModelIdEnumerable { get; set; }
+            public IEnumerable<SelectListItem> StatusEnumerable { get; set; }
             public FormViewModel Form { get; set; }
             
             public class FormViewModel
@@ -102,7 +104,7 @@ namespace ASystem.Models.View
                 public string FlightNumber { get; set; }
                 [Required]
                 [Display(Name = "Status")]
-                public int Status { get; set; }
+                public string Status { get; set; }
             }
         }
     }

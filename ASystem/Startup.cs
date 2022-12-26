@@ -23,6 +23,7 @@ namespace ASystem
             services.AddControllersWithViews();
             services.AddDataProtection();
             services.AddScoped<IUserContext, UserContext>();
+            services.AddScoped<IAirplaneContext, AirplaneContext>();
             services.AddScoped<IAirplaneManufacturerContext, AirplaneManufacturerContext>();
             services.AddScoped<IAirplaneModelContext, AirplaneModelContext>();
             services.AddScoped<IAirportContext, AirportContext>();

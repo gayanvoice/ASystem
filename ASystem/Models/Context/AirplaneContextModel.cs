@@ -5,6 +5,6 @@
         public int AirplaneId { get; set; } //11
         public int AirplaneModelId { get; set; } //11
         public string FlightNumber { get; set; } //20
-        public int Status { get; set; } //1
+        public string Status { get; set; } //1
     }
 }

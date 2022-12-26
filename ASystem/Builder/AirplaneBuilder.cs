@@ -32,7 +32,7 @@ namespace ASystem.Builder
             _contextModel.FlightNumber = flightNumber;
             return this;
         }
-        public AirplaneBuilder SetStatus(int status)
+        public AirplaneBuilder SetStatus(string status)
         {
             _contextModel.Status = status;
             return this;
