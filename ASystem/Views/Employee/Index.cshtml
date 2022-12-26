@@ -1,0 +1,30 @@
+﻿@using ASystem.Models.Component
+@model ASystem.Models.View.EmployeeViewModel.IndexViewModel
+@{
+    ViewData["Title"] = "Index";
+    string controller = "Employee";
+}
+@section CSS
+{
+    <link href="https://getbootstrap.com/docs/5.0/examples/features/features.css" rel="stylesheet">
+}
+<div class="container px-4 py-5" id="custom-cards">
+    <h2 class="pb-2 border-bottom"><a asp-controller="Home" asp-action="Index" class="text-decoration-none">Index</a> / @controller</h2>
+    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+        @{
+            foreach (ItemComponentModel itemComponentModel in Model.ItemComponentModelEnumerable)
+            {
+                <div class="col">
+                    <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" 
+                         style="background-image: url('@itemComponentModel.ImageUrl');">
+                        <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+                            <a asp-controller="@itemComponentModel.Route.Controller" 
+                               asp-action="@itemComponentModel.Route.Action"
+                               class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-decoration-none text-white">@itemComponentModel.Name</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
