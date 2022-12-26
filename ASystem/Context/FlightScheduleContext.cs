@@ -9,40 +9,40 @@ using System.Text;
 
 namespace SASystem.Context
 {
-    public class AirplaneContext : IAirplaneContext
+    public class FlightScheduleContext : IFlightScheduleContext
     {
-        private const string table_name = "Airplane";
-        public int Delete(int airplaneId)
+        private const string table_name = "FlightSchedule";
+        public int Delete(int flightScheduleId)
         {
             MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
-            string query = "DELETE FROM Airplane WHERE AirplaneId IN (@AirplaneId)";
-            object param = new { AirplaneId = airplaneId };
+            string query = "DELETE FROM FlightSchedule WHERE FlightScheduleId IN (@FlightScheduleId)";
+            object param = new { FlightScheduleId = flightScheduleId };
             return mySqlSingleton.Delete(query, param);
         }
-        public int Insert(AirplaneContextModel airplaneContextModel)
+        public int Insert(FlightScheduleContextModel flightScheduleContextModel)
         {
             MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
-            string query = GetInsertQuery(airplaneContextModel);
-            return mySqlSingleton.Insert(query, airplaneContextModel);
+            string query = GetInsertQuery(flightScheduleContextModel);
+            return mySqlSingleton.Insert(query, flightScheduleContextModel);
         }
-        public AirplaneContextModel Select(int airplaneId)
+        public FlightScheduleContextModel Select(int flightScheduleId)
         {
             MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
-            string query = "SELECT * FROM Airplane WHERE AirplaneId IN (@AirplaneId)";
-            object param = new { AirplaneId = airplaneId };
-            return mySqlSingleton.Select<AirplaneContextModel>(query, param);
+            string query = "SELECT * FROM FlightSchedule WHERE FlightScheduleId IN (@FlightScheduleId)";
+            object param = new { FlightScheduleId = flightScheduleId };
+            return mySqlSingleton.Select<FlightScheduleContextModel>(query, param);
         }
-        public IEnumerable<AirplaneContextModel> SelectAll()
+        public IEnumerable<FlightScheduleContextModel> SelectAll()
         {
             MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
             string query = string.Concat("SELECT * FROM ", table_name);
-            return mySqlSingleton.SelectAll<AirplaneContextModel>(query);
+            return mySqlSingleton.SelectAll<FlightScheduleContextModel>(query);
         }
-        public int Update(AirplaneContextModel airplaneContextModel)
+        public int Update(FlightScheduleContextModel flightScheduleContextModel)
         {
             MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
-            string query = GetUpdateQuery(airplaneContextModel);
-            return mySqlSingleton.Update(query, airplaneContextModel);
+            string query = GetUpdateQuery(flightScheduleContextModel);
+            return mySqlSingleton.Update(query, flightScheduleContextModel);
         }
         private string GetInsertQuery<Type>(Type type)
         {

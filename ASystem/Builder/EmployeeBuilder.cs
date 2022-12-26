@@ -53,7 +53,7 @@ namespace ASystem.Builder
             _contextModel.Phone = phone;
             return this;
         }
-        public EmployeeBuilder SetStatus(int status)
+        public EmployeeBuilder SetStatus(string status)
         {
             _contextModel.Status = status;
             return this;

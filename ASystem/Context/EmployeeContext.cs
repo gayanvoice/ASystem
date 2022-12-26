@@ -9,40 +9,40 @@ using System.Text;
 
 namespace SASystem.Context
 {
-    public class AirplaneContext : IAirplaneContext
+    public class EmployeeContext : IEmployeeContext
     {
-        private const string table_name = "Airplane";
-        public int Delete(int airplaneId)
+        private const string table_name = "Employee";
+        public int Delete(int employeeId)
         {
             MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
-            string query = "DELETE FROM Airplane WHERE AirplaneId IN (@AirplaneId)";
-            object param = new { AirplaneId = airplaneId };
+            string query = "DELETE FROM Employee WHERE EmployeeId IN (@EmployeeId)";
+            object param = new { EmployeeId = employeeId };
             return mySqlSingleton.Delete(query, param);
         }
-        public int Insert(AirplaneContextModel airplaneContextModel)
+        public int Insert(EmployeeContextModel employeeContextModel)
         {
             MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
-            string query = GetInsertQuery(airplaneContextModel);
-            return mySqlSingleton.Insert(query, airplaneContextModel);
+            string query = GetInsertQuery(employeeContextModel);
+            return mySqlSingleton.Insert(query, employeeContextModel);
         }
-        public AirplaneContextModel Select(int airplaneId)
+        public EmployeeContextModel Select(int employeeId)
         {
             MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
-            string query = "SELECT * FROM Airplane WHERE AirplaneId IN (@AirplaneId)";
-            object param = new { AirplaneId = airplaneId };
-            return mySqlSingleton.Select<AirplaneContextModel>(query, param);
+            string query = "SELECT * FROM Employee WHERE EmployeeId IN (@EmployeeId)";
+            object param = new { EmployeeId = employeeId };
+            return mySqlSingleton.Select<EmployeeContextModel>(query, param);
         }
-        public IEnumerable<AirplaneContextModel> SelectAll()
+        public IEnumerable<EmployeeContextModel> SelectAll()
         {
             MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
             string query = string.Concat("SELECT * FROM ", table_name);
-            return mySqlSingleton.SelectAll<AirplaneContextModel>(query);
+            return mySqlSingleton.SelectAll<EmployeeContextModel>(query);
         }
-        public int Update(AirplaneContextModel airplaneContextModel)
+        public int Update(EmployeeContextModel employeeContextModel)
         {
             MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
-            string query = GetUpdateQuery(airplaneContextModel);
-            return mySqlSingleton.Update(query, airplaneContextModel);
+            string query = GetUpdateQuery(employeeContextModel);
+            return mySqlSingleton.Update(query, employeeContextModel);
         }
         private string GetInsertQuery<Type>(Type type)
         {

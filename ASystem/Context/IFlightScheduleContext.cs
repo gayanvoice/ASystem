@@ -7,7 +7,7 @@ namespace ASystem.Context
     {
         int Delete(int flightScheduleId);
         int Insert(FlightScheduleContextModel flightScheduleContextModel);
-        CrewContextModel Select(int flightScheduleId);
+        FlightScheduleContextModel Select(int flightScheduleId);
         IEnumerable<FlightScheduleContextModel> SelectAll();
         int Update(FlightScheduleContextModel flightScheduleContextModel);
     }

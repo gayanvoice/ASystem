@@ -7,7 +7,7 @@ namespace ASystem.Context
     {
         int Delete(int employeeId);
         int Insert(EmployeeContextModel employeeContextModel);
-        CrewContextModel Select(int employeeId);
+        EmployeeContextModel Select(int employeeId);
         IEnumerable<EmployeeContextModel> SelectAll();
         int Update(EmployeeContextModel employeeContextModel);
     }

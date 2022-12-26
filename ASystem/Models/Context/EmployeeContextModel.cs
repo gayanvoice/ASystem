@@ -11,6 +11,6 @@ namespace ASystem.Models.Context
         public DateTime DateOfBirth{ get; set; }
         public string Address { get; set; } //200
         public int Phone { get; set; } //20
-        public int Status { get; set; } //1
+        public string Status { get; set; } //20
     }
 }

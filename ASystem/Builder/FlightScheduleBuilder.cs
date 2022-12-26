@@ -28,14 +28,14 @@ namespace ASystem.Builder
             _contextModel.AirplaneId = airplaneId;
             return this;
         }
-        public FlightScheduleBuilder SetAirportIdOriginId(int airportIdOriginId)
+        public FlightScheduleBuilder SetAirportIdOriginId(int airportIdOrigin)
         {
-            _contextModel.AirportIdOriginId = airportIdOriginId;
+            _contextModel.AirportIdOrigin = airportIdOrigin;
             return this;
         }
-        public FlightScheduleBuilder SetAirportIdDestinationId(int airportIdDestinationId)
+        public FlightScheduleBuilder SetAirportIdDestinationId(int airportIdDestination)
         {
-            _contextModel.AirportIdDestinationId = airportIdDestinationId;
+            _contextModel.AirportIdDestination = airportIdDestination;
             return this;
         }
         public FlightScheduleBuilder SetType(string type)
