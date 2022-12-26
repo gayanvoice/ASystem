@@ -30,6 +30,7 @@ namespace ASystem
             services.AddScoped<IClassContext, ClassContext>();
             services.AddScoped<IEmployeeContext, EmployeeContext>();
             services.AddScoped<IFlightScheduleContext, FlightScheduleContext>();
+            services.AddScoped<ICrewContext, CrewContext>();
             services.AddScoped<IJobContext, JobContext>();
             services.AddScoped<IPassportContext, PassportContext>();
         }

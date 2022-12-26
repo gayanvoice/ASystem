@@ -1,0 +1,61 @@
+﻿@using System.Reflection;
+@using ASystem.Models.Context;
+@model ASystem.Models.View.CrewViewModel.ListViewModel
+@{
+    ViewData["Title"] = "List";
+    string controller = "Crew";
+}
+@section CSS
+{
+    <link href="https://getbootstrap.com/docs/5.0/examples/features/features.css" rel="stylesheet">
+}
+<div class="px-4 py-5" id="custom-cards">
+    <h2 class="pb-2 border-bottom"><a asp-controller="@controller" asp-action="Index" class="text-decoration-none">@controller</a> / List</h2>
+
+    <div class="g-4 py-5">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        @{
+                            foreach (PropertyInfo propertyInfo in Model.CrewContextModelEnumerable.First().GetType().GetProperties().Take(2))
+                            {
+                                <th scope="col">@propertyInfo.Name</th>
+                            }
+                            <th scope="col">Config</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (CrewContextModel contextModel in Model.CrewContextModelEnumerable)
+                        {
+                            int id = contextModel.CrewId;
+                            <tr>
+                                @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties().Take(2))
+                                {
+                                    <td>@propertyInfo.GetValue(contextModel, null)</td>
+                                }
+                                <td>
+
+                                    <a asp-controller="@controller"
+                                       asp-action="Show"
+                                       asp-route-Id="@id"
+                                       class="text-decoration-none p-1">Show</a>
+                                    <a asp-controller="@controller"
+                                       asp-action="Edit"
+                                       asp-route-Id="@id"
+                                       class="text-decoration-none p-1">Edit</a>
+                                    <a asp-controller="@controller"
+                                       asp-action="Delete"
+                                       asp-route-Id="@id"
+                                       class="text-decoration-none p-1">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
