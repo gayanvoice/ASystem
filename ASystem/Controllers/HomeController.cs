@@ -23,10 +23,22 @@ namespace ASystem.Controllers
         public IActionResult Index()
         {
             HomeViewModel.IndexViewModel indexViewModel = new HomeViewModel.IndexViewModel();
-            indexViewModel.ItemComponentModelEnumerable = GetItemComponentModels();
+            indexViewModel.ItemComponentModelEnumerable = GetIndexItemComponentModels();
             return View(indexViewModel);
         }
-        private IEnumerable<ItemComponentModel> GetItemComponentModels()
+        public IActionResult Manage()
+        {
+            HomeViewModel.ManageViewModel indexViewModel = new HomeViewModel.ManageViewModel();
+            indexViewModel.ItemComponentModelEnumerable = GetManageItemComponentModels();
+            return View(indexViewModel);
+        }
+        public IActionResult Report()
+        {
+            HomeViewModel.ReportViewModel indexViewModel = new HomeViewModel.ReportViewModel();
+            indexViewModel.ItemComponentModelEnumerable = GetReportItemComponentModels();
+            return View(indexViewModel);
+        }
+        private IEnumerable<ItemComponentModel> GetManageItemComponentModels()
         {
             List<ItemComponentModel> itemModelList = new List<ItemComponentModel>();
             itemModelList.Add(new ItemComponentModel()
@@ -136,6 +148,40 @@ namespace ASystem.Controllers
                 Name = "User",
                 Route = new ItemComponentModel.RouteModel() { Controller = "User", Action = "Index" },
                 ImageUrl = "/img/pic/user.jp"
+            });
+            return itemModelList;
+        }
+        private IEnumerable<ItemComponentModel> GetIndexItemComponentModels()
+        {
+            List<ItemComponentModel> itemModelList = new List<ItemComponentModel>();
+            itemModelList.Add(new ItemComponentModel()
+            {
+                Name = "Manage",
+                Route = new ItemComponentModel.RouteModel() { Controller = "Home", Action = "Manage" },
+                ImageUrl = "/img/pic/airplane.jp"
+            });
+            itemModelList.Add(new ItemComponentModel()
+            {
+                Name = "Report",
+                Route = new ItemComponentModel.RouteModel() { Controller = "Home", Action = "Report" },
+                ImageUrl = "/img/pic/airplane_manufacturer.jp"
+            });
+            return itemModelList;
+        }
+        private IEnumerable<ItemComponentModel> GetReportItemComponentModels()
+        {
+            List<ItemComponentModel> itemModelList = new List<ItemComponentModel>();
+            itemModelList.Add(new ItemComponentModel()
+            {
+                Name = "Get List of Pilots",
+                Route = new ItemComponentModel.RouteModel() { Controller = "Report", Action = "Pilots" },
+                ImageUrl = "/img/pic/airplane.jp"
+            });
+            itemModelList.Add(new ItemComponentModel()
+            {
+                Name = "Get List of Passengers",
+                Route = new ItemComponentModel.RouteModel() { Controller = "Report", Action = "Passengers" },
+                ImageUrl = "/img/pic/airplane_manufacturer.jp"
             });
             return itemModelList;
         }

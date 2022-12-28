@@ -43,6 +43,11 @@ namespace ASystem.Builder
             _contextModel.TimeOut = timeOut;
             return this;
         }
+        public ScheduleCrewBuilder SetTimeOut(string status)
+        {
+            _contextModel.Status = status;
+            return this;
+        }
         public ScheduleCrewContextModel Build()
         {
             ScheduleCrewContextModel model = _contextModel;

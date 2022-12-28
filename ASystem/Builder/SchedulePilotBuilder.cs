@@ -43,6 +43,11 @@ namespace ASystem.Builder
             _contextModel.TimeOut = timeOut;
             return this;
         }
+        public SchedulePilotBuilder SetStatus(string status)
+        {
+            _contextModel.Status = status;
+            return this;
+        }
         public SchedulePilotContextModel Build()
         {
             SchedulePilotContextModel model = _contextModel;

@@ -9,5 +9,6 @@ namespace ASystem.Models.Context
         public int PilotId { get; set; } //11
         public DateTime TimeIn{ get; set; }
         public DateTime TimeOut{ get; set; }
+        public string Status { get; set; } // 20
     }
 }

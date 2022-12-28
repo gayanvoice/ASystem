@@ -38,9 +38,14 @@ namespace ASystem.Builder
             _contextModel.SeatId = seatId;
             return this;
         }
-        public SchedulePassengerBuilder SetIsConnect(int isConnect)
+        public SchedulePassengerBuilder SetType(string type)
         {
-            _contextModel.IsConnect = isConnect;
+            _contextModel.Type = type;
+            return this;
+        }
+        public SchedulePassengerBuilder SetStatus(string status)
+        {
+            _contextModel.Status = status;
             return this;
         }
         public SchedulePassengerContextModel Build()
