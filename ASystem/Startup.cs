@@ -35,6 +35,7 @@ namespace ASystem
             services.AddScoped<IPassengerContext, PassengerContext>();
             services.AddScoped<IPassportContext, PassportContext>();
             services.AddScoped<IPilotContext, PilotContext>();
+            services.AddScoped<ISeatContext, SeatContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
