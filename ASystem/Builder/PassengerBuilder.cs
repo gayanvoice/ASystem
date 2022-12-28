@@ -23,6 +23,11 @@ namespace ASystem.Builder
             _contextModel.PassengerId = passengerId;
             return this;
         }
+        public PassengerBuilder SetPassportId(int passportId)
+        {
+            _contextModel.PassportId = passportId;
+            return this;
+        }
         public PassengerBuilder SetPhone(int phone)
         {
             _contextModel.Phone = phone;
