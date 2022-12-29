@@ -1,6 +1,8 @@
 ﻿using ASystem.Models;
 using ASystem.Models.Component;
 using ASystem.Models.View;
+using ASystem.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,14 +13,27 @@ using System.Threading.Tasks;
 
 namespace ASystem.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private IUserService _userService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IUserService userService)
         {
-            _logger = logger;
+            _userService = userService;
         }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Authenticate()
+        {
+            var user = await _userService.Authenticate("test", "test");
+
+            if (user == null)
+                return BadRequest(new { message = "Username or password is incorrect" });
+
+            return Ok(user);
+        }
+
 
         public IActionResult Index()
         {
