@@ -42,6 +42,7 @@ namespace ASystem
             services.AddScoped<IScheduleCrewContext, ScheduleCrewContext>();
             services.AddScoped<ISchedulePassengerContext, SchedulePassengerContext>();
             services.AddScoped<ISchedulePilotContext, SchedulePilotContext>();
+            services.AddScoped<ISchedulePriceContext, SchedulePriceContext>();
 
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);

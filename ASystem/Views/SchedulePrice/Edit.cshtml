@@ -1,0 +1,51 @@
+﻿@model ASystem.Models.View.SchedulePriceViewModel.EditViewModel
+@{
+    ViewData["Title"] = "Edit";
+    string controller = "SchedulePrice";
+}
+@section CSS {
+
+    <link href="https://getbootstrap.com/docs/5.0/examples/features/features.css" rel="stylesheet">
+}
+<div class="px-4 py-5" id="custom-cards">
+    <h2 class="pb-2 border-bottom">Edit</h2>
+    <div class="g-4 py-5">
+        <div class="row g-5">
+            <div class="col-md-7 col-lg-8">
+                <form class="needs-validation" form method="post" asp-controller="@controller" asp-action="Edit">
+                    <div class="row g-3">
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.SchedulePriceId" class="form-label"></label>
+                            <input asp-for="Form.SchedulePriceId" class="form-control" readonly>
+                            <span asp-validation-for="Form.SchedulePriceId" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.FlightScheduleId" class="form-label"></label>
+                            <select asp-for="Form.FlightScheduleId" asp-items="@Model.FlightScheduleEnumerable" class="form-control"></select>
+                            <span asp-validation-for="Form.FlightScheduleId" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.ClassId" class="form-label"></label>
+                            <select asp-for="Form.ClassId" asp-items="@Model.ClassEnumerable" class="form-control"></select>
+                            <span asp-validation-for="Form.ClassId" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.Price" class="form-label"></label>
+                            <input asp-for="Form.Price"  class="form-control">
+                            <span asp-validation-for="Form.Price" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <a asp-controller="@controller" asp-action="List" class="w-100 btn btn-secondary btn-lg">Back</a>
+                        </div>
+                        <div class="col-sm-6">
+                            <button class="w-100 btn btn-primary btn-lg" type="submit">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
