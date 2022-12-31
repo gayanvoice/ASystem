@@ -1,0 +1,56 @@
+﻿@model ASystem.Models.View.SchedulePilotViewModel.InsertViewModel
+@{
+    ViewData["Title"] = "Insert";
+    string controller = "SchedulePilot";
+}
+@section CSS {
+
+    <link href="https://getbootstrap.com/docs/5.0/examples/features/features.css" rel="stylesheet">
+}
+<div class="px-4 py-5" id="custom-cards">
+    <h2 class="pb-2 border-bottom">Insert</h2>
+    <div class="g-4 py-5">
+        <div class="row g-5">
+            <div class="col-md-7 col-lg-8">
+                <form class="needs-validation" form method="post" asp-controller="@controller" asp-action="Insert">
+                    <div class="row g-3 mb-2">
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.FlightScheduleId" class="form-label"></label>
+                            <select asp-for="Form.FlightScheduleId" asp-items="@Model.FlightScheduleEnumerable" class="form-control"></select>
+                            <span asp-validation-for="Form.FlightScheduleId" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.PilotId" class="form-label"></label>
+                            <select asp-for="Form.PilotId" asp-items="@Model.PilotEnumerable" class="form-control"></select>
+                            <span asp-validation-for="Form.PilotId" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.TimeIn" class="form-label"></label>
+                            <input asp-for="Form.TimeIn" asp-format="{0:yyyy-MM-ddTHH:mm}" class="form-control">
+                            <span asp-validation-for="Form.TimeIn" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.TimeOut" class="form-label"></label>
+                            <input asp-for="Form.TimeOut" asp-format="{0:yyyy-MM-ddTHH:mm}" class="form-control">
+                            <span asp-validation-for="Form.TimeOut" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.Status" class="form-label"></label>
+                            <select asp-for="Form.Status" asp-items="@Model.StatusEnumerable" class="form-control"></select>
+                            <span asp-validation-for="Form.Status" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <a asp-controller="@controller" asp-action="Index" class="w-100 btn btn-secondary btn-lg">Back</a>
+                        </div>
+                        <div class="col-sm-6">
+                            <button class="w-100 btn btn-primary btn-lg" type="submit">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

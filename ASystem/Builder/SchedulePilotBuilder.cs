@@ -33,12 +33,12 @@ namespace ASystem.Builder
             _contextModel.PilotId = pilotId;
             return this;
         }
-        public SchedulePilotBuilder SetSeatId(DateTime timeIn)
+        public SchedulePilotBuilder SetTimeIn(DateTime timeIn)
         {
             _contextModel.TimeIn = timeIn;
             return this;
         }
-        public SchedulePilotBuilder SetIsConnect(DateTime timeOut)
+        public SchedulePilotBuilder SetTimeOut(DateTime timeOut)
         {
             _contextModel.TimeOut = timeOut;
             return this;
