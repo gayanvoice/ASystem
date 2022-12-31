@@ -58,7 +58,7 @@ namespace ASystem.Controllers
                 IEnumerable<JobContextModel> jobContextModelEnumerable = _jobContext.SelectAll();
                 EmployeeViewModel.EditViewModel editViewModel = new EmployeeViewModel.EditViewModel();
                 editViewModel.JobEnumerable = EmployeeHelper.FromJobEnumerable(jobContextModelEnumerable);
-                editViewModel.StatusEnumerable = ClassHelper.GetIEnumerableSelectListItem<StatusEnum>();
+                editViewModel.StatusEnumerable = ClassHelper.GetIEnumerableSelectListItem<Enum.FlightSchedule.StatusEnum>();
                 editViewModel.Form = EmployeeViewModel.EditViewModel.FormViewModel.FromContextModel(contextModel);
                 return View(editViewModel);
             }
@@ -70,7 +70,7 @@ namespace ASystem.Controllers
             {
                 IEnumerable<JobContextModel> jobContextModelEnumerable = _jobContext.SelectAll();
                 editViewModel.JobEnumerable = EmployeeHelper.FromJobEnumerable(jobContextModelEnumerable);
-                editViewModel.StatusEnumerable = FlightScheduleHelper.GetIEnumerableSelectListItem<StatusEnum>();
+                editViewModel.StatusEnumerable = FlightScheduleHelper.GetIEnumerableSelectListItem<Enum.FlightSchedule.StatusEnum>();
                 return View(editViewModel);
             }
             EmployeeBuilder builder = new EmployeeBuilder();
@@ -92,7 +92,7 @@ namespace ASystem.Controllers
             IEnumerable<JobContextModel> jobContextModelEnumerable = _jobContext.SelectAll();
             EmployeeViewModel.InsertViewModel insertViewModel = new EmployeeViewModel.InsertViewModel();
             insertViewModel.JobEnumerable = EmployeeHelper.FromJobEnumerable(jobContextModelEnumerable);
-            insertViewModel.StatusEnumerable = FlightScheduleHelper.GetIEnumerableSelectListItem<StatusEnum>();
+            insertViewModel.StatusEnumerable = FlightScheduleHelper.GetIEnumerableSelectListItem<Enum.FlightSchedule.StatusEnum>();
             insertViewModel.Form = new EmployeeViewModel.InsertViewModel.FormViewModel();
             return View(insertViewModel);
         }
@@ -103,7 +103,7 @@ namespace ASystem.Controllers
             {
                 IEnumerable<JobContextModel> jobContextModelEnumerable = _jobContext.SelectAll();
                 insertViewModel.JobEnumerable = EmployeeHelper.FromJobEnumerable(jobContextModelEnumerable);
-                insertViewModel.StatusEnumerable = EmployeeHelper.FromEnumerableSelectListItem<StatusEnum>();
+                insertViewModel.StatusEnumerable = EmployeeHelper.FromEnumerableSelectListItem<Enum.FlightSchedule.StatusEnum>();
                 return View(insertViewModel);
             }
             EmployeeBuilder builder = new EmployeeBuilder();

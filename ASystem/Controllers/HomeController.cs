@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ASystem.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class HomeController : Controller
     {
         private IUserService _userService;

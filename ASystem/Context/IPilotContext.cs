@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace ASystem.Context
 {
-    public interface IScheduleCrewContext
+    public interface IPilotContext
     {
-        int Delete(int scheduleCrewId);
-        int Insert(ScheduleCrewContextModel scheduleCrewContextModel);
-        ScheduleCrewContextModel Select(int scheduleCrewId);
-        IEnumerable<ScheduleCrewContextModel> SelectAll();
-        int Update(ScheduleCrewContextModel scheduleCrewContextModel);
+        int Delete(int pilotId);
+        int Insert(PilotContextModel pilotContextModel);
+        PilotContextModel Select(int pilotId);
+        IEnumerable<PilotContextModel> SelectAll();
+        int Update(PilotContextModel pilotContextModel);
     }
 }

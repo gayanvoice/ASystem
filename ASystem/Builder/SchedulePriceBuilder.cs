@@ -33,7 +33,7 @@ namespace ASystem.Builder
             _contextModel.ClassId = classId;
             return this;
         }
-        public SchedulePriceBuilder SetSeatId(double price)
+        public SchedulePriceBuilder SetPrice(double price)
         {
             _contextModel.Price = price;
             return this;

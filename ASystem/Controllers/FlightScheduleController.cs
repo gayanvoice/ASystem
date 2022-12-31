@@ -64,7 +64,7 @@ namespace ASystem.Controllers
                 editViewModel.AirplaneEnumerable = FlightScheduleHelper.FromAirplaneEnumerable(airplaneContextModelEnumerable);
                 editViewModel.AirportEnumerable = FlightScheduleHelper.FromAirportEnumerable(airportContextModelEnumerable);
                 editViewModel.TypeEnumerable = ClassHelper.GetIEnumerableSelectListItem<TypeEnum>();
-                editViewModel.StatusEnumerable = ClassHelper.GetIEnumerableSelectListItem<StatusEnum>();
+                editViewModel.StatusEnumerable = ClassHelper.GetIEnumerableSelectListItem<Enum.FlightSchedule.StatusEnum>();
                 editViewModel.Form = FlightScheduleViewModel.EditViewModel.FormViewModel.FromContextModel(contextModel);
                 return View(editViewModel);
             }
@@ -79,7 +79,7 @@ namespace ASystem.Controllers
                 editViewModel.AirplaneEnumerable = FlightScheduleHelper.FromAirplaneEnumerable(airplaneContextModelEnumerable);
                 editViewModel.AirportEnumerable = FlightScheduleHelper.FromAirportEnumerable(airportContextModelEnumerable);
                 editViewModel.TypeEnumerable = ClassHelper.GetIEnumerableSelectListItem<TypeEnum>();
-                editViewModel.StatusEnumerable = ClassHelper.GetIEnumerableSelectListItem<StatusEnum>();
+                editViewModel.StatusEnumerable = ClassHelper.GetIEnumerableSelectListItem<Enum.FlightSchedule.StatusEnum>();
                 return View(editViewModel);
             }
             FlightScheduleBuilder builder = new FlightScheduleBuilder();
@@ -104,7 +104,7 @@ namespace ASystem.Controllers
             insertViewModel.AirplaneEnumerable = FlightScheduleHelper.FromAirplaneEnumerable(airplaneContextModelEnumerable);
             insertViewModel.AirportEnumerable = FlightScheduleHelper.FromAirportEnumerable(airportContextModelEnumerable);
             insertViewModel.TypeEnumerable = ClassHelper.GetIEnumerableSelectListItem<TypeEnum>();
-            insertViewModel.StatusEnumerable = ClassHelper.GetIEnumerableSelectListItem<StatusEnum>();
+            insertViewModel.StatusEnumerable = ClassHelper.GetIEnumerableSelectListItem<Enum.FlightSchedule.StatusEnum>();
             insertViewModel.Form = new FlightScheduleViewModel.InsertViewModel.FormViewModel();
             return View(insertViewModel);
         }
@@ -118,7 +118,7 @@ namespace ASystem.Controllers
                 insertViewModel.AirplaneEnumerable = FlightScheduleHelper.FromAirplaneEnumerable(airplaneContextModelEnumerable);
                 insertViewModel.AirportEnumerable = FlightScheduleHelper.FromAirportEnumerable(airportContextModelEnumerable);
                 insertViewModel.TypeEnumerable = ClassHelper.GetIEnumerableSelectListItem<TypeEnum>();
-                insertViewModel.StatusEnumerable = ClassHelper.GetIEnumerableSelectListItem<StatusEnum>();
+                insertViewModel.StatusEnumerable = ClassHelper.GetIEnumerableSelectListItem<Enum.FlightSchedule.StatusEnum>();
                 return View(insertViewModel);
             }
             FlightScheduleBuilder builder = new FlightScheduleBuilder();
