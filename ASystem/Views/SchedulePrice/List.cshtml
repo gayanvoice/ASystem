@@ -60,7 +60,7 @@
                     <tr>
                         @{
                             foreach (PropertyInfo propertyInfo in Model.SchedulePriceContextModelEnumerable
-                                .First().GetType().GetProperties().Take(2))
+                                .First().GetType().GetProperties())
                             {
                                 <th scope="col">@propertyInfo.Name</th>
                             }
@@ -74,7 +74,7 @@
                         {
                             int id = contextModel.SchedulePriceId;
                             <tr>
-                                @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties().Take(2))
+                                @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties())
                                 {
                                     <td>@propertyInfo.GetValue(contextModel, null)</td>
                                 }

@@ -61,7 +61,7 @@
                 <thead>
                     <tr>
                         @{
-                            foreach (PropertyInfo propertyInfo in Model.AirplaneContextModelEnumerable.First().GetType().GetProperties().Take(2))
+                            foreach (PropertyInfo propertyInfo in Model.AirplaneContextModelEnumerable.First().GetType().GetProperties())
                             {
                                 <th scope="col">@propertyInfo.Name</th>
                             }
@@ -75,7 +75,7 @@
                         {
                             int id = contextModel.AirplaneId;
                             <tr>
-                                @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties().Take(2))
+                                @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties())
                                 {
                                     <td>@propertyInfo.GetValue(contextModel, null)</td>
                                 }

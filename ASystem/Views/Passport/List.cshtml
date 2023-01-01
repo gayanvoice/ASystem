@@ -59,7 +59,7 @@
                 <thead>
                     <tr>
                         @{
-                            foreach (PropertyInfo propertyInfo in Model.PassportContextModelEnumerable.First().GetType().GetProperties().Take(2))
+                            foreach (PropertyInfo propertyInfo in Model.PassportContextModelEnumerable.First().GetType().GetProperties().Take(7))
                             {
                                 <th scope="col">@propertyInfo.Name</th>
                             }
@@ -73,7 +73,7 @@
                         {
                             int id = contextModel.PassportId;
                             <tr>
-                                @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties().Take(2))
+                                @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties().Take(7))
                                 {
                                     <td>@propertyInfo.GetValue(contextModel, null)</td>
                                 }

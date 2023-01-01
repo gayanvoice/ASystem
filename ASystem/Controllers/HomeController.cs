@@ -1,5 +1,9 @@
-﻿using ASystem.Models.Component;
+﻿using ASystem.Context;
+using ASystem.Enum.User;
+using ASystem.Models.Component;
+using ASystem.Models.Context;
 using ASystem.Models.View;
+using ASystem.Singleton;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -8,6 +12,51 @@ namespace ASystem.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IUserContext _userContext;
+        public HomeController(IUserContext userContext)
+        {
+            _userContext = userContext;
+        }
+        public IActionResult Login()
+        {
+            LoginViewModel loginViewModel = new LoginViewModel();
+            return View(loginViewModel);
+        }
+        [HttpPost]
+        public IActionResult Login(LoginViewModel loginViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(loginViewModel);
+            }
+            UserContextModel userContextModel = _userContext.Select(loginViewModel.Username);
+            if (userContextModel is null)
+            {
+                ModelState.AddModelError("Username", "Username does not exist");
+                return View(loginViewModel);
+            }
+            else
+            {
+                CipherSingleton cipherSingleton = CipherSingleton.Instance;
+                if (cipherSingleton.Decrypt(userContextModel.Password).Equals(loginViewModel.Password))
+                {
+                    if (userContextModel.Status.Equals(UserStatusEnum.ACTIVE.ToString()))
+                    {
+                        return RedirectToAction(nameof(Index), new { Param = "SuccessLogin" });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Username", "User status is deactive");
+                        return View(loginViewModel);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("Password", "Incorrect password");
+                    return View(loginViewModel);
+                }
+            }
+        }
         public IActionResult Index()
         {
             HomeViewModel.IndexViewModel indexViewModel = new HomeViewModel.IndexViewModel();

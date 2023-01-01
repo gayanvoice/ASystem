@@ -59,7 +59,7 @@
                 <thead>
                     <tr>
                         @{
-                            foreach (PropertyInfo propertyInfo in Model.EmployeeContextModelEnumerable.First().GetType().GetProperties().Take(2))
+                            foreach (PropertyInfo propertyInfo in Model.EmployeeContextModelEnumerable.First().GetType().GetProperties().Take(4))
                             {
                                 <th scope="col">@propertyInfo.Name</th>
                             }
@@ -73,7 +73,7 @@
                         {
                             int id = contextModel.EmployeeId;
                             <tr>
-                                @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties().Take(2))
+                                @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties().Take(4))
                                 {
                                     <td>@propertyInfo.GetValue(contextModel, null)</td>
                                 }
