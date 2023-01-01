@@ -40,6 +40,7 @@ namespace ASystem
             services.AddScoped<ISchedulePassengerContext, SchedulePassengerContext>();
             services.AddScoped<ISchedulePilotContext, SchedulePilotContext>();
             services.AddScoped<ISchedulePriceContext, SchedulePriceContext>();
+            services.AddScoped<IReportContext, ReportContext>();
 
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();

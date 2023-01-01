@@ -73,27 +73,28 @@
                         foreach (ScheduleCrewContextModel contextModel in Model.ScheduleCrewContextModelEnumerable)
                         {
                             int id = contextModel.ScheduleCrewId;
-                            <tr>
-                                @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties().Take(3))
-                                {
-                                    <td>@propertyInfo.GetValue(contextModel, null)</td>
-                                }
-                                <td>
+                                        <tr>
+                                            @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties().Take(3))
+                                            {
+                                                <td>@propertyInfo.GetValue(contextModel, null)</td>
 
-                                    <a asp-controller="@controller"
-                                       asp-action="Show"
-                                       asp-route-Id="@id"
-                                       class="text-decoration-none p-1">Show</a>
-                                    <a asp-controller="@controller"
-                                       asp-action="Edit"
-                                       asp-route-Id="@id"
-                                       class="text-decoration-none p-1">Edit</a>
-                                    <a asp-controller="@controller"
-                                       asp-action="Delete"
-                                       asp-route-Id="@id"
-                                       class="text-decoration-none p-1">Delete</a>
-                                </td>
-                            </tr>
+                                            }
+                                            <td>
+
+                                                <a asp-controller="@controller"
+                                                   asp-action="Show"
+                                                   asp-route-Id="@id"
+                                                   class="text-decoration-none p-1">Show</a>
+                                                <a asp-controller="@controller"
+                                                   asp-action="Edit"
+                                                   asp-route-Id="@id"
+                                                   class="text-decoration-none p-1">Edit</a>
+                                                <a asp-controller="@controller"
+                                                   asp-action="Delete"
+                                                   asp-route-Id="@id"
+                                                   class="text-decoration-none p-1">Delete</a>
+                                            </td>
+                                        </tr>
                         }
                     }
                 </tbody>

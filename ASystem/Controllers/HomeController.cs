@@ -210,15 +210,15 @@ namespace ASystem.Controllers
             List<ItemComponentModel> itemModelList = new List<ItemComponentModel>();
             itemModelList.Add(new ItemComponentModel()
             {
-                Name = "Get List of Pilots",
-                Route = new ItemComponentModel.RouteModel() { Controller = "Report", Action = "Pilots" },
-                ImageUrl = "/img/pic/airplane.jpg"
+                Name = "Crew Schedule Report",
+                Route = new ItemComponentModel.RouteModel() { Controller = "Report", Action = "CrewScheduleReport" },
+                ImageUrl = "/img/pic/crew.jpg"
             });
             itemModelList.Add(new ItemComponentModel()
             {
-                Name = "Get List of Passengers",
-                Route = new ItemComponentModel.RouteModel() { Controller = "Report", Action = "Passengers" },
-                ImageUrl = "/img/pic/airplane_manufacturer.jpg"
+                Name = "Flight Schedule With Destination",
+                Route = new ItemComponentModel.RouteModel() { Controller = "Report", Action = "FlightScheduleWithDestinationReport" },
+                ImageUrl = "/img/pic/crew.jpg"
             });
             return itemModelList;
         }
