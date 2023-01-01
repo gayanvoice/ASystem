@@ -44,6 +44,7 @@ namespace ASystem.Models.View
         }
         public class ListViewModel
         {
+            public string Status { get; set; }
             public IEnumerable<AirplaneModelContextModel> AirplaneModelContextModelEnumerable { get; set; }
         }
         public class DeleteViewModel

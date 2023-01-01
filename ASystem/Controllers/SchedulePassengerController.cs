@@ -36,7 +36,7 @@ namespace ASystem.Controllers
             viewModel.ItemComponentModelEnumerable = GetItemComponentModels();
             return View(viewModel);
         }
-        public IActionResult List()
+        public IActionResult List(string param)
         {
             SchedulePassengerViewModel.ListViewModel list = new SchedulePassengerViewModel.ListViewModel();
             list.SchedulePassengerContextModelEnumerable = _schedulePassengerContext.SelectAll();
@@ -47,7 +47,7 @@ namespace ASystem.Controllers
             SchedulePassengerContextModel contextModel = _schedulePassengerContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
 
             SchedulePassengerViewModel.ShowViewModel showViewModel = new SchedulePassengerViewModel.ShowViewModel();
@@ -59,7 +59,7 @@ namespace ASystem.Controllers
             SchedulePassengerContextModel contextModel = _schedulePassengerContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             else
             {
@@ -92,7 +92,7 @@ namespace ASystem.Controllers
                     .SetStatus(editViewModel.Form.Status)
                     .Build();
                 _schedulePassengerContext.Update(contextModel);
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "SuccessEdit" });
             }
             else
             {
@@ -143,7 +143,7 @@ namespace ASystem.Controllers
                     .SetStatus(insertViewModel.Form.Status)
                     .Build();
                 _schedulePassengerContext.Insert(contextModel);
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "SuccessInsert" });
             }
             else
             {
@@ -169,7 +169,7 @@ namespace ASystem.Controllers
             SchedulePassengerContextModel contextModel = _schedulePassengerContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             SchedulePassengerViewModel.DeleteViewModel viewModel = new SchedulePassengerViewModel.DeleteViewModel();
             viewModel.SchedulePassengerContextModel = contextModel;
@@ -185,11 +185,11 @@ namespace ASystem.Controllers
             try
             {
                 _schedulePassengerContext.Delete(deleteViewModel.SchedulePassengerContextModel.SchedulePassengerId);
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "SuccessDelete" });
             }
             catch
             {
-                return RedirectToAction("Show", "Error", new { Code = 100, Controller = "SchedulePassenger", Action = "List" });
+                return RedirectToAction(nameof(List), new { Param = "ErrorConstraint" });
             }
         }
         private IEnumerable<ItemComponentModel> GetItemComponentModels()
@@ -199,13 +199,13 @@ namespace ASystem.Controllers
             {
                 Name = "Insert",
                 Route = new ItemComponentModel.RouteModel() { Controller = "SchedulePassenger", Action = "Insert" },
-                ImageUrl = "/img/icon/insert.png"
+                ImageUrl = "/img/icon/insert.jpg"
             });
             itemModelList.Add(new ItemComponentModel()
             {
                 Name = "List",
                 Route = new ItemComponentModel.RouteModel() { Controller = "SchedulePassenger", Action = "List" },
-                ImageUrl = "/img/icon/list.png"
+                ImageUrl = "/img/icon/list.jpg"
             });
             return itemModelList;
         }

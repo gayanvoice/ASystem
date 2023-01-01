@@ -31,9 +31,10 @@ namespace ASystem.Controllers
             viewModel.ItemComponentModelEnumerable = GetItemComponentModels();
             return View(viewModel);
         }
-        public IActionResult List()
+        public IActionResult List(string param)
         {
             FlightScheduleViewModel.ListViewModel list = new FlightScheduleViewModel.ListViewModel();
+            list.Status = param;
             list.FlightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll();
             return View(list);
         }
@@ -42,7 +43,7 @@ namespace ASystem.Controllers
             FlightScheduleContextModel contextModel = _flightScheduleContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
 
             FlightScheduleViewModel.ShowViewModel showViewModel = new FlightScheduleViewModel.ShowViewModel();
@@ -54,7 +55,7 @@ namespace ASystem.Controllers
             FlightScheduleContextModel contextModel = _flightScheduleContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             else
             {
@@ -94,7 +95,7 @@ namespace ASystem.Controllers
                 .SetStatus(editViewModel.Form.Status)
                 .Build();
             _flightScheduleContext.Update(contextModel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessEdit" });
         }
         public IActionResult Insert()
         {
@@ -132,7 +133,7 @@ namespace ASystem.Controllers
                 .SetStatus(insertViewModel.Form.Status)
                 .Build();
             _flightScheduleContext.Insert(contextModel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessInsert" });
         }
 
         public IActionResult Delete(int id)
@@ -140,7 +141,7 @@ namespace ASystem.Controllers
             FlightScheduleContextModel contextModel = _flightScheduleContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             FlightScheduleViewModel.DeleteViewModel viewModel = new FlightScheduleViewModel.DeleteViewModel();
             viewModel.FlightScheduleContextModel = contextModel;
@@ -156,11 +157,11 @@ namespace ASystem.Controllers
             try
             {
                 _flightScheduleContext.Delete(deleteViewModel.FlightScheduleContextModel.FlightScheduleId);
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "SuccessDelete" });
             }
             catch
             {
-                return RedirectToAction("Show", "Error", new { Code = 100, Controller = "FlightSchedule", Action = "List" });
+                return RedirectToAction(nameof(List), new { Param = "ErrorConstraint" });
             }
         }
         private IEnumerable<ItemComponentModel> GetItemComponentModels()
@@ -170,13 +171,13 @@ namespace ASystem.Controllers
             {
                 Name = "Insert",
                 Route = new ItemComponentModel.RouteModel() { Controller = "FlightSchedule", Action = "Insert" },
-                ImageUrl = "/img/icon/insert.png"
+                ImageUrl = "/img/icon/insert.jpg"
             });
             itemModelList.Add(new ItemComponentModel()
             {
                 Name = "List",
                 Route = new ItemComponentModel.RouteModel() { Controller = "FlightSchedule", Action = "List" },
-                ImageUrl = "/img/icon/list.png"
+                ImageUrl = "/img/icon/list.jpg"
             });
             return itemModelList;
         }

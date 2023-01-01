@@ -30,9 +30,10 @@ namespace ASystem.Controllers
             viewModel.ItemComponentModelEnumerable = GetItemComponentModels();
             return View(viewModel);
         }
-        public IActionResult List()
+        public IActionResult List(string param)
         {
             SchedulePilotViewModel.ListViewModel list = new SchedulePilotViewModel.ListViewModel();
+            list.Status = param;
             list.SchedulePilotContextModelEnumerable = _schedulePilotContext.SelectAll();
             return View(list);
         }
@@ -41,7 +42,7 @@ namespace ASystem.Controllers
             SchedulePilotContextModel contextModel = _schedulePilotContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
 
             SchedulePilotViewModel.ShowViewModel showViewModel = new SchedulePilotViewModel.ShowViewModel();
@@ -53,7 +54,7 @@ namespace ASystem.Controllers
             SchedulePilotContextModel contextModel = _schedulePilotContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             else
             {
@@ -89,7 +90,7 @@ namespace ASystem.Controllers
                 .SetStatus(editViewModel.Form.Status)
                 .Build();
             _schedulePilotContext.Update(contextModel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessEdit" });
         }
         public IActionResult Insert()
         {
@@ -123,7 +124,7 @@ namespace ASystem.Controllers
                 .SetStatus(insertViewModel.Form.Status)
                 .Build();
             _schedulePilotContext.Insert(contextModel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessInsert" });
         }
 
         public IActionResult Delete(int id)
@@ -131,7 +132,7 @@ namespace ASystem.Controllers
             SchedulePilotContextModel contextModel = _schedulePilotContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             SchedulePilotViewModel.DeleteViewModel viewModel = new SchedulePilotViewModel.DeleteViewModel();
             viewModel.SchedulePilotContextModel = contextModel;
@@ -147,11 +148,11 @@ namespace ASystem.Controllers
             try
             {
                 _schedulePilotContext.Delete(deleteViewModel.SchedulePilotContextModel.SchedulePilotId);
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "SuccessDelete" });
             }
             catch
             {
-                return RedirectToAction("Show", "Error", new { Code = 100, Controller = "SchedulePilot", Action = "List" });
+                return RedirectToAction(nameof(List), new { Param = "ErrorConstraint" });
             }
         }
         private IEnumerable<ItemComponentModel> GetItemComponentModels()
@@ -161,13 +162,13 @@ namespace ASystem.Controllers
             {
                 Name = "Insert",
                 Route = new ItemComponentModel.RouteModel() { Controller = "SchedulePilot", Action = "Insert" },
-                ImageUrl = "/img/icon/insert.png"
+                ImageUrl = "/img/icon/insert.jpg"
             });
             itemModelList.Add(new ItemComponentModel()
             {
                 Name = "List",
                 Route = new ItemComponentModel.RouteModel() { Controller = "SchedulePilot", Action = "List" },
-                ImageUrl = "/img/icon/list.png"
+                ImageUrl = "/img/icon/list.jpg"
             });
             return itemModelList;
         }

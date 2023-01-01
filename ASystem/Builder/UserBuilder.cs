@@ -1,4 +1,5 @@
 ﻿using ASystem.Enum;
+using ASystem.Enum.User;
 using ASystem.Models.Context;
 using ASystem.Singleton;
 
@@ -35,9 +36,9 @@ namespace ASystem.Builder
             _userContextModel.Password = cipherSingleton.Encrypt(password);
             return this;
         }
-        public UserBuilder SetStatus(UserEnum userEnum)
+        public UserBuilder SetStatus(UserStatusEnum userStatusEnum)
         {
-            _userContextModel.Status = userEnum.ToString();
+            _userContextModel.Status = userStatusEnum.ToString();
             return this;
         }
         public UserContextModel Build()

@@ -27,9 +27,10 @@ namespace ASystem.Controllers
             viewModel.ItemComponentModelEnumerable = GetItemComponentModels();
             return View(viewModel);
         }
-        public IActionResult List()
+        public IActionResult List(string param)
         {
             CrewViewModel.ListViewModel list = new CrewViewModel.ListViewModel();
+            list.Status = param;
             list.CrewContextModelEnumerable = _crewContext.SelectAll();
             return View(list);
         }
@@ -38,7 +39,7 @@ namespace ASystem.Controllers
             CrewContextModel contextModel = _crewContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
 
             CrewViewModel.ShowViewModel showViewModel = new CrewViewModel.ShowViewModel();
@@ -50,7 +51,7 @@ namespace ASystem.Controllers
             CrewContextModel contextModel = _crewContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             else
             {
@@ -76,7 +77,7 @@ namespace ASystem.Controllers
                 .SetEmployeeId(editViewModel.Form.EmployeeId)
                 .Build();
             _crewContext.Update(contextModel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessEdit" });
         }
         public IActionResult Insert()
         {
@@ -100,7 +101,7 @@ namespace ASystem.Controllers
                 .SetEmployeeId(insertViewModel.Form.EmployeeId)
                 .Build();
             _crewContext.Insert(contextModel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessInsert" });
         }
 
         public IActionResult Delete(int id)
@@ -108,7 +109,7 @@ namespace ASystem.Controllers
             CrewContextModel contextModel = _crewContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             CrewViewModel.DeleteViewModel viewModel = new CrewViewModel.DeleteViewModel();
             viewModel.CrewContextModel = contextModel;
@@ -124,11 +125,11 @@ namespace ASystem.Controllers
             try
             {
                 _crewContext.Delete(deleteViewModel.CrewContextModel.CrewId);
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "SuccessDelete" });
             }
             catch
             {
-                return RedirectToAction("Show", "Error", new { Code = 100, Controller = "Crew", Action = "List" });
+                return RedirectToAction(nameof(List), new { Param = "ErrorConstraint" });
             }
         }
         private IEnumerable<ItemComponentModel> GetItemComponentModels()
@@ -138,13 +139,13 @@ namespace ASystem.Controllers
             {
                 Name = "Insert",
                 Route = new ItemComponentModel.RouteModel() { Controller = "Crew", Action = "Insert" },
-                ImageUrl = "/img/icon/insert.png"
+                ImageUrl = "/img/icon/insert.jpg"
             });
             itemModelList.Add(new ItemComponentModel()
             {
                 Name = "List",
                 Route = new ItemComponentModel.RouteModel() { Controller = "Crew", Action = "List" },
-                ImageUrl = "/img/icon/list.png"
+                ImageUrl = "/img/icon/list.jpg"
             });
             return itemModelList;
         }

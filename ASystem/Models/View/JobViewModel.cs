@@ -45,6 +45,7 @@ namespace ASystem.Models.View
         }
         public class ListViewModel
         {
+            public string Status { get; set; }
             public IEnumerable<JobContextModel> JobContextModelEnumerable { get; set; }
         }
         public class DeleteViewModel

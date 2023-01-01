@@ -23,9 +23,10 @@ namespace ASystem.Controllers
             indexViewModel.ItemComponentModelEnumerable = GetItemComponentModels();
             return View(indexViewModel);
         }
-        public IActionResult List()
+        public IActionResult List(string param)
         {
             AirportViewModel.ListViewModel list = new AirportViewModel.ListViewModel();
+            list.Status = param;
             list.AirportContextModelEnumerable = _airportContext.SelectAll();
             return View(list);
         }
@@ -34,7 +35,7 @@ namespace ASystem.Controllers
             AirportContextModel airportContextModel = _airportContext.Select(id);
             if (airportContextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
 
             AirportViewModel.ShowViewModel showViewModel = new AirportViewModel.ShowViewModel();
@@ -47,7 +48,7 @@ namespace ASystem.Controllers
             AirportContextModel airportContextModel = _airportContext.Select(id);
             if (airportContextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             else
             {
@@ -72,7 +73,7 @@ namespace ASystem.Controllers
                 .SetCountry(editViewModel.Form.Country)
                 .Build();
             _airportContext.Update(airportContextModel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessEdit" });
         }
         public IActionResult Insert()
         {
@@ -95,7 +96,7 @@ namespace ASystem.Controllers
                 .SetCountry(insertViewModel.Form.Country)
                 .Build();
             _airportContext.Insert(airportContextModel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessInsert" });
         }
 
         public IActionResult Delete(int id)
@@ -103,7 +104,7 @@ namespace ASystem.Controllers
             AirportContextModel airportContextModel = _airportContext.Select(id);
             if (airportContextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             AirportViewModel.DeleteViewModel deleteViewModel = new AirportViewModel.DeleteViewModel();
             deleteViewModel.AirportContextModel = airportContextModel;
@@ -119,11 +120,11 @@ namespace ASystem.Controllers
             try
             {
                 _airportContext.Delete(deleteViewModel.AirportContextModel.AirportId);
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "SuccessDelete" });
             }
             catch
             {
-                return RedirectToAction("Show", "Error", new { Code = 100, Controller = "Airport", Action = "List" });
+                return RedirectToAction(nameof(List), new { Param = "ErrorConstraint" });
             }
         }
         private IEnumerable<ItemComponentModel> GetItemComponentModels()
@@ -133,13 +134,13 @@ namespace ASystem.Controllers
             {
                 Name = "Insert",
                 Route = new ItemComponentModel.RouteModel() { Controller = "Airport", Action = "Insert" },
-                ImageUrl = "/img/icon/insert.png"
+                ImageUrl = "/img/icon/insert.jpg"
             });
             itemModelList.Add(new ItemComponentModel()
             {
                 Name = "List",
                 Route = new ItemComponentModel.RouteModel() { Controller = "Airport", Action = "List" },
-                ImageUrl = "/img/icon/list.png"
+                ImageUrl = "/img/icon/list.jpg"
             });
             return itemModelList;
         }

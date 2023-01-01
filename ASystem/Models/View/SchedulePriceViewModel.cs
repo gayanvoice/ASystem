@@ -49,6 +49,7 @@ namespace ASystem.Models.View
         }
         public class ListViewModel
         {
+            public string Status { get; set; }
             public IEnumerable<SchedulePriceContextModel> SchedulePriceContextModelEnumerable { get; set; }
         }
         public class DeleteViewModel

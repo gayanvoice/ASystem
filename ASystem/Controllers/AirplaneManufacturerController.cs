@@ -23,9 +23,10 @@ namespace ASystem.Controllers
             indexViewModel.ItemComponentModelEnumerable = GetItemComponentModels();
             return View(indexViewModel);
         }
-        public IActionResult List()
+        public IActionResult List(string param)
         {
             AirplaneManufacturerViewModel.ListViewModel list = new AirplaneManufacturerViewModel.ListViewModel();
+            list.Status = param;
             list.AirplaneManufacturerContextModelEnumerable = _airplaneManufacturerContext.SelectAll();
             return View(list);
         }
@@ -34,7 +35,7 @@ namespace ASystem.Controllers
             AirplaneManufacturerContextModel airplaneManufacturerContextModel = _airplaneManufacturerContext.Select(id);
             if (airplaneManufacturerContextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
 
             AirplaneManufacturerViewModel.ShowViewModel showViewModel = new AirplaneManufacturerViewModel.ShowViewModel();
@@ -47,7 +48,7 @@ namespace ASystem.Controllers
             AirplaneManufacturerContextModel airplaneManufacturerContextModel = _airplaneManufacturerContext.Select(id);
             if (airplaneManufacturerContextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             else
             {
@@ -70,7 +71,7 @@ namespace ASystem.Controllers
                 .SetCountry(editViewModel.Form.Country)
                 .Build();
             _airplaneManufacturerContext.Update(airplaneManufacturerContextModel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessEdit" });
         }
         public IActionResult Insert()
         {
@@ -91,7 +92,7 @@ namespace ASystem.Controllers
                 .SetCountry(insertViewModel.Form.Country)
                 .Build();
             _airplaneManufacturerContext.Insert(airplaneManufacturerContextModel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessInsert" });
         }
 
         public IActionResult Delete(int id)
@@ -99,7 +100,7 @@ namespace ASystem.Controllers
             AirplaneManufacturerContextModel airplaneManufacturerContextModel = _airplaneManufacturerContext.Select(id);
             if (airplaneManufacturerContextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             AirplaneManufacturerViewModel.DeleteViewModel deleteViewModel = new AirplaneManufacturerViewModel.DeleteViewModel();
             deleteViewModel.AirplaneManufacturerContextModel = airplaneManufacturerContextModel;
@@ -115,11 +116,11 @@ namespace ASystem.Controllers
             try
             {
                 _airplaneManufacturerContext.Delete(deleteViewModel.AirplaneManufacturerContextModel.AirplaneManufacturerId);
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "SuccessDelete" });
             }
             catch
             {
-                return RedirectToAction("Error", "Show", new { Code = 100, Controller = "AirplaneManufacturer", Action = "List" });
+                return RedirectToAction(nameof(List), new { Param = "ErrorConstraint" });
             }
         }
         private IEnumerable<ItemComponentModel> GetItemComponentModels()
@@ -129,13 +130,13 @@ namespace ASystem.Controllers
             {
                 Name = "Insert",
                 Route = new ItemComponentModel.RouteModel() { Controller = "AirplaneManufacturer", Action = "Insert" },
-                ImageUrl = "/img/icon/insert.png"
+                ImageUrl = "/img/icon/insert.jpg"
             });
             itemModelList.Add(new ItemComponentModel()
             {
                 Name = "List",
                 Route = new ItemComponentModel.RouteModel() { Controller = "AirplaneManufacturer", Action = "List" },
-                ImageUrl = "/img/icon/list.png"
+                ImageUrl = "/img/icon/list.jpg"
             });
             return itemModelList;
         }

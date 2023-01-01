@@ -23,9 +23,10 @@ namespace ASystem.Controllers
             jobViewModel.ItemComponentModelEnumerable = GetItemComponentModels();
             return View(jobViewModel);
         }
-        public IActionResult List()
+        public IActionResult List(string param)
         {
             JobViewModel.ListViewModel list = new JobViewModel.ListViewModel();
+            list.Status = param;
             list.JobContextModelEnumerable = _jobContext.SelectAll();
             return View(list);
         }
@@ -34,7 +35,7 @@ namespace ASystem.Controllers
             JobContextModel jobContextModel = _jobContext.Select(id);
             if (jobContextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
 
             JobViewModel.ShowViewModel showViewModel = new JobViewModel.ShowViewModel();
@@ -47,7 +48,7 @@ namespace ASystem.Controllers
             JobContextModel jobContextModel = _jobContext.Select(id);
             if (jobContextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             else
             {
@@ -72,7 +73,7 @@ namespace ASystem.Controllers
                 .SetHoursWeekly(editViewModel.Form.HoursWeekly)
                 .Build();
             _jobContext.Update(contextModel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessEdit" });
         }
         public IActionResult Insert()
         {
@@ -95,7 +96,7 @@ namespace ASystem.Controllers
                 .SetHoursWeekly(insertViewModel.Form.HoursWeekly)
                 .Build();
             _jobContext.Insert(contextModel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessInsert" });
         }
 
         public IActionResult Delete(int id)
@@ -103,7 +104,7 @@ namespace ASystem.Controllers
             JobContextModel contextModel = _jobContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             JobViewModel.DeleteViewModel viewModel = new JobViewModel.DeleteViewModel();
             viewModel.JobContextModel = contextModel;
@@ -119,11 +120,11 @@ namespace ASystem.Controllers
             try
             {
                 _jobContext.Delete(deleteViewModel.JobContextModel.JobId);
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "SuccessDelete" });
             }
             catch
             {
-                return RedirectToAction("Show", "Error", new { Code = 100, Controller = "Job", Action = "List" });
+                return RedirectToAction(nameof(List), new { Param = "ErrorConstraint" });
             }
         }
         private IEnumerable<ItemComponentModel> GetItemComponentModels()
@@ -133,13 +134,13 @@ namespace ASystem.Controllers
             {
                 Name = "Insert",
                 Route = new ItemComponentModel.RouteModel() { Controller = "Job", Action = "Insert" },
-                ImageUrl = "/img/icon/insert.png"
+                ImageUrl = "/img/icon/insert.jpg"
             });
             itemModelList.Add(new ItemComponentModel()
             {
                 Name = "List",
                 Route = new ItemComponentModel.RouteModel() { Controller = "Job", Action = "List" },
-                ImageUrl = "/img/icon/list.png"
+                ImageUrl = "/img/icon/list.jpg"
             });
             return itemModelList;
         }

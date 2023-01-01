@@ -57,6 +57,7 @@ namespace ASystem.Models.View
         }
         public class ListViewModel
         {
+            public string Status { get; set; }
             public IEnumerable<ScheduleCrewContextModel> ScheduleCrewContextModelEnumerable { get; set; }
         }
         public class DeleteViewModel

@@ -26,9 +26,10 @@ namespace ASystem.Controllers
             viewModel.ItemComponentModelEnumerable = GetItemComponentModels();
             return View(viewModel);
         }
-        public IActionResult List()
+        public IActionResult List(string param)
         {
             AirplaneModelViewModel.ListViewModel list = new AirplaneModelViewModel.ListViewModel();
+            list.Status = param;
             list.AirplaneModelContextModelEnumerable = _airplaneModelContext.SelectAll();
             return View(list);
         }
@@ -37,7 +38,7 @@ namespace ASystem.Controllers
             AirplaneModelContextModel contextModel = _airplaneModelContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
 
             AirplaneModelViewModel.ShowViewModel showViewModel = new AirplaneModelViewModel.ShowViewModel();
@@ -50,7 +51,7 @@ namespace ASystem.Controllers
             AirplaneModelContextModel contextModel = _airplaneModelContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             else
             {
@@ -78,7 +79,7 @@ namespace ASystem.Controllers
                 .SetSubModel(editViewModel.Form.SubModel)
                 .Build();
             _airplaneModelContext.Update(contextmodel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessEdit" });
         }
         public IActionResult Insert()
         {
@@ -104,7 +105,7 @@ namespace ASystem.Controllers
                 .SetSubModel(insertViewModel.Form.SubModel)
                 .Build();
             _airplaneModelContext.Insert(contextmodel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessInsert" });
         }
 
         public IActionResult Delete(int id)
@@ -112,7 +113,7 @@ namespace ASystem.Controllers
             AirplaneModelContextModel contextModel = _airplaneModelContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             AirplaneModelViewModel.DeleteViewModel viewModel = new AirplaneModelViewModel.DeleteViewModel();
             viewModel.AirplaneContextModel = contextModel;
@@ -128,11 +129,11 @@ namespace ASystem.Controllers
             try
             {
                 _airplaneModelContext.Delete(deleteViewModel.AirplaneContextModel.AirplaneModelId);
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "SuccessDelete" });
             }
             catch
             {
-                return RedirectToAction("Show", "Error", new { Code = 100, Controller = "Job", Action = "List" });
+                return RedirectToAction(nameof(List), new { Param = "ErrorConstraint" });
             }
         }
         private IEnumerable<ItemComponentModel> GetItemComponentModels()
@@ -142,13 +143,13 @@ namespace ASystem.Controllers
             {
                 Name = "Insert",
                 Route = new ItemComponentModel.RouteModel() { Controller = "AirplaneModel", Action = "Insert" },
-                ImageUrl = "/img/icon/insert.png"
+                ImageUrl = "/img/icon/insert.jpg"
             });
             itemModelList.Add(new ItemComponentModel()
             {
                 Name = "List",
                 Route = new ItemComponentModel.RouteModel() { Controller = "AirplaneModel", Action = "List" },
-                ImageUrl = "/img/icon/list.png"
+                ImageUrl = "/img/icon/list.jpg"
             });
             return itemModelList;
         }

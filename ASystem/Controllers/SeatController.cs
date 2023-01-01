@@ -28,9 +28,10 @@ namespace ASystem.Controllers
             viewModel.ItemComponentModelEnumerable = GetItemComponentModels();
             return View(viewModel);
         }
-        public IActionResult List()
+        public IActionResult List(string param)
         {
             SeatViewModel.ListViewModel list = new SeatViewModel.ListViewModel();
+            list.Status = param;
             list.SeatContextModelEnumerable = _seatContext.SelectAll();
             return View(list);
         }
@@ -39,9 +40,8 @@ namespace ASystem.Controllers
             SeatContextModel contextModel = _seatContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
-
             SeatViewModel.ShowViewModel showViewModel = new SeatViewModel.ShowViewModel();
             showViewModel.Form = SeatViewModel.ShowViewModel.FormViewModel.FromContextModel(contextModel);
             return View(showViewModel);
@@ -51,7 +51,7 @@ namespace ASystem.Controllers
             SeatContextModel contextModel = _seatContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             else
             {
@@ -78,7 +78,7 @@ namespace ASystem.Controllers
                 .SetSeatNo(editViewModel.Form.SeatNo)
                 .Build();
             _seatContext.Update(contextModel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessEdit" });
         }
         public IActionResult Insert()
         {
@@ -103,7 +103,7 @@ namespace ASystem.Controllers
                 .SetSeatNo(insertViewModel.Form.SeatNo)
                 .Build();
             _seatContext.Insert(contextModel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessInsert" });
         }
 
         public IActionResult Delete(int id)
@@ -111,7 +111,7 @@ namespace ASystem.Controllers
             SeatContextModel contextModel = _seatContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             SeatViewModel.DeleteViewModel viewModel = new SeatViewModel.DeleteViewModel();
             viewModel.SeatContextModel = contextModel;
@@ -127,11 +127,11 @@ namespace ASystem.Controllers
             try
             {
                 _seatContext.Delete(deleteViewModel.SeatContextModel.SeatId);
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "SuccessDelete" });
             }
             catch
             {
-                return RedirectToAction("Show", "Error", new { Code = 100, Controller = "Seat", Action = "List" });
+                return RedirectToAction(nameof(List), new { Param = "ErrorConstraint" });
             }
         }
         private IEnumerable<ItemComponentModel> GetItemComponentModels()
@@ -141,13 +141,13 @@ namespace ASystem.Controllers
             {
                 Name = "Insert",
                 Route = new ItemComponentModel.RouteModel() { Controller = "Seat", Action = "Insert" },
-                ImageUrl = "/img/icon/insert.png"
+                ImageUrl = "/img/icon/insert.jpg"
             });
             itemModelList.Add(new ItemComponentModel()
             {
                 Name = "List",
                 Route = new ItemComponentModel.RouteModel() { Controller = "Seat", Action = "List" },
-                ImageUrl = "/img/icon/list.png"
+                ImageUrl = "/img/icon/list.jpg"
             });
             return itemModelList;
         }

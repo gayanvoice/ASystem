@@ -80,6 +80,7 @@ namespace ASystem.Models.View
         }
         public class ListViewModel
         {
+            public string Status { get; set; }
             public IEnumerable<PassportContextModel> PassportContextModelEnumerable { get; set; }
         }
         public class DeleteViewModel

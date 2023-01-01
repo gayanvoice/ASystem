@@ -23,9 +23,10 @@ namespace ASystem.Controllers
             viewModel.ItemComponentModelEnumerable = GetItemComponentModels();
             return View(viewModel);
         }
-        public IActionResult List()
+        public IActionResult List(string param)
         {
             PassportViewModel.ListViewModel list = new PassportViewModel.ListViewModel();
+            list.Status = param;
             list.PassportContextModelEnumerable = _passportContext.SelectAll();
             return View(list);
         }
@@ -34,7 +35,7 @@ namespace ASystem.Controllers
             PassportContextModel contextModel = _passportContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
 
             PassportViewModel.ShowViewModel showViewModel = new PassportViewModel.ShowViewModel();
@@ -47,7 +48,7 @@ namespace ASystem.Controllers
             PassportContextModel contextModel = _passportContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             else
             {
@@ -83,7 +84,7 @@ namespace ASystem.Controllers
                 .SetStatus(editViewModel.Form.Status)
                 .Build();
             _passportContext.Update(contextModel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessEdit" });
         }
         public IActionResult Insert()
         {
@@ -117,37 +118,37 @@ namespace ASystem.Controllers
                 .SetStatus(insertViewModel.Form.Status)
                 .Build();
             _passportContext.Insert(contextModel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessInsert" });
         }
 
-        //public IActionResult Delete(int id)
-        //{
-        //    JobContextModel contextModel = _jobContext.Select(id);
-        //    if (contextModel is null)
-        //    {
-        //        return RedirectToAction(nameof(List));
-        //    }
-        //    JobViewModel.DeleteViewModel viewModel = new JobViewModel.DeleteViewModel();
-        //    viewModel.JobContextModel = contextModel;
-        //    return View(viewModel);
-        //}
-        //[HttpPost]
-        //public IActionResult Delete(JobViewModel.DeleteViewModel deleteViewModel)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(deleteViewModel);
-        //    }
-        //    try
-        //    {
-        //        _jobContext.Delete(deleteViewModel.JobContextModel.JobId);
-        //        return RedirectToAction(nameof(List));
-        //    }
-        //    catch
-        //    {
-        //        return RedirectToAction("Show", "Error", new { Code = 100, Controller = "Job", Action = "List" });
-        //    }
-        //}
+        public IActionResult Delete(int id)
+        {
+            PassportContextModel contextModel = _passportContext.Select(id);
+            if (contextModel is null)
+            {
+                return RedirectToAction(nameof(List));
+            }
+            PassportViewModel.DeleteViewModel viewModel = new PassportViewModel.DeleteViewModel();
+            viewModel.PassportContextModel = contextModel;
+            return View(viewModel);
+        }
+        [HttpPost]
+        public IActionResult Delete(PassportViewModel.DeleteViewModel deleteViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(deleteViewModel);
+            }
+            try
+            {
+                _passportContext.Delete(deleteViewModel.PassportContextModel.PassportId);
+               return RedirectToAction(nameof(List), new { Param = "SuccessDelete" });
+            }
+            catch
+            {
+                return RedirectToAction(nameof(List), new { Param = "ErrorConstraint" });
+            }
+        }
         private IEnumerable<ItemComponentModel> GetItemComponentModels()
         {
             List<ItemComponentModel> itemModelList = new List<ItemComponentModel>();
@@ -155,13 +156,13 @@ namespace ASystem.Controllers
             {
                 Name = "Insert",
                 Route = new ItemComponentModel.RouteModel() { Controller = "Passport", Action = "Insert" },
-                ImageUrl = "/img/icon/insert.png"
+                ImageUrl = "/img/icon/insert.jpg"
             });
             itemModelList.Add(new ItemComponentModel()
             {
                 Name = "List",
                 Route = new ItemComponentModel.RouteModel() { Controller = "Passport", Action = "List" },
-                ImageUrl = "/img/icon/list.png"
+                ImageUrl = "/img/icon/list.jpg"
             });
             return itemModelList;
         }

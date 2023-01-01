@@ -27,9 +27,10 @@ namespace ASystem.Controllers
             viewModel.ItemComponentModelEnumerable = GetItemComponentModels();
             return View(viewModel);
         }
-        public IActionResult List()
+        public IActionResult List(string param)
         {
             ClassViewModel.ListViewModel list = new ClassViewModel.ListViewModel();
+            list.Status = param;
             list.ClassContextModelEnumerable = _classContext.SelectAll();
             return View(list);
         }
@@ -38,7 +39,7 @@ namespace ASystem.Controllers
             ClassContextModel contextModel = _classContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
 
             ClassViewModel.ShowViewModel showViewModel = new ClassViewModel.ShowViewModel();
@@ -51,7 +52,7 @@ namespace ASystem.Controllers
             ClassContextModel contextModel = _classContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             else
             {
@@ -97,7 +98,7 @@ namespace ASystem.Controllers
                 .SetIsRefundFee(editViewModel.Form.IsRefundFee)
                 .Build();
             _classContext.Update(contextModel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessEdit" });
         }
         public IActionResult Insert()
         {
@@ -141,7 +142,7 @@ namespace ASystem.Controllers
                 .SetIsRefundFee(insertViewModel.Form.IsRefundFee)
                 .Build();
             _classContext.Insert(contextModel);
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { Param = "SuccessInsert" });
         }
 
         public IActionResult Delete(int id)
@@ -149,7 +150,7 @@ namespace ASystem.Controllers
             ClassContextModel contextModel = _classContext.Select(id);
             if (contextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             ClassViewModel.DeleteViewModel viewModel = new ClassViewModel.DeleteViewModel();
             viewModel.ClassContextModel = contextModel;
@@ -165,11 +166,11 @@ namespace ASystem.Controllers
             try
             {
                 _classContext.Delete(deleteViewModel.ClassContextModel.ClassId);
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "SuccessDelete" });
             }
             catch
             {
-                return RedirectToAction("Show", "Error", new { Code = 100, Controller = "Class", Action = "List" });
+                return RedirectToAction(nameof(List), new { Param = "ErrorConstraint" });
             }
         }
         private IEnumerable<ItemComponentModel> GetItemComponentModels()
@@ -179,13 +180,13 @@ namespace ASystem.Controllers
             {
                 Name = "Insert",
                 Route = new ItemComponentModel.RouteModel() { Controller = "Class", Action = "Insert" },
-                ImageUrl = "/img/icon/insert.png"
+                ImageUrl = "/img/icon/insert.jpg"
             });
             itemModelList.Add(new ItemComponentModel()
             {
                 Name = "List",
                 Route = new ItemComponentModel.RouteModel() { Controller = "Class", Action = "List" },
-                ImageUrl = "/img/icon/list.png"
+                ImageUrl = "/img/icon/list.jpg"
             });
             return itemModelList;
         }

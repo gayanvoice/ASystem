@@ -1,6 +1,7 @@
 ﻿using ASystem.Builder;
 using ASystem.Context;
 using ASystem.Enum;
+using ASystem.Enum.User;
 using ASystem.Helper;
 using ASystem.Models.Component;
 using ASystem.Models.Context;
@@ -26,7 +27,7 @@ namespace ASystem.Controllers
         public IActionResult Insert()
         {
             UserViewModel.InsertViewModel insertViewModel = new UserViewModel.InsertViewModel();
-            insertViewModel.StatusOption = ViewHelper.GetIEnumerableSelectListItem<UserEnum>();
+            insertViewModel.StatusOption = ViewHelper.GetIEnumerableSelectListItem<UserStatusEnum>();
             insertViewModel.Form = new UserViewModel.InsertViewModel.FormViewModel();
             return View(insertViewModel);
         }
@@ -35,13 +36,13 @@ namespace ASystem.Controllers
         {
             if (!ModelState.IsValid)
             {
-                insertViewModel.StatusOption = ViewHelper.GetIEnumerableSelectListItem<UserEnum>();
+                insertViewModel.StatusOption = ViewHelper.GetIEnumerableSelectListItem<UserStatusEnum>();
                 return View(insertViewModel);
             }
             if (IsUsernameExist(insertViewModel.Form.Username))
             {
                 ModelState.AddModelError("Form.Username", "Username is already exist");
-                insertViewModel.StatusOption = ViewHelper.GetIEnumerableSelectListItem<UserEnum>();
+                insertViewModel.StatusOption = ViewHelper.GetIEnumerableSelectListItem<UserStatusEnum>();
                 return View(insertViewModel);
             }
             else
@@ -53,7 +54,7 @@ namespace ASystem.Controllers
                     .SetStatus(insertViewModel.Form.Status)
                     .Build();
                 _userContext.Insert(userContextModel);
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "SuccessInsert" });
             }
         }
         public bool IsUsernameExist(string username)
@@ -66,12 +67,12 @@ namespace ASystem.Controllers
             UserContextModel userContextModel = _userContext.Select(userId);
             if (userContextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             else
             {
                 UserViewModel.EditViewModel editViewModel = new UserViewModel.EditViewModel();
-                editViewModel.StatusOption = ViewHelper.GetIEnumerableSelectListItem<UserEnum>();
+                editViewModel.StatusOption = ViewHelper.GetIEnumerableSelectListItem<UserStatusEnum>();
                 editViewModel.Form = UserViewModel.EditViewModel.FormViewModel.FromUserContextModel(userContextModel);
                 return View(editViewModel);
             }
@@ -81,7 +82,7 @@ namespace ASystem.Controllers
         {
             if (!ModelState.IsValid)
             {
-                editViewModel.StatusOption = ViewHelper.GetIEnumerableSelectListItem<UserEnum>();
+                editViewModel.StatusOption = ViewHelper.GetIEnumerableSelectListItem<UserStatusEnum>();
                 return View(editViewModel);
             }
             if (IsUsernameExist(editViewModel.Form.Username))
@@ -94,12 +95,12 @@ namespace ASystem.Controllers
                     .SetStatus(editViewModel.Form.Status)
                     .Build();
                 _userContext.Update(userContextModel);
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "SuccessEdit" });
             }
             else
             {
                 ModelState.AddModelError("Form.Username", "Username is not already exist");
-                editViewModel.StatusOption = ViewHelper.GetIEnumerableSelectListItem<UserEnum>();
+                editViewModel.StatusOption = ViewHelper.GetIEnumerableSelectListItem<UserStatusEnum>();
                 return View(editViewModel);
             }
         }
@@ -108,16 +109,17 @@ namespace ASystem.Controllers
             UserContextModel userContextModel = _userContext.Select(userId);
             if (userContextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
 
             UserViewModel.ShowViewModel showViewModel = new UserViewModel.ShowViewModel();
             showViewModel.Form = UserViewModel.ShowViewModel.FormViewModel.FromUserContextModel(userContextModel);
             return View(showViewModel);
         }
-        public IActionResult List()
+        public IActionResult List(string param)
         {
             UserViewModel.ListViewModel list = new UserViewModel.ListViewModel();
+            list.Status = param;
             list.UserContextModelEnumerable = _userContext.SelectAll();
             return View(list);
         }
@@ -126,7 +128,7 @@ namespace ASystem.Controllers
             UserContextModel userContextModel = _userContext.Select(userId);
             if (userContextModel is null)
             {
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "ErrorNoId" });
             }
             UserViewModel.DeleteViewModel deleteViewModel = new UserViewModel.DeleteViewModel();
             deleteViewModel.UserContextModel = userContextModel;
@@ -142,11 +144,11 @@ namespace ASystem.Controllers
             try
             {
                 _userContext.Delete(deleteViewModel.UserContextModel.UserId);
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(List), new { Param = "SuccessDelete" });
             }
             catch
             {
-                return RedirectToAction("Error", "Show", new { Code = 100, Controller = "User", Action = "List" });
+                return RedirectToAction(nameof(List), new { Param = "ErrorConstraint" });
             }
         }
         private IEnumerable<ItemComponentModel> GetItemComponentModels()
@@ -156,13 +158,13 @@ namespace ASystem.Controllers
             {
                 Name = "Insert",
                 Route = new ItemComponentModel.RouteModel() { Controller = "User", Action = "Insert" },
-                ImageUrl = "/img/icon/insert.png"
+                ImageUrl = "/img/icon/insert.jpg"
             });
             itemModelList.Add(new ItemComponentModel()
             {
                 Name = "List",
                 Route = new ItemComponentModel.RouteModel() { Controller = "User", Action = "List" },
-                ImageUrl = "/img/icon/list.png"
+                ImageUrl = "/img/icon/list.jpg"
             });
             return itemModelList;
         }

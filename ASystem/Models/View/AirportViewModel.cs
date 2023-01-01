@@ -43,6 +43,7 @@ namespace ASystem.Models.View
         }
         public class ListViewModel
         {
+            public string Status { get; set; }
             public IEnumerable<AirportContextModel> AirportContextModelEnumerable { get; set; }
         }
         public class DeleteViewModel

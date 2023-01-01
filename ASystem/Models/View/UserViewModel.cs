@@ -1,4 +1,5 @@
 ﻿using ASystem.Enum;
+using ASystem.Enum.User;
 using ASystem.Models.Component;
 using ASystem.Models.Context;
 using ASystem.Singleton;
@@ -47,6 +48,7 @@ namespace ASystem.Models.View
         }
         public class ListViewModel
         {
+            public string Status { get; set; }
             public IEnumerable<UserContextModel> UserContextModelEnumerable { get; set; }
         }
         public class DeleteViewModel
@@ -73,7 +75,7 @@ namespace ASystem.Models.View
                 public string Password { get; set; }
                 [Required]
                 [DataType(DataType.Text)]
-                public UserEnum Status { get; set; }
+                public UserStatusEnum Status { get; set; }
                 public static FormViewModel FromUserContextModel(UserContextModel userContextModel)
                 {
                     CipherSingleton cipherSingleton = CipherSingleton.Instance;
@@ -81,7 +83,7 @@ namespace ASystem.Models.View
                     formViewModel.UserId = userContextModel.UserId;
                     formViewModel.Username = userContextModel.Username;
                     formViewModel.Password = cipherSingleton.Decrypt(userContextModel.Password);
-                    formViewModel.Status = (UserEnum) System.Enum.Parse(typeof(UserEnum), userContextModel.Status);
+                    formViewModel.Status = (UserStatusEnum) System.Enum.Parse(typeof(UserStatusEnum), userContextModel.Status);
                     return formViewModel;
                 }
             }
@@ -103,7 +105,7 @@ namespace ASystem.Models.View
                 public string Password { get; set; }
                 [Required]
                 [DataType(DataType.Text)]
-                public UserEnum Status { get; set; }
+                public UserStatusEnum Status { get; set; }
             }
         
         }

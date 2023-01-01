@@ -1,4 +1,4 @@
-﻿namespace ASystem.Enum
+﻿namespace ASystem.Enum.Airplane
 {
     public enum AirplaneStatusEnum
     {
