@@ -54,16 +54,49 @@ namespace ASystem.Controllers
             reportViewModel.Enumerable = _reportContext.GetPayCrewWeeklyReport(DateTime.Parse("2022-10-01"), DateTime.Parse("2022-10-07"));
             return View(reportViewModel);
         }
+        [HttpPost]
+        public IActionResult PayCrewWeeklyReport(ReportViewModel.PayCrewWeeklyReportViewModel reportViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                reportViewModel.Enumerable = _reportContext.GetPayCrewWeeklyReport(DateTime.Parse("2022-10-01"), DateTime.Parse("2022-10-31"));
+                return View(reportViewModel);
+            }
+            reportViewModel.Enumerable = _reportContext.GetPayCrewWeeklyReport(reportViewModel.Form.From, reportViewModel.Form.From.AddDays(7));
+            return View(reportViewModel);
+        }
         public IActionResult PayPilotWeeklyReport()
         {
             ReportViewModel.PayPilotWeeklyReportViewModel reportViewModel = new ReportViewModel.PayPilotWeeklyReportViewModel();
             reportViewModel.Enumerable = _reportContext.GetPayPilotWeeklyReport(DateTime.Parse("2022-10-01"), DateTime.Parse("2022-10-07"));
             return View(reportViewModel);
         }
+        [HttpPost]
+        public IActionResult PayPilotWeeklyReport(ReportViewModel.PayPilotWeeklyReportViewModel reportViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                reportViewModel.Enumerable = _reportContext.GetPayPilotWeeklyReport(DateTime.Parse("2022-10-01"), DateTime.Parse("2022-10-31"));
+                return View(reportViewModel);
+            }
+            reportViewModel.Enumerable = _reportContext.GetPayPilotWeeklyReport(reportViewModel.Form.From, reportViewModel.Form.From.AddDays(7));
+            return View(reportViewModel);
+        }
         public IActionResult PilotScheduleReport()
         {
             ReportViewModel.PilotScheduleReportViewModel reportViewModel = new ReportViewModel.PilotScheduleReportViewModel();
             reportViewModel.Enumerable = _reportContext.GetPilotScheduleReport(DateTime.Parse("2022-10-01"), DateTime.Parse("2022-10-07"));
+            return View(reportViewModel);
+        }
+        [HttpPost]
+        public IActionResult PilotScheduleReport(ReportViewModel.PilotScheduleReportViewModel reportViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                reportViewModel.Enumerable = _reportContext.GetPilotScheduleReport(DateTime.Parse("2022-10-01"), DateTime.Parse("2022-10-31"));
+                return View(reportViewModel);
+            }
+            reportViewModel.Enumerable = _reportContext.GetPilotScheduleReport(reportViewModel.Form.From, reportViewModel.Form.To);
             return View(reportViewModel);
         }
         public IActionResult RemainingSeatsOfEachFlightScheduleByClassReport()
@@ -78,10 +111,32 @@ namespace ASystem.Controllers
             reportViewModel.Enumerable = _reportContext.GetWorkingHoursOfCrewReport(DateTime.Parse("2022-10-01"), DateTime.Parse("2022-10-07"));
             return View(reportViewModel);
         }
+        [HttpPost]
+        public IActionResult WorkingHoursOfCrewReport(ReportViewModel.WorkingHoursOfCrewReportViewModel reportViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                reportViewModel.Enumerable = _reportContext.GetWorkingHoursOfCrewReport(DateTime.Parse("2022-10-01"), DateTime.Parse("2022-10-31"));
+                return View(reportViewModel);
+            }
+            reportViewModel.Enumerable = _reportContext.GetWorkingHoursOfCrewReport(reportViewModel.Form.From, reportViewModel.Form.To);
+            return View(reportViewModel);
+        }
         public IActionResult WorkingHoursOfPilotReport()
         {
             ReportViewModel.WorkingHoursOfPilotReportModelViewModel reportViewModel = new ReportViewModel.WorkingHoursOfPilotReportModelViewModel();
             reportViewModel.Enumerable = _reportContext.GetWorkingHoursOfPilotReport(DateTime.Parse("2022-10-01"), DateTime.Parse("2022-10-07"));
+            return View(reportViewModel);
+        }
+        [HttpPost]
+        public IActionResult WorkingHoursOfPilotReport(ReportViewModel.WorkingHoursOfPilotReportModelViewModel reportViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                reportViewModel.Enumerable = _reportContext.GetWorkingHoursOfPilotReport(DateTime.Parse("2022-10-01"), DateTime.Parse("2022-10-31"));
+                return View(reportViewModel);
+            }
+            reportViewModel.Enumerable = _reportContext.GetWorkingHoursOfPilotReport(reportViewModel.Form.From, reportViewModel.Form.To);
             return View(reportViewModel);
         }
     }

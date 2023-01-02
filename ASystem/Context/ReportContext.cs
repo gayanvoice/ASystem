@@ -132,7 +132,7 @@ namespace SASystem.Context
                                     from (select sp.CrewId,
                                                  TIMESTAMPDIFF(second, TimeIn, TimeOut) as Duration
                                           from ScheduleCrew sp
-                                               -- where TimeIn between @From and @To
+                                               where TimeIn between @From and @To
                                           order by CrewId) a
                                     group by CrewId) b) c
                         left join Crew cr on cr.CrewId = c.CrewId
@@ -157,7 +157,7 @@ namespace SASystem.Context
                                 sum(Duration) Sum from
                                 (select sp.PilotId, TIMESTAMPDIFF(second, TimeIn, TimeOut) as Duration
                                 from SchedulePilot sp
-                                -- where TimeIn between '2022-10-01' and '2022-10-15'
+                                where TimeIn between @From and @To
                                 order by PilotId) a
                             group by PilotId) b) c
                     left join Crew cr on cr.CrewId = c.PilotId

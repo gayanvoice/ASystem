@@ -44,14 +44,39 @@ namespace ASystem.Models.View
         public class PayCrewWeeklyReportViewModel
         {
             public IEnumerable<PayCrewWeeklyReportModel> Enumerable { get; set; }
+            public FormViewModel Form { get; set; }
+            public class FormViewModel
+            {
+                [Required]
+                [Display(Name = "From")]
+                public DateTime From { get; set; }
+            }
         }
         public class PayPilotWeeklyReportViewModel
         {
             public IEnumerable<PayPilotWeeklyReportModel> Enumerable { get; set; }
+            public FormViewModel Form { get; set; }
+            public class FormViewModel
+            {
+                [Required]
+                [Display(Name = "From")]
+                public DateTime From { get; set; }
+            }
         }
         public class PilotScheduleReportViewModel
         {
             public IEnumerable<PilotScheduleReportModel> Enumerable { get; set; }
+            public FormViewModel Form { get; set; }
+            public class FormViewModel
+            {
+                [Required]
+                [Display(Name = "From")]
+                public DateTime From { get; set; }
+
+                [Required]
+                [Display(Name = "To")]
+                public DateTime To { get; set; }
+            }
         }
         public class RemainingSeatsOfFlightScheduleByClassReportViewModel
         {
@@ -60,10 +85,32 @@ namespace ASystem.Models.View
         public class WorkingHoursOfCrewReportViewModel
         {
             public IEnumerable<WorkingHoursOfCrewReportModel> Enumerable { get; set; }
+            public FormViewModel Form { get; set; }
+            public class FormViewModel
+            {
+                [Required]
+                [Display(Name = "From")]
+                public DateTime From { get; set; }
+
+                [Required]
+                [Display(Name = "To")]
+                public DateTime To { get; set; }
+            }
         }
         public class WorkingHoursOfPilotReportModelViewModel
         {
             public IEnumerable<WorkingHoursOfPilotReportModel> Enumerable { get; set; }
+            public FormViewModel Form { get; set; }
+            public class FormViewModel
+            {
+                [Required]
+                [Display(Name = "From")]
+                public DateTime From { get; set; }
+
+                [Required]
+                [Display(Name = "To")]
+                public DateTime To { get; set; }
+            }
         }
     }
 }
