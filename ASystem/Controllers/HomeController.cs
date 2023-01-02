@@ -220,6 +220,48 @@ namespace ASystem.Controllers
                 Route = new ItemComponentModel.RouteModel() { Controller = "Report", Action = "FlightScheduleWithDestinationReport" },
                 ImageUrl = "/img/pic/crew.jpg"
             });
+            itemModelList.Add(new ItemComponentModel()
+            {
+                Name = "Passengers By Flight Schedule Report",
+                Route = new ItemComponentModel.RouteModel() { Controller = "Report", Action = "PassengersByFlightScheduleReport" },
+                ImageUrl = "/img/pic/crew.jpg"
+            });
+            itemModelList.Add(new ItemComponentModel()
+            {
+                Name = "Pay Crew Weekly Report",
+                Route = new ItemComponentModel.RouteModel() { Controller = "Report", Action = "PayCrewWeeklyReport" },
+                ImageUrl = "/img/pic/crew.jpg"
+            });
+            itemModelList.Add(new ItemComponentModel()
+            {
+                Name = "Pay Pilot Weekly Report",
+                Route = new ItemComponentModel.RouteModel() { Controller = "Report", Action = "PayPilotWeeklyReport" },
+                ImageUrl = "/img/pic/crew.jpg"
+            });
+            itemModelList.Add(new ItemComponentModel()
+            {
+                Name = "Pilot Schedule Report",
+                Route = new ItemComponentModel.RouteModel() { Controller = "Report", Action = "PilotScheduleReport" },
+                ImageUrl = "/img/pic/crew.jpg"
+            });
+            itemModelList.Add(new ItemComponentModel()
+            {
+                Name = "Remaining Seats Of Each Flight Schedule By Class Report",
+                Route = new ItemComponentModel.RouteModel() { Controller = "Report", Action = "RemainingSeatsOfEachFlightScheduleByClassReport" },
+                ImageUrl = "/img/pic/crew.jpg"
+            });
+            itemModelList.Add(new ItemComponentModel()
+            {
+                Name = "Working Hours Of Crew Report",
+                Route = new ItemComponentModel.RouteModel() { Controller = "Report", Action = "WorkingHoursOfCrewReport" },
+                ImageUrl = "/img/pic/crew.jpg"
+            });
+            itemModelList.Add(new ItemComponentModel()
+            {
+                Name = "Working Hours Of Pilot Report",
+                Route = new ItemComponentModel.RouteModel() { Controller = "Report", Action = "WorkingHoursOfPilotReport" },
+                ImageUrl = "/img/pic/crew.jpg"
+            });
             return itemModelList;
         }
     }
