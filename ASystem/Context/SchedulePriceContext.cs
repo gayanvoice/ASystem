@@ -1,5 +1,6 @@
 ﻿using ASystem.Context;
 using ASystem.Models.Context;
+using ASystem.Models.Procedure;
 using ASystem.Singleton;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,13 @@ namespace SASystem.Context
             string query = "DELETE FROM SchedulePrice WHERE SchedulePriceId IN (@SchedulePriceId)";
             object param = new { SchedulePriceId = schedulePriceId };
             return mySqlSingleton.Delete(query, param);
+        }
+
+        public IEnumerable<SchedulePriceProcedureModel> GetAllSchedulePrice()
+        {
+            MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
+            string query = "CALL p_GetAllSchedulePrice";
+            return mySqlSingleton.SelectAll<SchedulePriceProcedureModel>(query);
         }
         public int Insert(SchedulePriceContextModel schedulePriceContextModel)
         {

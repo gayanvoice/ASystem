@@ -1,5 +1,6 @@
 ﻿using ASystem.Context;
 using ASystem.Models.Context;
+using ASystem.Models.Procedure;
 using ASystem.Singleton;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,14 @@ namespace SASystem.Context
             object param = new { ScheduleCrewId = scheduleCrewId };
             return mySqlSingleton.Delete(query, param);
         }
+
+        public IEnumerable<ScheduleCrewProcedureModel> GetAllScheduleCrew()
+        {
+            MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
+            string query = "CALL p_GetAllScheduleCrew";
+            return mySqlSingleton.SelectAll<ScheduleCrewProcedureModel>(query);
+        }
+
         public int Insert(ScheduleCrewContextModel scheduleCrewContextModel)
         {
             MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;

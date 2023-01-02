@@ -34,7 +34,7 @@ namespace ASystem.Controllers
         {
             SchedulePilotViewModel.ListViewModel list = new SchedulePilotViewModel.ListViewModel();
             list.Status = param;
-            list.SchedulePilotContextModelEnumerable = _schedulePilotContext.SelectAll();
+            list.SchedulePilotProcedureModelEnumerable = _schedulePilotContext.GetAllSchedulePilot();
             return View(list);
         }
         public IActionResult Show(int id)

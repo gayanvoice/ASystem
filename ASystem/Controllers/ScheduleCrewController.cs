@@ -31,7 +31,7 @@ namespace ASystem.Controllers
         {
             ScheduleCrewViewModel.ListViewModel list = new ScheduleCrewViewModel.ListViewModel();
             list.Status = param;
-            list.ScheduleCrewContextModelEnumerable = _scheduleCrewContext.SelectAll();
+            list.ScheduleCrewProcedureModelEnumerable = _scheduleCrewContext.GetAllScheduleCrew();
             return View(list);
         }
         public IActionResult Show(int id)

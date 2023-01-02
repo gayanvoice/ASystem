@@ -1,5 +1,5 @@
 ﻿@using System.Reflection;
-@using ASystem.Models.Context;
+@using ASystem.Models.Procedure;
 @model ASystem.Models.View.SchedulePilotViewModel.ListViewModel
 @{
     ViewData["Title"] = "List";
@@ -59,7 +59,7 @@
                 <thead>
                     <tr>
                         @{
-                            foreach (PropertyInfo propertyInfo in Model.SchedulePilotContextModelEnumerable
+                            foreach (PropertyInfo propertyInfo in Model.SchedulePilotProcedureModelEnumerable
                                 .First().GetType().GetProperties())
                             {
                                 <th scope="col">@propertyInfo.Name</th>
@@ -70,9 +70,9 @@
                 </thead>
                 <tbody>
                     @{
-                        foreach (SchedulePilotContextModel contextModel in Model.SchedulePilotContextModelEnumerable)
+                        foreach (SchedulePilotProcedureModel contextModel in Model.SchedulePilotProcedureModelEnumerable)
                         {
-                            int id = contextModel.SchedulePilotId;
+                            string id = contextModel.SchedulePilotId;
                             <tr>
                                 @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties())
                                 {

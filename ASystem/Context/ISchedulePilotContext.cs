@@ -1,4 +1,5 @@
 ﻿using ASystem.Models.Context;
+using ASystem.Models.Procedure;
 using System.Collections.Generic;
 
 namespace ASystem.Context
@@ -9,6 +10,7 @@ namespace ASystem.Context
         int Insert(SchedulePilotContextModel schedulePilotContextModel);
         SchedulePilotContextModel Select(int schedulePilotId);
         IEnumerable<SchedulePilotContextModel> SelectAll();
+        IEnumerable<SchedulePilotProcedureModel> GetAllSchedulePilot();
         int Update(SchedulePilotContextModel schedulePilotContextModel);
     }
 }

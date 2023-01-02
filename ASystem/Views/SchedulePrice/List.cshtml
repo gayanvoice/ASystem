@@ -1,5 +1,5 @@
 ﻿@using System.Reflection;
-@using ASystem.Models.Context;
+@using ASystem.Models.Procedure;
 @model ASystem.Models.View.SchedulePriceViewModel.ListViewModel
 @{
     ViewData["Title"] = "List";
@@ -59,7 +59,7 @@
                 <thead>
                     <tr>
                         @{
-                            foreach (PropertyInfo propertyInfo in Model.SchedulePriceContextModelEnumerable
+                            foreach (PropertyInfo propertyInfo in Model.SchedulePriceProcedureModelEnumerable
                                 .First().GetType().GetProperties())
                             {
                                 <th scope="col">@propertyInfo.Name</th>
@@ -70,9 +70,9 @@
                 </thead>
                 <tbody>
                     @{
-                        foreach (SchedulePriceContextModel contextModel in Model.SchedulePriceContextModelEnumerable)
+                        foreach (SchedulePriceProcedureModel contextModel in Model.SchedulePriceProcedureModelEnumerable)
                         {
-                            int id = contextModel.SchedulePriceId;
+                            string id = contextModel.SchedulePriceId;
                             <tr>
                                 @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties())
                                 {

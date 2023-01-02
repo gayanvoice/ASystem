@@ -1,5 +1,6 @@
 ﻿using ASystem.Models.Component;
 using ASystem.Models.Context;
+using ASystem.Models.Procedure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -58,7 +59,7 @@ namespace ASystem.Models.View
         public class ListViewModel
         {
             public string Status { get; set; }
-            public IEnumerable<SchedulePilotContextModel> SchedulePilotContextModelEnumerable { get; set; }
+            public IEnumerable<SchedulePilotProcedureModel> SchedulePilotProcedureModelEnumerable { get; set; }
         }
         public class DeleteViewModel
         {

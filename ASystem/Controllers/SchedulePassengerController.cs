@@ -39,7 +39,7 @@ namespace ASystem.Controllers
         public IActionResult List(string param)
         {
             SchedulePassengerViewModel.ListViewModel list = new SchedulePassengerViewModel.ListViewModel();
-            list.SchedulePassengerContextModelEnumerable = _schedulePassengerContext.SelectAll();
+            list.SchedulePassengerProcedureEnumerable = _schedulePassengerContext.GetAllSchedulePassenger();
             return View(list);
         }
         public IActionResult Show(int id)

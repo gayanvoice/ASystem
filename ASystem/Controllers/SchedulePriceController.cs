@@ -34,7 +34,7 @@ namespace ASystem.Controllers
         {
             SchedulePriceViewModel.ListViewModel list = new SchedulePriceViewModel.ListViewModel();
             list.Status = param;
-            list.SchedulePriceContextModelEnumerable = _schedulePriceContext.SelectAll();
+            list.SchedulePriceProcedureModelEnumerable = _schedulePriceContext.GetAllSchedulePrice();
             return View(list);
         }
         public IActionResult Show(int id)
