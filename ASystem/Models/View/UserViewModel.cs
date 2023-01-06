@@ -26,13 +26,13 @@ namespace ASystem.Models.View
         }
         public class ShowViewModel
         {
-            public IEnumerable<SelectListItem> StatusOption { get; set; }
             public FormViewModel Form { get; set; }
             public class FormViewModel
             {
                 [Display(Name = "User Id")]
                 public int UserId { get; set; }
                 public string Username { get; set; }
+                public string Role { get; set; }
                 public string Password { get; set; }
                 public string Status { get; set; }
                 public static FormViewModel FromUserContextModel(UserContextModel userContextModel)
@@ -40,6 +40,7 @@ namespace ASystem.Models.View
                     FormViewModel formViewModel = new FormViewModel();
                     formViewModel.UserId = userContextModel.UserId;
                     formViewModel.Username = userContextModel.Username;
+                    formViewModel.Role = userContextModel.Role;
                     formViewModel.Password = userContextModel.Password;
                     formViewModel.Status = userContextModel.Status;
                     return formViewModel;
@@ -58,6 +59,7 @@ namespace ASystem.Models.View
         }
         public class EditViewModel
         {
+            public IEnumerable<SelectListItem> RoleOption { get; set; }
             public IEnumerable<SelectListItem> StatusOption { get; set; }
             public FormViewModel Form { get; set; }
             public class FormViewModel
@@ -72,6 +74,10 @@ namespace ASystem.Models.View
                 [Required]
                 [DataType(DataType.Text)]
                 [StringLength(20)]
+                public string Role { get; set; }
+                [Required]
+                [DataType(DataType.Text)]
+                [StringLength(20)]
                 public string Password { get; set; }
                 [Required]
                 [DataType(DataType.Text)]
@@ -82,6 +88,7 @@ namespace ASystem.Models.View
                     FormViewModel formViewModel = new FormViewModel();
                     formViewModel.UserId = userContextModel.UserId;
                     formViewModel.Username = userContextModel.Username;
+                    formViewModel.Role = userContextModel.Role;
                     formViewModel.Password = cipherSingleton.Decrypt(userContextModel.Password);
                     formViewModel.Status = (UserStatusEnum) System.Enum.Parse(typeof(UserStatusEnum), userContextModel.Status);
                     return formViewModel;
@@ -90,6 +97,7 @@ namespace ASystem.Models.View
         }
         public class InsertViewModel
         {
+            public IEnumerable<SelectListItem> RoleOption { get; set; }
             public IEnumerable<SelectListItem> StatusOption { get; set; }
             public FormViewModel Form { get; set; }
             
@@ -99,6 +107,9 @@ namespace ASystem.Models.View
                 [DataType(DataType.Text)]
                 [StringLength(20)]
                 public string Username { get; set; }
+                [Required]
+                [DataType(DataType.Text)]
+                public string Role { get; set; }
                 [Required]
                 [DataType(DataType.Text)]
                 [StringLength(20)]

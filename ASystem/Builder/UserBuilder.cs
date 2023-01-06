@@ -30,6 +30,11 @@ namespace ASystem.Builder
             _userContextModel.Username = username;
             return this;
         }
+        public UserBuilder SetRole(string role)
+        {
+            _userContextModel.Role = role;
+            return this;
+        }
         public UserBuilder SetPassword(string password)
         {
             CipherSingleton cipherSingleton = CipherSingleton.Instance;

@@ -18,12 +18,28 @@ namespace ASystem.Controllers
         {
             _reportContext = reportContext;
         }
-       
+
         public IActionResult CrewScheduleReport()
         {
-            ReportViewModel.CrewScheduleReportViewModel reportViewModel = new ReportViewModel.CrewScheduleReportViewModel();
-            reportViewModel.Enumerable = _reportContext.GetCrewScheduleReport(DateTime.Parse("2022-10-01"), DateTime.Parse("2022-10-31"));
-            return View(reportViewModel);
+            string username = Request.Cookies[UserCookieEnum.A_SYSTEM_USERNAME.ToString()];
+            string role = Request.Cookies[UserCookieEnum.A_SYSTEM_ROLE.ToString()];
+            if (username is null)
+            {
+                return RedirectToAction("LogIn", "Home", new { area = "" });
+            }
+            else
+            {
+                if (role.Equals(UserRoleEnum.MANAGEMENT.ToString()))
+                {
+                    ReportViewModel.CrewScheduleReportViewModel reportViewModel = new ReportViewModel.CrewScheduleReportViewModel();
+                    reportViewModel.Enumerable = _reportContext.GetCrewScheduleReport(DateTime.Parse("2022-10-01"), DateTime.Parse("2022-10-31"));
+                    return View(reportViewModel);
+                }
+                else
+                {
+                    return RedirectToAction("LogIn", "Home", new { area = "" });
+                }
+            }
         }
         [HttpPost]
         public IActionResult CrewScheduleReport(ReportViewModel.CrewScheduleReportViewModel reportViewModel)

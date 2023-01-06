@@ -17,8 +17,14 @@
                         </div>
                         <div class="col-sm-12 mb-2">
                             <label asp-for="Form.Username" class="form-label"></label>
-                            <input asp-for="Form.Username" class="form-control" readonly>
+                            <input asp-for="Form.Username" class="form-control">
                             <span asp-validation-for="Form.Username" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <label asp-for="Form.Role" class="form-label"></label>
+                            <select asp-for="Form.Role" asp-items="@Model.RoleOption" class="form-control">
+                            </select>
+                            <span asp-validation-for="Form.Role" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 mb-2">
                             <label asp-for="Form.Password" class="form-label"></label>
@@ -28,7 +34,6 @@
                         <div class="col-sm-12 mb-2">
                             <label asp-for="Form.Status" class="form-label"></label>
                             <select asp-for="Form.Status" asp-items="@Model.StatusOption" class="form-control">
-                                <option value="">Choose...</option>
                             </select>
                             <span asp-validation-for="Form.Status" class="text-danger"></span>
                         </div>

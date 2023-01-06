@@ -20,13 +20,30 @@ namespace ASystem.Controllers
         }
         public IActionResult Index()
         {
-            UserViewModel.IndexViewModel indexViewModel = new UserViewModel.IndexViewModel();
-            indexViewModel.ItemComponentModelEnumerable = GetItemComponentModels();
-            return View(indexViewModel);
+            string username = Request.Cookies[UserCookieEnum.A_SYSTEM_USERNAME.ToString()];
+            string role = Request.Cookies[UserCookieEnum.A_SYSTEM_ROLE.ToString()];
+            if (username is null)
+            {
+                return RedirectToAction("LogIn", "Home", new { area = "" });
+            }
+            else
+            {
+                if (role.Equals(UserRoleEnum.ADMIN.ToString()))
+                {
+                    UserViewModel.IndexViewModel indexViewModel = new UserViewModel.IndexViewModel();
+                    indexViewModel.ItemComponentModelEnumerable = GetItemComponentModels();
+                    return View(indexViewModel);
+                }
+                else
+                {
+                    return RedirectToAction("LogIn", "Home", new { area = "" });
+                }
+            }
         }
         public IActionResult Insert()
         {
             UserViewModel.InsertViewModel insertViewModel = new UserViewModel.InsertViewModel();
+            insertViewModel.RoleOption = ViewHelper.GetIEnumerableSelectListItem<UserRoleEnum>();
             insertViewModel.StatusOption = ViewHelper.GetIEnumerableSelectListItem<UserStatusEnum>();
             insertViewModel.Form = new UserViewModel.InsertViewModel.FormViewModel();
             return View(insertViewModel);
@@ -36,6 +53,7 @@ namespace ASystem.Controllers
         {
             if (!ModelState.IsValid)
             {
+                insertViewModel.RoleOption = ViewHelper.GetIEnumerableSelectListItem<UserRoleEnum>();
                 insertViewModel.StatusOption = ViewHelper.GetIEnumerableSelectListItem<UserStatusEnum>();
                 return View(insertViewModel);
             }
@@ -50,6 +68,7 @@ namespace ASystem.Controllers
                 UserBuilder userBuilder = new UserBuilder();
                 UserContextModel userContextModel = userBuilder
                     .SetUsername(insertViewModel.Form.Username)
+                    .SetRole(insertViewModel.Form.Role)
                     .SetPassword(insertViewModel.Form.Password)
                     .SetStatus(insertViewModel.Form.Status)
                     .Build();
@@ -72,6 +91,7 @@ namespace ASystem.Controllers
             else
             {
                 UserViewModel.EditViewModel editViewModel = new UserViewModel.EditViewModel();
+                editViewModel.RoleOption = ViewHelper.GetIEnumerableSelectListItem<UserRoleEnum>();
                 editViewModel.StatusOption = ViewHelper.GetIEnumerableSelectListItem<UserStatusEnum>();
                 editViewModel.Form = UserViewModel.EditViewModel.FormViewModel.FromUserContextModel(userContextModel);
                 return View(editViewModel);
@@ -82,6 +102,7 @@ namespace ASystem.Controllers
         {
             if (!ModelState.IsValid)
             {
+                editViewModel.RoleOption = ViewHelper.GetIEnumerableSelectListItem<UserRoleEnum>();
                 editViewModel.StatusOption = ViewHelper.GetIEnumerableSelectListItem<UserStatusEnum>();
                 return View(editViewModel);
             }
@@ -91,6 +112,7 @@ namespace ASystem.Controllers
                 UserContextModel userContextModel = userBuilder
                     .SetUserId(editViewModel.Form.UserId)
                     .SetUsername(editViewModel.Form.Username)
+                    .SetRole(editViewModel.Form.Role)
                     .SetPassword(editViewModel.Form.Password)
                     .SetStatus(editViewModel.Form.Status)
                     .Build();

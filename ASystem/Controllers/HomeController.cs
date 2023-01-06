@@ -6,6 +6,7 @@ using ASystem.Models.View;
 using ASystem.Singleton;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace ASystem.Controllers
@@ -17,10 +18,19 @@ namespace ASystem.Controllers
         {
             _userContext = userContext;
         }
+
         public IActionResult Login()
         {
-            LoginViewModel loginViewModel = new LoginViewModel();
-            return View(loginViewModel);
+            string username = Request.Cookies[UserCookieEnum.A_SYSTEM_USERNAME.ToString()];
+            if (username is null)
+            {
+                LoginViewModel loginViewModel = new LoginViewModel();
+                return View(loginViewModel);
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index), new { Param = "AlreadyLogin" });
+            }
         }
         [HttpPost]
         public IActionResult Login(LoginViewModel loginViewModel)
@@ -42,6 +52,15 @@ namespace ASystem.Controllers
                 {
                     if (userContextModel.Status.Equals(UserStatusEnum.ACTIVE.ToString()))
                     {
+                        var cookieOptions = new CookieOptions
+                        {
+                            Secure = true,
+                            HttpOnly = true,
+                            SameSite = SameSiteMode.None,
+                            Expires = DateTime.Now.AddDays(1)
+                        };
+                        Response.Cookies.Append(UserCookieEnum.A_SYSTEM_USERNAME.ToString(), userContextModel.Username, cookieOptions);
+                        Response.Cookies.Append(UserCookieEnum.A_SYSTEM_ROLE.ToString(), userContextModel.Role, cookieOptions);
                         return RedirectToAction(nameof(Index), new { Param = "SuccessLogin" });
                     }
                     else
@@ -57,23 +76,72 @@ namespace ASystem.Controllers
                 }
             }
         }
+        public IActionResult LogOut()
+        {
+            foreach (var cookie in Request.Cookies.Keys)
+            {
+                Response.Cookies.Delete(cookie);
+            }
+            return RedirectToAction(nameof(Login), new { Param = "SuccessLogout" });
+        }
         public IActionResult Index()
         {
-            HomeViewModel.IndexViewModel indexViewModel = new HomeViewModel.IndexViewModel();
-            indexViewModel.ItemComponentModelEnumerable = GetIndexItemComponentModels();
-            return View(indexViewModel);
+            string username = Request.Cookies[UserCookieEnum.A_SYSTEM_USERNAME.ToString()];
+            string role = Request.Cookies[UserCookieEnum.A_SYSTEM_ROLE.ToString()];
+            if (username is null)
+            {
+                return RedirectToAction("LogIn", "Home", new { area = "" });
+            }
+            else
+            {
+                HomeViewModel.IndexViewModel indexViewModel = new HomeViewModel.IndexViewModel();
+                indexViewModel.ItemComponentModelEnumerable = GetIndexItemComponentModels(role);
+                return View(indexViewModel);
+            }
         }
         public IActionResult Manage()
         {
-            HomeViewModel.ManageViewModel indexViewModel = new HomeViewModel.ManageViewModel();
-            indexViewModel.ItemComponentModelEnumerable = GetManageItemComponentModels();
-            return View(indexViewModel);
+            string username = Request.Cookies[UserCookieEnum.A_SYSTEM_USERNAME.ToString()];
+            string role = Request.Cookies[UserCookieEnum.A_SYSTEM_ROLE.ToString()];
+            if (username is null)
+            {
+                return RedirectToAction("LogIn", "Home", new { area = "" });
+            }
+            else
+            {
+                if (role.Equals(UserRoleEnum.STAFF.ToString()))
+                {
+                    HomeViewModel.ManageViewModel indexViewModel = new HomeViewModel.ManageViewModel();
+                    indexViewModel.ItemComponentModelEnumerable = GetManageItemComponentModels();
+                    return View(indexViewModel);
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+            }
         }
         public IActionResult Report()
         {
-            HomeViewModel.ReportViewModel indexViewModel = new HomeViewModel.ReportViewModel();
-            indexViewModel.ItemComponentModelEnumerable = GetReportItemComponentModels();
-            return View(indexViewModel);
+            string username = Request.Cookies[UserCookieEnum.A_SYSTEM_USERNAME.ToString()];
+            string role = Request.Cookies[UserCookieEnum.A_SYSTEM_ROLE.ToString()];
+            if (username is null)
+            {
+                return RedirectToAction("LogIn", "Home", new { area = "" });
+            }
+            else
+            {
+                if (role.Equals(UserRoleEnum.MANAGEMENT.ToString()))
+                {
+                    HomeViewModel.ReportViewModel indexViewModel = new HomeViewModel.ReportViewModel();
+                    indexViewModel.ItemComponentModelEnumerable = GetReportItemComponentModels();
+                    return View(indexViewModel);
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+            }
         }
         private IEnumerable<ItemComponentModel> GetManageItemComponentModels()
         {
@@ -180,29 +248,38 @@ namespace ASystem.Controllers
                 Route = new ItemComponentModel.RouteModel() { Controller = "Seat", Action = "Index" },
                 ImageUrl = "/img/pic/seat.jpg"
             });
-            itemModelList.Add(new ItemComponentModel()
-            {
-                Name = "User",
-                Route = new ItemComponentModel.RouteModel() { Controller = "User", Action = "Index" },
-                ImageUrl = "/img/pic/user.jpg"
-            });
             return itemModelList;
         }
-        private IEnumerable<ItemComponentModel> GetIndexItemComponentModels()
+        private IEnumerable<ItemComponentModel> GetIndexItemComponentModels(string role)
         {
             List<ItemComponentModel> itemModelList = new List<ItemComponentModel>();
-            itemModelList.Add(new ItemComponentModel()
+            if (role.Equals(UserRoleEnum.ADMIN.ToString()))
             {
-                Name = "Manage",
-                Route = new ItemComponentModel.RouteModel() { Controller = "Home", Action = "Manage" },
-                ImageUrl = "/img/icon/manage.jpg"
-            });
-            itemModelList.Add(new ItemComponentModel()
+                itemModelList.Add(new ItemComponentModel()
+                {
+                    Name = "User",
+                    Route = new ItemComponentModel.RouteModel() { Controller = "User", Action = "Index" },
+                    ImageUrl = "/img/pic/user.jpg"
+                });
+            }
+            else if (role.Equals(UserRoleEnum.STAFF.ToString()))
             {
-                Name = "Report",
-                Route = new ItemComponentModel.RouteModel() { Controller = "Home", Action = "Report" },
-                ImageUrl = "/img/icon/report.jpg"
-            });
+                itemModelList.Add(new ItemComponentModel()
+                {
+                    Name = "Manage",
+                    Route = new ItemComponentModel.RouteModel() { Controller = "Home", Action = "Manage" },
+                    ImageUrl = "/img/icon/manage.jpg"
+                });
+            }
+            else if (role.Equals(UserRoleEnum.MANAGEMENT.ToString()))
+            {
+                itemModelList.Add(new ItemComponentModel()
+                {
+                    Name = "Report",
+                    Route = new ItemComponentModel.RouteModel() { Controller = "Home", Action = "Report" },
+                    ImageUrl = "/img/icon/report.jpg"
+                });
+            }
             return itemModelList;
         }
         private IEnumerable<ItemComponentModel> GetReportItemComponentModels()

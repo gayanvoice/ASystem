@@ -1,6 +1,7 @@
 ﻿using ASystem.Builder;
 using ASystem.Context;
 using ASystem.Enum.SchedulePassenger;
+using ASystem.Enum.User;
 using ASystem.Helper;
 using ASystem.Models.Component;
 using ASystem.Models.Context;
@@ -32,9 +33,25 @@ namespace ASystem.Controllers
         }
         public IActionResult Index()
         {
-            SchedulePassengerViewModel.IndexViewModel viewModel = new SchedulePassengerViewModel.IndexViewModel();
-            viewModel.ItemComponentModelEnumerable = GetItemComponentModels();
-            return View(viewModel);
+            string username = Request.Cookies[UserCookieEnum.A_SYSTEM_USERNAME.ToString()];
+            string role = Request.Cookies[UserCookieEnum.A_SYSTEM_ROLE.ToString()];
+            if (username is null)
+            {
+                return RedirectToAction("LogIn", "Home", new { area = "" });
+            }
+            else
+            {
+                if (role.Equals(UserRoleEnum.STAFF.ToString()))
+                {
+                    SchedulePassengerViewModel.IndexViewModel viewModel = new SchedulePassengerViewModel.IndexViewModel();
+                    viewModel.ItemComponentModelEnumerable = GetItemComponentModels();
+                    return View(viewModel);
+                }
+                else
+                {
+                    return RedirectToAction("LogIn", "Home", new { area = "" });
+                }
+            }
         }
         public IActionResult List(string param)
         {

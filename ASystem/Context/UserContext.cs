@@ -17,7 +17,7 @@ namespace SASystem.Context
         public int Insert(UserContextModel userContextModel)
         {
             MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
-            string query = "INSERT INTO User (Username, Password, Status) values (@Username, @Password, @Status)";
+            string query = "INSERT INTO User (Username, Role, Password, Status) values (@Username, @Role, @Password, @Status)";
             return mySqlSingleton.Insert(query, userContextModel);
         }
         public UserContextModel Select(int userId)
@@ -43,7 +43,7 @@ namespace SASystem.Context
         public int Update(UserContextModel userContextModel)
         {
             MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
-            string query = "UPDATE User SET Username = @Username, Password = @Password, Status = @Status WHERE UserId IN (@UserId)";
+            string query = "UPDATE User SET Username = @Username, Role = @Role, Password = @Password, Status = @Status WHERE UserId IN (@UserId)";
             return mySqlSingleton.Update(query, userContextModel);
         }
     }
