@@ -24,7 +24,16 @@ namespace ASystem.Helper
             IList<SelectListItem> selectListItemList = new List<SelectListItem>();
             foreach (FlightScheduleContextModel contextModel in enumerable)
             {
-                selectListItemList.Add(new SelectListItem() { Text = contextModel.FlightScheduleId.ToString(), Value = contextModel.FlightScheduleId.ToString() });
+                selectListItemList.Add(new SelectListItem()
+                {
+                    Text = contextModel.FlightScheduleId.ToString()
+                    + " -AirplaneId " + contextModel.AirplaneId
+                    + " -AirportOrigin " + contextModel.AirportIdOrigin
+                    + " -AirportDestination " + contextModel.AirportIdDestination
+                    + " -DepartureTime " + contextModel.DepartureTime.ToString()
+                    + " -ArriveTime " + contextModel.ArriveTime.ToString(),
+                    Value = contextModel.FlightScheduleId.ToString()
+                });
             }
             return selectListItemList;
         }
@@ -33,7 +42,7 @@ namespace ASystem.Helper
             IList<SelectListItem> selectListItemList = new List<SelectListItem>();
             foreach (PilotContextModel contextModel in enumerable)
             {
-                selectListItemList.Add(new SelectListItem() { Text = contextModel.PilotId.ToString(), Value = contextModel.PilotId.ToString() });
+                selectListItemList.Add(new SelectListItem() { Text = contextModel.PilotId.ToString() + " -AirplaneModel" + contextModel.AirplaneModelId, Value = contextModel.PilotId.ToString() });
             }
             return selectListItemList;
         }

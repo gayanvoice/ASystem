@@ -121,14 +121,6 @@ namespace ASystem.Models.View
                 public int PilotId { get; set; }
 
                 [Required]
-                [Display(Name = "Time In")]
-                public DateTime TimeIn { get; set; }
-
-                [Required]
-                [Display(Name = "Time Out")]
-                public DateTime TimeOut { get; set; }
-
-                [Required]
                 [Display(Name = "Status")]
                 public string Status { get; set; }
             }

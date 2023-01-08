@@ -21,7 +21,7 @@
                         </div>
                         <div class="col-sm-12 mb-2">
                             <label asp-for="Form.FlightScheduleId" class="form-label"></label>
-                            <select asp-for="Form.FlightScheduleId" asp-items="@Model.FlightScheduleEnumerable" class="form-control"></select>
+                            <select asp-for="Form.FlightScheduleId" asp-items="@Model.FlightScheduleEnumerable" class="form-control" readonly></select>
                             <span asp-validation-for="Form.FlightScheduleId" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 mb-2">

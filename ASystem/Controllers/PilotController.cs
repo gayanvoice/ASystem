@@ -1,5 +1,6 @@
 ﻿using ASystem.Builder;
 using ASystem.Context;
+using ASystem.Enum.Employee;
 using ASystem.Enum.User;
 using ASystem.Helper;
 using ASystem.Models.Component;
@@ -7,19 +8,23 @@ using ASystem.Models.Context;
 using ASystem.Models.View;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ASystem.Controllers
 {
     public class PilotController : Controller
     {
         private readonly IEmployeeContext _employeeContext;
+        private readonly IPilotContext _ptilotContext;
         private readonly IAirplaneModelContext _airplaneModelContext;
         private readonly IPilotContext _pilotContext;
-        public PilotController(IEmployeeContext employeeContext, 
+        public PilotController(IEmployeeContext employeeContext,
+            IPilotContext pilotModelContext,
             IAirplaneModelContext airplaneModelContext,
             IPilotContext pilotContext)
         {
             _employeeContext = employeeContext;
+            _ptilotContext = pilotModelContext;
             _airplaneModelContext = airplaneModelContext;
             _pilotContext = pilotContext;
         }
@@ -73,7 +78,8 @@ namespace ASystem.Controllers
             }
             else
             {
-                IEnumerable<EmployeeContextModel> employeeContextModelEnumerable = _employeeContext.SelectAll();
+                IEnumerable<EmployeeContextModel> employeeContextModelEnumerable = _employeeContext.SelectAll()
+                                    .Where(employee => employee.Status.Equals(StatusEnum.ENABLE.ToString()) && employee.JobId.Equals(1));
                 IEnumerable<AirplaneModelContextModel> airplaneModelContextModelEnumerable = _airplaneModelContext.SelectAll();
                 PilotViewModel.EditViewModel editViewModel = new PilotViewModel.EditViewModel();
                 editViewModel.EmployeeEnumerable = PilotHelper.FromEmployeeEnumerable(employeeContextModelEnumerable);
@@ -87,7 +93,8 @@ namespace ASystem.Controllers
         {
             if (!ModelState.IsValid)
             {
-                IEnumerable<EmployeeContextModel> employeeContextModelEnumerable = _employeeContext.SelectAll();
+                IEnumerable<EmployeeContextModel> employeeContextModelEnumerable = _employeeContext.SelectAll()
+                       .Where(employee => employee.Status.Equals(StatusEnum.ENABLE.ToString()) && employee.JobId.Equals(1));
                 IEnumerable<AirplaneModelContextModel> airplaneModelContextModelEnumerable = _airplaneModelContext.SelectAll();
                 editViewModel.EmployeeEnumerable = PilotHelper.FromEmployeeEnumerable(employeeContextModelEnumerable);
                 editViewModel.AirplaneModelEnumerable = PilotHelper.FromAirplaneModelEnumerable(airplaneModelContextModelEnumerable);
@@ -105,7 +112,8 @@ namespace ASystem.Controllers
         }
         public IActionResult Insert()
         {
-            IEnumerable<EmployeeContextModel> employeeContextModelEnumerable = _employeeContext.SelectAll();
+            IEnumerable<EmployeeContextModel> employeeContextModelEnumerable = _employeeContext.SelectAll()
+                .Where(employee => employee.Status.Equals(StatusEnum.ENABLE.ToString()) && employee.JobId.Equals(1));
             IEnumerable<AirplaneModelContextModel> airplaneModelContextModelEnumerable = _airplaneModelContext.SelectAll();
             PilotViewModel.InsertViewModel insertViewModel = new PilotViewModel.InsertViewModel();
             insertViewModel.EmployeeEnumerable = PilotHelper.FromEmployeeEnumerable(employeeContextModelEnumerable);
@@ -118,10 +126,22 @@ namespace ASystem.Controllers
         {
             if (!ModelState.IsValid)
             {
-                IEnumerable<EmployeeContextModel> employeeContextModelEnumerable = _employeeContext.SelectAll();
+                IEnumerable<EmployeeContextModel> employeeContextModelEnumerable = _employeeContext.SelectAll()
+                                    .Where(employee => employee.Status.Equals(StatusEnum.ENABLE.ToString()) && employee.JobId.Equals(1));
                 IEnumerable<AirplaneModelContextModel> airplaneModelContextModelEnumerable = _airplaneModelContext.SelectAll();
                 insertViewModel.EmployeeEnumerable = PilotHelper.FromEmployeeEnumerable(employeeContextModelEnumerable);
                 insertViewModel.AirplaneModelEnumerable = PilotHelper.FromAirplaneModelEnumerable(airplaneModelContextModelEnumerable);
+                return View(insertViewModel);
+            }
+            IEnumerable<PilotContextModel> pilotContextModelEnumerable = _pilotContext.SelectAll();
+            if (pilotContextModelEnumerable.Any(pilot => pilot.EmployeeId.Equals(insertViewModel.Form.EmployeeId)))
+            {
+                IEnumerable<EmployeeContextModel> employeeContextModelEnumerable = _employeeContext.SelectAll()
+                                  .Where(employee => employee.Status.Equals(StatusEnum.ENABLE.ToString()) && employee.JobId.Equals(1));
+                IEnumerable<AirplaneModelContextModel> airplaneModelContextModelEnumerable = _airplaneModelContext.SelectAll();
+                insertViewModel.EmployeeEnumerable = PilotHelper.FromEmployeeEnumerable(employeeContextModelEnumerable);
+                insertViewModel.AirplaneModelEnumerable = PilotHelper.FromAirplaneModelEnumerable(airplaneModelContextModelEnumerable);
+                ModelState.AddModelError("Form.EmployeeId", "Employee already added to Pilot");
                 return View(insertViewModel);
             }
             PilotBuilder builder = new PilotBuilder();

@@ -25,16 +25,6 @@
                             <span asp-validation-for="Form.PilotId" class="text-danger"></span>
                         </div>
                         <div class="col-sm-12 mb-2">
-                            <label asp-for="Form.TimeIn" class="form-label"></label>
-                            <input asp-for="Form.TimeIn" asp-format="{0:yyyy-MM-ddTHH:mm}" class="form-control">
-                            <span asp-validation-for="Form.TimeIn" class="text-danger"></span>
-                        </div>
-                        <div class="col-sm-12 mb-2">
-                            <label asp-for="Form.TimeOut" class="form-label"></label>
-                            <input asp-for="Form.TimeOut" asp-format="{0:yyyy-MM-ddTHH:mm}" class="form-control">
-                            <span asp-validation-for="Form.TimeOut" class="text-danger"></span>
-                        </div>
-                        <div class="col-sm-12 mb-2">
                             <label asp-for="Form.Status" class="form-label"></label>
                             <select asp-for="Form.Status" asp-items="@Model.StatusEnumerable" class="form-control"></select>
                             <span asp-validation-for="Form.Status" class="text-danger"></span>

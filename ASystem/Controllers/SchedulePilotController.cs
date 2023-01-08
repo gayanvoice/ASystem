@@ -2,26 +2,31 @@
 using ASystem.Context;
 using ASystem.Enum.SchedulePilot;
 using ASystem.Enum.User;
+using ASystem.Enum.FlightSchedule;
 using ASystem.Helper;
 using ASystem.Models.Component;
 using ASystem.Models.Context;
 using ASystem.Models.View;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ASystem.Controllers
 {
     public class SchedulePilotController : Controller
     {
         private readonly IFlightScheduleContext _flightScheduleContext;
+        private readonly IAirplaneContext _airplaneContext;
         private readonly IPilotContext _pilotContext;
         private readonly ISchedulePilotContext _schedulePilotContext;
         public SchedulePilotController(
             IFlightScheduleContext flightScheduleContext,
+            IAirplaneContext airplaneContext,
             IPilotContext pilotContext,
             ISchedulePilotContext schedulePilotContext)
         {
             _flightScheduleContext = flightScheduleContext;
+            _airplaneContext = airplaneContext;
             _pilotContext = pilotContext;
             _schedulePilotContext = schedulePilotContext;
         }
@@ -75,12 +80,13 @@ namespace ASystem.Controllers
             }
             else
             {
-                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll();
+                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                    .Where(flightSchedule => flightSchedule.Status.Equals(Enum.FlightSchedule.StatusEnum.ENABLE.ToString()));
                 IEnumerable<PilotContextModel> pilotContextModelEnumerable = _pilotContext.SelectAll();
                 SchedulePilotViewModel.EditViewModel editViewModel = new SchedulePilotViewModel.EditViewModel();
                 editViewModel.FlightScheduleEnumerable = SchedulePilotHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);
                 editViewModel.PilotEnumerable = SchedulePilotHelper.FromPilotEnumerable(pilotContextModelEnumerable);
-                editViewModel.StatusEnumerable = SchedulePilotHelper.GetIEnumerableSelectListItem<StatusEnum>();
+                editViewModel.StatusEnumerable = SchedulePilotHelper.GetIEnumerableSelectListItem<Enum.FlightSchedule.StatusEnum>();
                 editViewModel.Form = SchedulePilotViewModel.EditViewModel.FormViewModel.FromContextModel(contextModel);
                 return View(editViewModel);
             }
@@ -90,11 +96,26 @@ namespace ASystem.Controllers
         {
             if (!ModelState.IsValid)
             {
-                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll();
+                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                      .Where(flightSchedule => flightSchedule.Status.Equals(Enum.FlightSchedule.StatusEnum.ENABLE.ToString()));
                 IEnumerable<PilotContextModel> pilotContextModelEnumerable = _pilotContext.SelectAll();
                 editViewModel.FlightScheduleEnumerable = SchedulePilotHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);
                 editViewModel.PilotEnumerable = SchedulePilotHelper.FromPilotEnumerable(pilotContextModelEnumerable);
-                editViewModel.StatusEnumerable = SchedulePilotHelper.GetIEnumerableSelectListItem<StatusEnum>();
+                editViewModel.StatusEnumerable = SchedulePilotHelper.GetIEnumerableSelectListItem<Enum.FlightSchedule.StatusEnum>();
+                return View(editViewModel);
+            }
+            FlightScheduleContextModel flightScheduleContextModel = _flightScheduleContext.Select(editViewModel.Form.FlightScheduleId);
+            AirplaneContextModel airplaneContextModel = _airplaneContext.Select(flightScheduleContextModel.AirplaneId);
+            PilotContextModel pilotContextModel = _pilotContext.Select(editViewModel.Form.PilotId);
+            if (!(airplaneContextModel.AirplaneModelId.Equals(pilotContextModel.AirplaneModelId)))
+            {
+                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                    .Where(flightSchedule => flightSchedule.Status.Equals(Enum.FlightSchedule.StatusEnum.ENABLE.ToString()));
+                IEnumerable<PilotContextModel> pilotContextModelEnumerable = _pilotContext.SelectAll();
+                editViewModel.FlightScheduleEnumerable = SchedulePilotHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);
+                editViewModel.PilotEnumerable = SchedulePilotHelper.FromPilotEnumerable(pilotContextModelEnumerable);
+                editViewModel.StatusEnumerable = SchedulePilotHelper.GetIEnumerableSelectListItem<Enum.FlightSchedule.StatusEnum>();
+                ModelState.AddModelError("Form.PilotId", "Pilot ID is not compatible with the Airplane Model Id");
                 return View(editViewModel);
             }
             SchedulePilotBuilder builder = new SchedulePilotBuilder();
@@ -111,12 +132,13 @@ namespace ASystem.Controllers
         }
         public IActionResult Insert()
         {
-            IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll();
+            IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                  .Where(flightSchedule => flightSchedule.Status.Equals(Enum.FlightSchedule.StatusEnum.ENABLE.ToString()));
             IEnumerable<PilotContextModel> pilotContextModelEnumerable = _pilotContext.SelectAll();
             SchedulePilotViewModel.InsertViewModel insertViewModel = new SchedulePilotViewModel.InsertViewModel();
             insertViewModel.FlightScheduleEnumerable = SchedulePilotHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);
             insertViewModel.PilotEnumerable = SchedulePilotHelper.FromPilotEnumerable(pilotContextModelEnumerable);
-            insertViewModel.StatusEnumerable = SchedulePilotHelper.GetIEnumerableSelectListItem<StatusEnum>();
+            insertViewModel.StatusEnumerable = SchedulePilotHelper.GetIEnumerableSelectListItem<Enum.FlightSchedule.StatusEnum>();
             insertViewModel.Form = new SchedulePilotViewModel.InsertViewModel.FormViewModel();
             return View(insertViewModel);
         }
@@ -125,19 +147,34 @@ namespace ASystem.Controllers
         {
             if (!ModelState.IsValid)
             {
-                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll();
+                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                      .Where(flightSchedule => flightSchedule.Status.Equals(Enum.FlightSchedule.StatusEnum.ENABLE.ToString()));
                 IEnumerable<PilotContextModel> pilotContextModelEnumerable = _pilotContext.SelectAll();
                 insertViewModel.FlightScheduleEnumerable = SchedulePilotHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);
                 insertViewModel.PilotEnumerable = SchedulePilotHelper.FromPilotEnumerable(pilotContextModelEnumerable);
-                insertViewModel.StatusEnumerable = SchedulePilotHelper.GetIEnumerableSelectListItem<StatusEnum>();
+                insertViewModel.StatusEnumerable = SchedulePilotHelper.GetIEnumerableSelectListItem<Enum.FlightSchedule.StatusEnum>();
+                return View(insertViewModel);
+            }
+            FlightScheduleContextModel flightScheduleContextModel = _flightScheduleContext.Select(insertViewModel.Form.FlightScheduleId);
+            AirplaneContextModel airplaneContextModel = _airplaneContext.Select(flightScheduleContextModel.AirplaneId);
+            PilotContextModel pilotContextModel = _pilotContext.Select(insertViewModel.Form.PilotId);
+            if (!(airplaneContextModel.AirplaneModelId.Equals(pilotContextModel.AirplaneModelId)))
+            {
+                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                    .Where(flightSchedule => flightSchedule.Status.Equals(Enum.FlightSchedule.StatusEnum.ENABLE.ToString()));
+                IEnumerable<PilotContextModel> pilotContextModelEnumerable = _pilotContext.SelectAll();
+                insertViewModel.FlightScheduleEnumerable = SchedulePilotHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);
+                insertViewModel.PilotEnumerable = SchedulePilotHelper.FromPilotEnumerable(pilotContextModelEnumerable);
+                insertViewModel.StatusEnumerable = SchedulePilotHelper.GetIEnumerableSelectListItem<Enum.FlightSchedule.StatusEnum>();
+                ModelState.AddModelError("Form.PilotId", "Pilot ID is not compatible with the Airplane Model Id");
                 return View(insertViewModel);
             }
             SchedulePilotBuilder builder = new SchedulePilotBuilder();
             SchedulePilotContextModel contextModel = builder
                 .SetFlightScheduleId(insertViewModel.Form.FlightScheduleId)
                 .SetPilotId(insertViewModel.Form.PilotId)
-                .SetTimeIn(insertViewModel.Form.TimeIn)
-                .SetTimeOut(insertViewModel.Form.TimeOut)
+                .SetTimeIn(flightScheduleContextModel.DepartureTime.AddMinutes(-30))
+                .SetTimeOut(flightScheduleContextModel.DepartureTime.AddMinutes(30))
                 .SetStatus(insertViewModel.Form.Status)
                 .Build();
             _schedulePilotContext.Insert(contextModel);
