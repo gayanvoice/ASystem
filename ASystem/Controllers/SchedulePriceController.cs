@@ -1,6 +1,5 @@
 ﻿using ASystem.Builder;
 using ASystem.Context;
-using ASystem.Enum.SchedulePilot;
 using ASystem.Enum.User;
 using ASystem.Helper;
 using ASystem.Models.Component;
@@ -8,6 +7,7 @@ using ASystem.Models.Context;
 using ASystem.Models.View;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ASystem.Controllers
 {
@@ -51,7 +51,7 @@ namespace ASystem.Controllers
         {
             SchedulePriceViewModel.ListViewModel list = new SchedulePriceViewModel.ListViewModel();
             list.Status = param;
-            list.SchedulePriceProcedureModelEnumerable = _schedulePriceContext.GetAllSchedulePrice();
+            list.SchedulePriceProcedureModelEnumerable = _schedulePriceContext.GetAllSchedulePrice().OrderBy(schedulePrice => int.Parse(schedulePrice.FlightScheduleId));
             return View(list);
         }
         public IActionResult Show(int id)
@@ -75,7 +75,9 @@ namespace ASystem.Controllers
             }
             else
             {
-                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll();
+                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                       .Where(flightSchedule => flightSchedule.Status.Equals(Enum.FlightSchedule.StatusEnum.ENABLE.ToString())
+                && flightSchedule.Type.Equals(Enum.FlightSchedule.TypeEnum.PASSENGER.ToString()));
                 IEnumerable<ClassContextModel> classContextModelEnumerable = _classContext.SelectAll();
                 SchedulePriceViewModel.EditViewModel editViewModel = new SchedulePriceViewModel.EditViewModel();
                 editViewModel.FlightScheduleEnumerable = SchedulePriceHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);
@@ -89,10 +91,25 @@ namespace ASystem.Controllers
         {
             if (!ModelState.IsValid)
             {
-                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll();
+                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                        .Where(flightSchedule => flightSchedule.Status.Equals(Enum.FlightSchedule.StatusEnum.ENABLE.ToString())
+                && flightSchedule.Type.Equals(Enum.FlightSchedule.TypeEnum.PASSENGER.ToString()));
                 IEnumerable<ClassContextModel> classContextModelEnumerable = _classContext.SelectAll();
                 editViewModel.FlightScheduleEnumerable = SchedulePriceHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);
                 editViewModel.ClassEnumerable = SchedulePriceHelper.FromClassEnumerable(classContextModelEnumerable);
+                return View(editViewModel);
+            }
+            FlightScheduleContextModel flightScheduleContextModel = _flightScheduleContext.Select(editViewModel.Form.FlightScheduleId);
+            ClassContextModel classContextModel = _classContext.Select(editViewModel.Form.ClassId);
+            if (!(classContextModel.AirplaneId.Equals(flightScheduleContextModel.AirplaneId)))
+            {
+                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                          .Where(flightSchedule => flightSchedule.Status.Equals(Enum.FlightSchedule.StatusEnum.ENABLE.ToString())
+                && flightSchedule.Type.Equals(Enum.FlightSchedule.TypeEnum.PASSENGER.ToString()));
+                IEnumerable<ClassContextModel> classContextModelEnumerable = _classContext.SelectAll();
+                editViewModel.FlightScheduleEnumerable = SchedulePriceHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);
+                editViewModel.ClassEnumerable = SchedulePriceHelper.FromClassEnumerable(classContextModelEnumerable);
+                ModelState.AddModelError("Form.ClassId", "Airplane is dfferent from the flight schedule");
                 return View(editViewModel);
             }
             SchedulePriceBuilder builder = new SchedulePriceBuilder();
@@ -107,7 +124,9 @@ namespace ASystem.Controllers
         }
         public IActionResult Insert()
         {
-            IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll();
+            IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                .Where(flightSchedule => flightSchedule.Status.Equals(Enum.FlightSchedule.StatusEnum.ENABLE.ToString()) 
+                && flightSchedule.Type.Equals(Enum.FlightSchedule.TypeEnum.PASSENGER.ToString()));
             IEnumerable<ClassContextModel> classContextModelEnumerable = _classContext.SelectAll();
             SchedulePriceViewModel.InsertViewModel insertViewModel = new SchedulePriceViewModel.InsertViewModel();
             insertViewModel.FlightScheduleEnumerable = SchedulePriceHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);
@@ -120,10 +139,39 @@ namespace ASystem.Controllers
         {
             if (!ModelState.IsValid)
             {
-                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll();
+                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                        .Where(flightSchedule => flightSchedule.Status.Equals(Enum.FlightSchedule.StatusEnum.ENABLE.ToString())
+                && flightSchedule.Type.Equals(Enum.FlightSchedule.TypeEnum.PASSENGER.ToString()));
                 IEnumerable<ClassContextModel> classContextModelEnumerable = _classContext.SelectAll();
                 insertViewModel.FlightScheduleEnumerable = SchedulePriceHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);
                 insertViewModel.ClassEnumerable = SchedulePriceHelper.FromClassEnumerable(classContextModelEnumerable);
+                return View(insertViewModel);
+            }
+            FlightScheduleContextModel flightScheduleContextModel = _flightScheduleContext.Select(insertViewModel.Form.FlightScheduleId);
+            ClassContextModel classContextModel = _classContext.Select(insertViewModel.Form.ClassId);
+            if (!(classContextModel.AirplaneId.Equals(flightScheduleContextModel.AirplaneId)))
+            {
+                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                        .Where(flightSchedule => flightSchedule.Status.Equals(Enum.FlightSchedule.StatusEnum.ENABLE.ToString())
+                         && flightSchedule.Type.Equals(Enum.FlightSchedule.TypeEnum.PASSENGER.ToString()));
+                IEnumerable<ClassContextModel> classContextModelEnumerable = _classContext.SelectAll();
+                insertViewModel.FlightScheduleEnumerable = SchedulePriceHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);
+                insertViewModel.ClassEnumerable = SchedulePriceHelper.FromClassEnumerable(classContextModelEnumerable);
+                ModelState.AddModelError("Form.ClassId", "Airplane is dfferent from the flight schedule");
+                return View(insertViewModel);
+            }
+            IEnumerable<SchedulePriceContextModel> schedulePriceContextModelEnumerable = _schedulePriceContext.SelectAll();
+            bool exist = schedulePriceContextModelEnumerable.Any(schedulePrice => schedulePrice.FlightScheduleId.Equals(insertViewModel.Form.FlightScheduleId) &&
+                                schedulePrice.ClassId.Equals(insertViewModel.Form.ClassId));
+            if (exist)
+            {
+                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                       .Where(flightSchedule => flightSchedule.Status.Equals(Enum.FlightSchedule.StatusEnum.ENABLE.ToString())
+                        && flightSchedule.Type.Equals(Enum.FlightSchedule.TypeEnum.PASSENGER.ToString()));
+                IEnumerable<ClassContextModel> classContextModelEnumerable = _classContext.SelectAll();
+                insertViewModel.FlightScheduleEnumerable = SchedulePriceHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);
+                insertViewModel.ClassEnumerable = SchedulePriceHelper.FromClassEnumerable(classContextModelEnumerable);
+                ModelState.AddModelError("Form.ClassId", "Already class is added to schedule price");
                 return View(insertViewModel);
             }
             SchedulePriceBuilder builder = new SchedulePriceBuilder();

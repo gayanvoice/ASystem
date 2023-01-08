@@ -10,6 +10,7 @@ using ASystem.Models.Context;
 using ASystem.Models.View;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ASystem.Controllers
 {
@@ -89,6 +90,17 @@ namespace ASystem.Controllers
                 editViewModel.ClassEnumerable = SeatHelper.FromClassEnumerable(classContextModelEnumerable);
                 return View(editViewModel);
             }
+            ClassContextModel classContextModel = _classContext.Select(editViewModel.Form.ClassId);
+            int noOfExistingSeats = _seatContext.SelectAll()
+                .Where(seat => seat.ClassId.Equals(editViewModel.Form.ClassId))
+                .Count();
+            if (noOfExistingSeats >= classContextModel.NoOfSeats)
+            {
+                IEnumerable<ClassContextModel> classContextModelEnumerable = _classContext.SelectAll();
+                editViewModel.ClassEnumerable = SeatHelper.FromClassEnumerable(classContextModelEnumerable);
+                ModelState.AddModelError("Form.ClassId", "Already maximum number of seats has been created");
+                return View(editViewModel);
+            }
             SeatBuilder builder = new SeatBuilder();
             SeatContextModel contextModel = builder
                 .SetSeatId(editViewModel.Form.SeatId)
@@ -113,6 +125,17 @@ namespace ASystem.Controllers
             {
                 IEnumerable<ClassContextModel> classContextModelEnumerable = _classContext.SelectAll();
                 insertViewModel.ClassEnumerable = SeatHelper.FromClassEnumerable(classContextModelEnumerable);
+                return View(insertViewModel);
+            }
+            ClassContextModel classContextModel = _classContext.Select(insertViewModel.Form.ClassId);
+            int noOfExistingSeats = _seatContext.SelectAll()
+                .Where(seat => seat.ClassId.Equals(insertViewModel.Form.ClassId))
+                .Count();
+            if (noOfExistingSeats >= classContextModel.NoOfSeats)
+            {
+                IEnumerable<ClassContextModel> classContextModelEnumerable = _classContext.SelectAll();
+                insertViewModel.ClassEnumerable = SeatHelper.FromClassEnumerable(classContextModelEnumerable);
+                ModelState.AddModelError("Form.ClassId", "Already maximum number of seats has been created");
                 return View(insertViewModel);
             }
             SeatBuilder builder = new SeatBuilder();

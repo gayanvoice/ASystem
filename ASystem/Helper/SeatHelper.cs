@@ -11,7 +11,8 @@ namespace ASystem.Helper
             IList<SelectListItem> selectListItemList = new List<SelectListItem>();
             foreach (ClassContextModel contextModel in enumerable)
             {
-                selectListItemList.Add(new SelectListItem() { Text = contextModel.Name + " " + contextModel.SubClass, Value = contextModel.ClassId.ToString() });
+                selectListItemList.Add(new SelectListItem() { Text = contextModel.Name + " " + contextModel.SubClass + " -NoOfSeats " + contextModel.NoOfSeats,
+                    Value = contextModel.ClassId.ToString() });
             }
             return selectListItemList;
         }
