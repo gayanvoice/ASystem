@@ -8,6 +8,7 @@ using ASystem.Models.Context;
 using ASystem.Models.View;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ASystem.Controllers
 {
@@ -56,7 +57,15 @@ namespace ASystem.Controllers
         public IActionResult List(string param)
         {
             SchedulePassengerViewModel.ListViewModel list = new SchedulePassengerViewModel.ListViewModel();
+            list.Status = param;
             list.SchedulePassengerProcedureEnumerable = _schedulePassengerContext.GetAllSchedulePassenger();
+            return View(list);
+        }
+        [HttpPost]
+        public IActionResult List(SchedulePassengerViewModel.ListViewModel list)
+        {
+            list.SchedulePassengerProcedureEnumerable = _schedulePassengerContext.GetAllSchedulePassenger()
+                .Where(s => s.Name.Contains(list.Form.Name));
             return View(list);
         }
         public IActionResult Show(int id)

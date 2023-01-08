@@ -52,6 +52,7 @@ namespace ASystem.Controllers
                 {
                     if (userContextModel.Status.Equals(UserStatusEnum.ACTIVE.ToString()))
                     {
+                        var remoteIpAddress = Request.HttpContext.Connection.RemoteIpAddress;
                         var cookieOptions = new CookieOptions
                         {
                             Secure = true,

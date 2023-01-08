@@ -54,49 +54,59 @@
     <h2 class="pb-2 border-bottom"><a asp-controller="@controller" asp-action="Index" class="text-decoration-none">@controller</a> / List</h2>
 
     <div class="g-4 py-5">
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        @{
-                            foreach (PropertyInfo propertyInfo in Model.ClassContextModelEnumerable.First().GetType().GetProperties().Take(5))
-                            {
-                                <th scope="col">@propertyInfo.Name</th>
-                            }
-                            <th scope="col">Config</th>
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        foreach (ClassContextModel contextModel in Model.ClassContextModelEnumerable)
-                        {
-                            int id = contextModel.ClassId;
-                            <tr>
-                                @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties().Take(5))
+        @if (Model.ClassContextModelEnumerable.Count() > 0)
+        {
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            @{
+                                foreach (PropertyInfo propertyInfo in Model.ClassContextModelEnumerable.First().GetType().GetProperties().Take(5))
                                 {
-                                    <td>@propertyInfo.GetValue(contextModel, null)</td>
+                                    <th scope="col">@propertyInfo.Name</th>
                                 }
-                                <td>
+                                <th scope="col">Config</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (ClassContextModel contextModel in Model.ClassContextModelEnumerable)
+                            {
+                                int id = contextModel.ClassId;
+                                <tr>
+                                    @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties().Take(5))
+                                    {
+                                        <td>@propertyInfo.GetValue(contextModel, null)</td>
+                                    }
+                                    <td>
 
-                                    <a asp-controller="@controller"
-                                       asp-action="Show"
-                                       asp-route-Id="@id"
-                                       class="text-decoration-none p-1">Show</a>
-                                    <a asp-controller="@controller"
-                                       asp-action="Edit"
-                                       asp-route-Id="@id"
-                                       class="text-decoration-none p-1">Edit</a>
-                                    <a asp-controller="@controller"
-                                       asp-action="Delete"
-                                       asp-route-Id="@id"
-                                       class="text-decoration-none p-1">Delete</a>
-                                </td>
-                            </tr>
+                                        <a asp-controller="@controller"
+                                           asp-action="Show"
+                                           asp-route-Id="@id"
+                                           class="text-decoration-none p-1">Show</a>
+                                        <a asp-controller="@controller"
+                                           asp-action="Edit"
+                                           asp-route-Id="@id"
+                                           class="text-decoration-none p-1">Edit</a>
+                                        <a asp-controller="@controller"
+                                           asp-action="Delete"
+                                           asp-route-Id="@id"
+                                           class="text-decoration-none p-1">Delete</a>
+                                    </td>
+                                </tr>
+                            }
                         }
-                    }
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                <strong>Error</strong> No values exist!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
     </div>
 </div>

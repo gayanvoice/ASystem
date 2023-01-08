@@ -8,6 +8,7 @@ namespace ASystem.Helper
 {
     public class SchedulePassengerHelper
     {
+        // Convert Enum classes to IEnumerable SelectListItem
         public static IEnumerable<SelectListItem> GetIEnumerableSelectListItem<TEnum>()
        where TEnum : struct, IConvertible, IComparable, IFormattable
         {

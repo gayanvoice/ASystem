@@ -60,6 +60,13 @@ namespace ASystem.Models.View
         {
             public string Status { get; set; }
             public IEnumerable<SchedulePassengerProcedureModel> SchedulePassengerProcedureEnumerable { get; set; }
+            public FormViewModel Form { get; set; }
+            public class FormViewModel
+            {
+                [Required]
+                [Display(Name = "Name")]
+                public string Name { get; set; }
+            }
         }
         public class DeleteViewModel
         {

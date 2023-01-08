@@ -50,47 +50,57 @@
     <h2 class="pb-2 border-bottom"><a asp-controller="User" asp-action="Index" class="text-decoration-none">User</a> / List</h2>
 
     <div class="g-4 py-5">
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        @{
-                            foreach (PropertyInfo propertyInfo in Model.UserContextModelEnumerable.First().GetType().GetProperties().Take(2))
-                            {
-                                <th scope="col">@propertyInfo.Name</th>
-                            }
-                            <th scope="col">Config</th>
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        foreach (UserContextModel userContextModel in Model.UserContextModelEnumerable)
-                        {
-                            <tr>
-                                @foreach (PropertyInfo propertyInfo in userContextModel.GetType().GetProperties().Take(2))
+        @if (Model.UserContextModelEnumerable.Count() > 0)
+        {
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            @{
+                                foreach (PropertyInfo propertyInfo in Model.UserContextModelEnumerable.First().GetType().GetProperties().Take(2))
                                 {
-                                    <td>@propertyInfo.GetValue(userContextModel, null)</td>
+                                    <th scope="col">@propertyInfo.Name</th>
                                 }
-                                <td>
-                                    <a asp-controller="User"
-                                       asp-action="Show"
-                                       asp-route-UserId="@userContextModel.UserId"
-                                       class="text-decoration-none p-1">Show</a>
-                                    <a asp-controller="User"
-                                       asp-action="Edit"
-                                       asp-route-UserId="@userContextModel.UserId"
-                                       class="text-decoration-none p-1">Edit</a>
-                                    <a asp-controller="User"
-                                       asp-action="Delete"
-                                       asp-route-UserId="@userContextModel.UserId"
-                                       class="text-decoration-none p-1">Delete</a>
-                                </td>
-                            </tr>
+                                <th scope="col">Config</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (UserContextModel userContextModel in Model.UserContextModelEnumerable)
+                            {
+                                <tr>
+                                    @foreach (PropertyInfo propertyInfo in userContextModel.GetType().GetProperties().Take(2))
+                                    {
+                                        <td>@propertyInfo.GetValue(userContextModel, null)</td>
+                                    }
+                                    <td>
+                                        <a asp-controller="User"
+                                           asp-action="Show"
+                                           asp-route-UserId="@userContextModel.UserId"
+                                           class="text-decoration-none p-1">Show</a>
+                                        <a asp-controller="User"
+                                           asp-action="Edit"
+                                           asp-route-UserId="@userContextModel.UserId"
+                                           class="text-decoration-none p-1">Edit</a>
+                                        <a asp-controller="User"
+                                           asp-action="Delete"
+                                           asp-route-UserId="@userContextModel.UserId"
+                                           class="text-decoration-none p-1">Delete</a>
+                                    </td>
+                                </tr>
+                            }
                         }
-                    }
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                <strong>Error</strong> No values exist!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
     </div>
 </div>
