@@ -24,7 +24,7 @@ namespace ASystem.Helper
             IList<SelectListItem> selectListItemList = new List<SelectListItem>();
             foreach (AirplaneContextModel contextModel in enumerable)
             {
-                selectListItemList.Add(new SelectListItem() { Text = contextModel.FlightNumber, Value = contextModel.AirplaneId.ToString() });
+                selectListItemList.Add(new SelectListItem() { Text = contextModel.FlightNumber + " -Status " + contextModel.Status, Value = contextModel.AirplaneId.ToString()  });
             }
             return selectListItemList;
         }

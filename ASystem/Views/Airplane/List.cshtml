@@ -1,5 +1,6 @@
 ﻿@using System.Reflection;
 @using ASystem.Models.Context;
+@using ASystem.Enum.Airplane;
 @model ASystem.Models.View.AirplaneViewModel.ListViewModel
 @{
     ViewData["Title"] = "List";
@@ -76,7 +77,9 @@
                             foreach (AirplaneContextModel contextModel in Model.AirplaneContextModelEnumerable)
                             {
                                 int id = contextModel.AirplaneId;
-                                <tr>
+                                string rowColor = "table-primary";
+                                if (contextModel.Status.Equals(AirplaneStatusEnum.DEACTIVE.ToString())) rowColor = "table-danger";
+                                <tr class="@rowColor">
                                     @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties())
                                     {
                                         <td>@propertyInfo.GetValue(contextModel, null)</td>
@@ -97,8 +100,10 @@
                                            class="text-decoration-none p-1">Delete</a>
                                     </td>
                                 </tr>
+                                    
+
+                                }
                             }
-                        }
                     </tbody>
                 </table>
             </div>

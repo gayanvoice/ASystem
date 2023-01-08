@@ -1,5 +1,6 @@
 ﻿@using System.Reflection;
 @using ASystem.Models.Context;
+@using ASystem.Enum.Employee;
 @model ASystem.Models.View.EmployeeViewModel.ListViewModel
 @{
     ViewData["Title"] = "List";
@@ -74,7 +75,9 @@
                             foreach (EmployeeContextModel contextModel in Model.EmployeeContextModelEnumerable)
                             {
                                 int id = contextModel.EmployeeId;
-                                <tr>
+                                string rowColor = "table-primary";
+                                if (contextModel.Status.Equals(StatusEnum.DISABLE.ToString())) rowColor = "table-danger";
+                                <tr class="@rowColor">
                                     @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties().Take(4))
                                     {
                                         <td>@propertyInfo.GetValue(contextModel, null)</td>

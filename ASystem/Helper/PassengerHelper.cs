@@ -11,7 +11,7 @@ namespace ASystem.Helper
             IList<SelectListItem> selectListItemList = new List<SelectListItem>();
             foreach (PassportContextModel contextModel in enumerable)
             {
-                selectListItemList.Add(new SelectListItem() { Text = contextModel.PassportNo.ToString(), Value = contextModel.PassportId.ToString() });
+                selectListItemList.Add(new SelectListItem() { Text = contextModel.PassportNo.ToString() + " -Name " + contextModel.OtherName + " " + contextModel.Surname, Value = contextModel.PassportId.ToString() });
             }
             return selectListItemList;
         }

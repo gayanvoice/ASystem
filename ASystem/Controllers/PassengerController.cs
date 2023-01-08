@@ -3,6 +3,7 @@ using ASystem.Context;
 using ASystem.Enum;
 using ASystem.Enum.Class;
 using ASystem.Enum.FlightSchedule;
+using ASystem.Enum.Passport;
 using ASystem.Enum.User;
 using ASystem.Helper;
 using ASystem.Models.Component;
@@ -10,6 +11,7 @@ using ASystem.Models.Context;
 using ASystem.Models.View;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ASystem.Controllers
 {
@@ -74,7 +76,8 @@ namespace ASystem.Controllers
             {
                 IEnumerable<PassportContextModel> passportContextModelEnumerable = _passportContext.SelectAll();
                 PassengerViewModel.EditViewModel editViewModel = new PassengerViewModel.EditViewModel();
-                editViewModel.PassportEnumerable = PassengerHelper.FromPassportEnumerable(passportContextModelEnumerable);
+                editViewModel.PassportEnumerable = PassengerHelper
+                    .FromPassportEnumerable(passportContextModelEnumerable.Where(passport => passport.Status.Equals(Enum.Passport.StatusEnum.ACTIVE.ToString())));
                 editViewModel.Form = PassengerViewModel.EditViewModel.FormViewModel.FromContextModel(contextModel);
                 return View(editViewModel);
             }
@@ -85,7 +88,8 @@ namespace ASystem.Controllers
             if (!ModelState.IsValid)
             {
                 IEnumerable<PassportContextModel> passportContextModelEnumerable = _passportContext.SelectAll();
-                editViewModel.PassportEnumerable = PassengerHelper.FromPassportEnumerable(passportContextModelEnumerable);
+                editViewModel.PassportEnumerable = PassengerHelper
+                    .FromPassportEnumerable(passportContextModelEnumerable.Where(passport => passport.Status.Equals(Enum.Passport.StatusEnum.ACTIVE.ToString())));
                 return View(editViewModel);
             }
             PassengerBuilder builder = new PassengerBuilder();
@@ -101,7 +105,8 @@ namespace ASystem.Controllers
         {
             IEnumerable<PassportContextModel> passportContextModelEnumerable = _passportContext.SelectAll();
             PassengerViewModel.InsertViewModel insertViewModel = new PassengerViewModel.InsertViewModel();
-            insertViewModel.PassportEnumerable = PassengerHelper.FromPassportEnumerable(passportContextModelEnumerable);
+            insertViewModel.PassportEnumerable = PassengerHelper
+                .FromPassportEnumerable(passportContextModelEnumerable.Where(passport => passport.Status.Equals(Enum.Passport.StatusEnum.ACTIVE.ToString())));
             insertViewModel.Form = new PassengerViewModel.InsertViewModel.FormViewModel();
             return View(insertViewModel);
         }
@@ -111,7 +116,17 @@ namespace ASystem.Controllers
             if (!ModelState.IsValid)
             {
                 IEnumerable<PassportContextModel> passportContextModelEnumerable = _passportContext.SelectAll();
-                insertViewModel.PassportEnumerable = PassengerHelper.FromPassportEnumerable(passportContextModelEnumerable);
+                insertViewModel.PassportEnumerable = PassengerHelper
+                    .FromPassportEnumerable(passportContextModelEnumerable.Where(passport => passport.Status.Equals(Enum.Passport.StatusEnum.ACTIVE.ToString())));
+                return View(insertViewModel);
+            }
+            IEnumerable<PassengerContextModel> passengerContextModelEnumerable = _passengerContext.SelectAll();
+            if (passengerContextModelEnumerable.Any(passenger => passenger.PassportId.Equals(insertViewModel.Form.PassportId)))
+            {
+                IEnumerable<PassportContextModel> passportContextModelEnumerable = _passportContext.SelectAll();
+                insertViewModel.PassportEnumerable = PassengerHelper
+                    .FromPassportEnumerable(passportContextModelEnumerable.Where(passport => passport.Status.Equals(Enum.Passport.StatusEnum.ACTIVE.ToString())));
+                ModelState.AddModelError("Form.PassportId", "Passport is already added to Passenger");
                 return View(insertViewModel);
             }
             PassengerBuilder builder = new PassengerBuilder();

@@ -1,6 +1,7 @@
 ﻿using ASystem.Builder;
 using ASystem.Context;
 using ASystem.Enum;
+using ASystem.Enum.Airplane;
 using ASystem.Enum.Class;
 using ASystem.Enum.User;
 using ASystem.Helper;
@@ -9,6 +10,7 @@ using ASystem.Models.Context;
 using ASystem.Models.View;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ASystem.Controllers
 {
@@ -48,7 +50,7 @@ namespace ASystem.Controllers
         {
             ClassViewModel.ListViewModel list = new ClassViewModel.ListViewModel();
             list.Status = param;
-            list.ClassContextModelEnumerable = _classContext.SelectAll();
+            list.ClassContextModelEnumerable = _classContext.SelectAll().OrderBy(step => step.AirplaneId);
             return View(list);
         }
         public IActionResult Show(int id)
@@ -121,7 +123,7 @@ namespace ASystem.Controllers
         {
             IEnumerable<AirplaneContextModel> airplaneEnumerable = _airplaneContext.SelectAll();
             ClassViewModel.InsertViewModel insertViewModel = new ClassViewModel.InsertViewModel();
-            insertViewModel.AirplaneIdEnumerable = ClassHelper.FromAirplaneEnumerable(airplaneEnumerable);
+            insertViewModel.AirplaneIdEnumerable = ClassHelper.FromAirplaneEnumerable(airplaneEnumerable.Where(airplane => airplane.Status.Equals(AirplaneStatusEnum.ACTIVE.ToString())));
             insertViewModel.ChangeFeeEnumerable = ClassHelper.GetIEnumerableSelectListItem<ChangeFeeEnum>();
             insertViewModel.RefundFeeEnumerable = ClassHelper.GetIEnumerableSelectListItem<RefundFeeEnum>();
             insertViewModel.SeatSelectionEnumerable = ClassHelper.GetIEnumerableSelectListItem<SeatSelectionEnum>();
@@ -136,7 +138,7 @@ namespace ASystem.Controllers
             if (!ModelState.IsValid)
             {
                 IEnumerable<AirplaneContextModel> airplaneEnumerable = _airplaneContext.SelectAll();
-                insertViewModel.AirplaneIdEnumerable = ClassHelper.FromAirplaneEnumerable(airplaneEnumerable);
+                insertViewModel.AirplaneIdEnumerable = ClassHelper.FromAirplaneEnumerable(airplaneEnumerable.Where(airplane => airplane.Status.Equals(AirplaneStatusEnum.ACTIVE.ToString())));
                 insertViewModel.ChangeFeeEnumerable = ClassHelper.GetIEnumerableSelectListItem<ChangeFeeEnum>();
                 insertViewModel.RefundFeeEnumerable = ClassHelper.GetIEnumerableSelectListItem<RefundFeeEnum>();
                 insertViewModel.SeatSelectionEnumerable = ClassHelper.GetIEnumerableSelectListItem<SeatSelectionEnum>();

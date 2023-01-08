@@ -8,6 +8,7 @@ using ASystem.Models.Context;
 using ASystem.Models.View;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ASystem.Controllers
 {
@@ -72,7 +73,8 @@ namespace ASystem.Controllers
             }
             else
             {
-                IEnumerable <FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll();
+                IEnumerable <FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                      .Where(flightSchedule => flightSchedule.Status.Equals(StatusEnum.ENABLE.ToString()));
                 IEnumerable<CrewContextModel> crewsContextModelEnumerable = _crewContext.SelectAll();
                 ScheduleCrewViewModel.EditViewModel editViewModel = new ScheduleCrewViewModel.EditViewModel();
                 editViewModel.FlightScheduleEnumerable = ScheduleCrewHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);
@@ -87,7 +89,8 @@ namespace ASystem.Controllers
         {
             if (!ModelState.IsValid)
             {
-                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll();
+                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                      .Where(flightSchedule => flightSchedule.Status.Equals(StatusEnum.ENABLE.ToString()));
                 IEnumerable<CrewContextModel> crewsContextModelEnumerable = _crewContext.SelectAll();
                 editViewModel.FlightScheduleEnumerable = ScheduleCrewHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);
                 editViewModel.CrewEnumerable = ScheduleCrewHelper.FromCrewEnumerable(crewsContextModelEnumerable);
@@ -108,7 +111,8 @@ namespace ASystem.Controllers
         }
         public IActionResult Insert()
         {
-            IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll();
+            IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                .Where(flightSchedule => flightSchedule.Status.Equals(StatusEnum.ENABLE.ToString()));
             IEnumerable<CrewContextModel> crewsContextModelEnumerable = _crewContext.SelectAll();
             ScheduleCrewViewModel.InsertViewModel insertViewModel = new ScheduleCrewViewModel.InsertViewModel();
             insertViewModel.FlightScheduleEnumerable = ScheduleCrewHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);
@@ -122,7 +126,8 @@ namespace ASystem.Controllers
         {
             if (!ModelState.IsValid)
             {
-                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll();
+                IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                      .Where(flightSchedule => flightSchedule.Status.Equals(StatusEnum.ENABLE.ToString()));
                 IEnumerable<CrewContextModel> crewsContextModelEnumerable = _crewContext.SelectAll();
                 insertViewModel.FlightScheduleEnumerable = ScheduleCrewHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);
                 insertViewModel.CrewEnumerable = ScheduleCrewHelper.FromCrewEnumerable(crewsContextModelEnumerable);

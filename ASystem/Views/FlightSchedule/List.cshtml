@@ -1,5 +1,6 @@
 ﻿@using System.Reflection;
 @using ASystem.Models.Context;
+@using ASystem.Enum.FlightSchedule;
 @model ASystem.Models.View.FlightScheduleViewModel.ListViewModel
 @{
     ViewData["Title"] = "List";
@@ -75,7 +76,9 @@
                             foreach (FlightScheduleContextModel contextModel in Model.FlightScheduleContextModelEnumerable)
                             {
                                 int id = contextModel.FlightScheduleId;
-                                <tr>
+                                string rowColor = "table-primary";
+                                if (contextModel.Status.Equals(StatusEnum.DISABLE.ToString())) rowColor = "table-danger";
+                                <tr class="@rowColor">
                                     @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties().Take(5))
                                     {
                                         <td>@propertyInfo.GetValue(contextModel, null)</td>

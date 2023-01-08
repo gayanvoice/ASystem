@@ -76,7 +76,7 @@ namespace ASystem.Controllers
                 IEnumerable<JobContextModel> jobContextModelEnumerable = _jobContext.SelectAll();
                 EmployeeViewModel.EditViewModel editViewModel = new EmployeeViewModel.EditViewModel();
                 editViewModel.JobEnumerable = EmployeeHelper.FromJobEnumerable(jobContextModelEnumerable);
-                editViewModel.StatusEnumerable = ClassHelper.GetIEnumerableSelectListItem<Enum.FlightSchedule.StatusEnum>();
+                editViewModel.StatusEnumerable = ClassHelper.GetIEnumerableSelectListItem<StatusEnum>();
                 editViewModel.Form = EmployeeViewModel.EditViewModel.FormViewModel.FromContextModel(contextModel);
                 return View(editViewModel);
             }

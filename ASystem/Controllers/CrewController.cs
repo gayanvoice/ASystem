@@ -1,8 +1,6 @@
 ﻿using ASystem.Builder;
 using ASystem.Context;
-using ASystem.Enum;
-using ASystem.Enum.Class;
-using ASystem.Enum.FlightSchedule;
+using ASystem.Enum.Employee;
 using ASystem.Enum.User;
 using ASystem.Helper;
 using ASystem.Models.Component;
@@ -10,6 +8,7 @@ using ASystem.Models.Context;
 using ASystem.Models.View;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ASystem.Controllers
 {
@@ -17,9 +16,14 @@ namespace ASystem.Controllers
     {
         private readonly IEmployeeContext _employeeContext;
         private readonly ICrewContext _crewContext;
-        public CrewController(IEmployeeContext employeeContext, ICrewContext crewContext)
+        private readonly IJobContext _jobContext;
+        public CrewController(
+            IEmployeeContext employeeContext,
+            IJobContext jobContext,
+            ICrewContext crewContext)
         {
             _crewContext = crewContext;
+            _jobContext = jobContext;
             _employeeContext = employeeContext;
         }
         public IActionResult Index()
@@ -75,7 +79,8 @@ namespace ASystem.Controllers
             {
                 IEnumerable<EmployeeContextModel> employeeContextModelEnumerable = _employeeContext.SelectAll();
                 CrewViewModel.EditViewModel editViewModel = new CrewViewModel.EditViewModel();
-                editViewModel.EmployeeEnumerable = CrewHelper.FromEmployeeEnumerable(employeeContextModelEnumerable);
+                editViewModel.EmployeeEnumerable = CrewHelper.FromEmployeeEnumerable(employeeContextModelEnumerable
+                .Where(employee => !employee.JobId.Equals(1) && employee.Status.Equals(StatusEnum.ENABLE.ToString()) ));
                 editViewModel.Form = CrewViewModel.EditViewModel.FormViewModel.FromContextModel(contextModel);
                 return View(editViewModel);
             }
@@ -86,7 +91,8 @@ namespace ASystem.Controllers
             if (!ModelState.IsValid)
             {
                 IEnumerable<EmployeeContextModel> employeeContextModelEnumerable = _employeeContext.SelectAll();
-                editViewModel.EmployeeEnumerable = CrewHelper.FromEmployeeEnumerable(employeeContextModelEnumerable);
+                editViewModel.EmployeeEnumerable = CrewHelper.FromEmployeeEnumerable(employeeContextModelEnumerable
+                .Where(employee => !employee.JobId.Equals(1) && employee.Status.Equals(StatusEnum.ENABLE.ToString()) ));
                 return View(editViewModel);
             }
             CrewBuilder builder = new CrewBuilder();
@@ -100,8 +106,11 @@ namespace ASystem.Controllers
         public IActionResult Insert()
         {
             IEnumerable<EmployeeContextModel> employeeContextModelEnumerable = _employeeContext.SelectAll();
+
             CrewViewModel.InsertViewModel insertViewModel = new CrewViewModel.InsertViewModel();
-            insertViewModel.EmployeeEnumerable = CrewHelper.FromEmployeeEnumerable(employeeContextModelEnumerable);
+            insertViewModel.EmployeeEnumerable = CrewHelper
+                .FromEmployeeEnumerable(employeeContextModelEnumerable
+                .Where(employee => !employee.JobId.Equals(1) && employee.Status.Equals(StatusEnum.ENABLE.ToString() )));
             insertViewModel.Form = new CrewViewModel.InsertViewModel.FormViewModel();
             return View(insertViewModel);
         }
@@ -111,7 +120,17 @@ namespace ASystem.Controllers
             if (!ModelState.IsValid)
             {
                 IEnumerable<EmployeeContextModel> employeeContextModelEnumerable = _employeeContext.SelectAll();
-                insertViewModel.EmployeeEnumerable = CrewHelper.FromEmployeeEnumerable(employeeContextModelEnumerable);
+                insertViewModel.EmployeeEnumerable = CrewHelper.FromEmployeeEnumerable(employeeContextModelEnumerable
+                    .Where(employee => !employee.JobId.Equals(1) && employee.Status.Equals(StatusEnum.ENABLE.ToString()) ));
+                return View(insertViewModel);
+            }
+            IEnumerable<CrewContextModel> crewContextModelEnumerable = _crewContext.SelectAll();
+            if (crewContextModelEnumerable.Any(crew => crew.EmployeeId.Equals(insertViewModel.Form.EmployeeId)))
+            {
+                IEnumerable<EmployeeContextModel> employeeContextModelEnumerable = _employeeContext.SelectAll();
+                insertViewModel.EmployeeEnumerable = CrewHelper.FromEmployeeEnumerable(employeeContextModelEnumerable
+                    .Where(employee => !employee.JobId.Equals(1) && employee.Status.Equals(StatusEnum.ENABLE.ToString())));
+                ModelState.AddModelError("Form.EmployeeId", "Employee already added to Crew");
                 return View(insertViewModel);
             }
             CrewBuilder builder = new CrewBuilder();

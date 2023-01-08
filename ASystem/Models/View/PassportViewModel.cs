@@ -1,5 +1,6 @@
 ﻿using ASystem.Models.Component;
 using ASystem.Models.Context;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -89,6 +90,8 @@ namespace ASystem.Models.View
         }
         public class EditViewModel
         {
+            public IEnumerable<SelectListItem> StatusEnumerable { get; set; }
+
             public FormViewModel Form { get; set; }
             public class FormViewModel
             {
@@ -189,6 +192,7 @@ namespace ASystem.Models.View
         }
         public class InsertViewModel
         {
+            public IEnumerable<SelectListItem> StatusEnumerable { get; set; }
             public FormViewModel Form { get; set; }
             
             public class FormViewModel

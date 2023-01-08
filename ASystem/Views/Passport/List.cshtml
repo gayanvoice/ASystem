@@ -1,5 +1,6 @@
 ﻿@using System.Reflection;
 @using ASystem.Models.Context;
+@using ASystem.Enum.Passport;
 @model ASystem.Models.View.PassportViewModel.ListViewModel
 @{
     ViewData["Title"] = "List";
@@ -74,7 +75,9 @@
                             foreach (PassportContextModel contextModel in Model.PassportContextModelEnumerable)
                             {
                                 int id = contextModel.PassportId;
-                                <tr>
+                                string rowColor = "table-primary";
+                                if (contextModel.Status.Equals(StatusEnum.DEACTIVE.ToString())) rowColor = "table-danger";
+                                <tr class="@rowColor">
                                     @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties().Take(7))
                                     {
                                         <td>@propertyInfo.GetValue(contextModel, null)</td>

@@ -1,6 +1,7 @@
 ﻿using ASystem.Builder;
 using ASystem.Context;
 using ASystem.Enum;
+using ASystem.Enum.Passport;
 using ASystem.Enum.User;
 using ASystem.Helper;
 using ASystem.Models.Component;
@@ -70,6 +71,7 @@ namespace ASystem.Controllers
             else
             {
                 PassportViewModel.EditViewModel editViewModel = new PassportViewModel.EditViewModel();
+                editViewModel.StatusEnumerable = PassportHelper.FromEnumerableSelectListItem<StatusEnum>();
                 editViewModel.Form = PassportViewModel.EditViewModel.FormViewModel.FromContextModel(contextModel);
                 return View(editViewModel);
             }
@@ -79,6 +81,7 @@ namespace ASystem.Controllers
         {
             if (!ModelState.IsValid)
             {
+                editViewModel.StatusEnumerable = PassportHelper.FromEnumerableSelectListItem<StatusEnum>();
                 return View(editViewModel);
             }
             PassportBuilder builder = new PassportBuilder();
@@ -106,6 +109,7 @@ namespace ASystem.Controllers
         public IActionResult Insert()
         {
             PassportViewModel.InsertViewModel insertViewModel = new PassportViewModel.InsertViewModel();
+            insertViewModel.StatusEnumerable = PassportHelper.FromEnumerableSelectListItem<StatusEnum>();
             insertViewModel.Form = new PassportViewModel.InsertViewModel.FormViewModel();
             return View(insertViewModel);
         }
@@ -114,6 +118,7 @@ namespace ASystem.Controllers
         {
             if (!ModelState.IsValid)
             {
+                insertViewModel.StatusEnumerable = PassportHelper.FromEnumerableSelectListItem<StatusEnum>();
                 return View(insertViewModel);
             }
             PassportBuilder builder = new PassportBuilder();
