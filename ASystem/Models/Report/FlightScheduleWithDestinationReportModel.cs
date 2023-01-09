@@ -9,7 +9,7 @@
         public string ArriveTime { get; set; }
         public int DurationHours { get; set; }
         public int DurationInMinutes { get; set; }
-        public int DurationInSeconds { get; set; }
+        //public int DurationInSeconds { get; set; }
         public string Origin { get; set; }
         public string Destination { get; set; }
         public string Type { get; set; }
