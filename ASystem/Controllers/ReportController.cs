@@ -115,10 +115,10 @@ namespace ASystem.Controllers
             reportViewModel.Enumerable = _reportContext.GetPilotScheduleReport(reportViewModel.Form.From, reportViewModel.Form.To);
             return View(reportViewModel);
         }
-        public IActionResult RemainingSeatsOfEachFlightScheduleByClassReport()
+        public IActionResult RemainingSeatsOfClassByFlightScheduleReport()
         {
-            ReportViewModel.RemainingSeatsOfFlightScheduleByClassReportViewModel reportViewModel = new ReportViewModel.RemainingSeatsOfFlightScheduleByClassReportViewModel();
-            reportViewModel.Enumerable = _reportContext.GetRemainingSeatsOfFlightScheduleByClassReport();
+            ReportViewModel.RemainingSeatsOfClassByFlightScheduleReportViewModel reportViewModel = new ReportViewModel.RemainingSeatsOfClassByFlightScheduleReportViewModel();
+            reportViewModel.Enumerable = _reportContext.GetRemainingSeatsOfClassByFlightScheduleReport();
             return View(reportViewModel);
         }
         public IActionResult WorkingHoursOfCrewReport()
@@ -153,6 +153,12 @@ namespace ASystem.Controllers
                 return View(reportViewModel);
             }
             reportViewModel.Enumerable = _reportContext.GetWorkingHoursOfPilotReport(reportViewModel.Form.From, reportViewModel.Form.To);
+            return View(reportViewModel);
+        }
+        public IActionResult RevenueByFlightScheduleReport()
+        {
+            ReportViewModel.RevenueByFlightScheduleReportViewModel reportViewModel = new ReportViewModel.RevenueByFlightScheduleReportViewModel();
+            reportViewModel.Enumerable = _reportContext.GeRevenueByFlightScheduleReport();
             return View(reportViewModel);
         }
     }
