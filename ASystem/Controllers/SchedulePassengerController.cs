@@ -58,7 +58,8 @@ namespace ASystem.Controllers
         {
             SchedulePassengerViewModel.ListViewModel list = new SchedulePassengerViewModel.ListViewModel();
             list.Status = param;
-            list.SchedulePassengerProcedureEnumerable = _schedulePassengerContext.GetAllSchedulePassenger();
+            list.SchedulePassengerProcedureEnumerable = _schedulePassengerContext.GetAllSchedulePassenger()
+                .OrderBy(schedulePassenger => int.Parse(schedulePassenger.SchedulePassengerId));
             return View(list);
         }
         [HttpPost]
@@ -106,6 +107,7 @@ namespace ASystem.Controllers
             FlightScheduleContextModel flightScheduleContextModel = _flightScheduleContext.Select(editViewModel.Form.FlightScheduleId);
             SeatContextModel seatContextModel = _seatContext.Select(editViewModel.Form.SeatId);
             ClassContextModel classContextModel = _classContext.Select(seatContextModel.ClassId);
+           
             if (flightScheduleContextModel.AirplaneId.Equals(classContextModel.AirplaneId))
             {
                 SchedulePassengerBuilder builder = new SchedulePassengerBuilder();
@@ -129,7 +131,9 @@ namespace ASystem.Controllers
         }
         private SchedulePassengerViewModel.EditViewModel FormatEditViewModel(SchedulePassengerViewModel.EditViewModel editViewModel)
         {
-            IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll();
+            IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                  .Where(flightSchedule => flightSchedule.Status.Equals(Enum.FlightSchedule.StatusEnum.ENABLE.ToString())
+                && flightSchedule.Type.Equals(Enum.FlightSchedule.TypeEnum.PASSENGER.ToString()));
             IEnumerable<PassengerContextModel> passengerContextModelEnumerable = _passengerContext.SelectAll();
             IEnumerable<SeatContextModel> seatContextModelEnumerable = _seatContext.SelectAll();
             editViewModel.FlightScheduleEnumerable = SchedulePassengerHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);
@@ -158,6 +162,22 @@ namespace ASystem.Controllers
             FlightScheduleContextModel flightScheduleContextModel = _flightScheduleContext.Select(insertViewModel.Form.FlightScheduleId);
             SeatContextModel seatContextModel = _seatContext.Select(insertViewModel.Form.SeatId);
             ClassContextModel classContextModel = _classContext.Select(seatContextModel.ClassId);
+            IEnumerable<SchedulePassengerContextModel> schedulePassengerContextModelEnumerable = _schedulePassengerContext.SelectAll()
+                .Where(schedulePassenger=> schedulePassenger.FlightScheduleId.Equals(insertViewModel.Form.FlightScheduleId));
+            bool isSeatExist = schedulePassengerContextModelEnumerable.Any(schedulePassenger => schedulePassenger.SeatId.Equals(insertViewModel.Form.SeatId));
+            bool isPassengerExist = schedulePassengerContextModelEnumerable.Any(schedulePassenger => schedulePassenger.PassengerId.Equals(insertViewModel.Form.PassengerId));
+            if (isSeatExist)
+            {
+                insertViewModel = FormatInsertViewModel(insertViewModel);
+                ModelState.AddModelError("Form.SeatId", "Seat is already booked the flight");
+                return View(insertViewModel);
+            }
+            if (isPassengerExist)
+            {
+                insertViewModel = FormatInsertViewModel(insertViewModel);
+                ModelState.AddModelError("Form.PassengerId", "Passenger is already booked the flight");
+                return View(insertViewModel);
+            }
             if (flightScheduleContextModel.AirplaneId.Equals(classContextModel.AirplaneId))
             {
                 SchedulePassengerBuilder builder = new SchedulePassengerBuilder();
@@ -180,7 +200,9 @@ namespace ASystem.Controllers
         }
         private SchedulePassengerViewModel.InsertViewModel FormatInsertViewModel(SchedulePassengerViewModel.InsertViewModel insertViewModel)
         {
-            IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll();
+            IEnumerable<FlightScheduleContextModel> flightScheduleContextModelEnumerable = _flightScheduleContext.SelectAll()
+                  .Where(flightSchedule => flightSchedule.Status.Equals(Enum.FlightSchedule.StatusEnum.ENABLE.ToString())
+                && flightSchedule.Type.Equals(Enum.FlightSchedule.TypeEnum.PASSENGER.ToString()));
             IEnumerable<PassengerContextModel> passengerContextModelEnumerable = _passengerContext.SelectAll();
             IEnumerable<SeatContextModel> seatContextModelEnumerable = _seatContext.SelectAll();
             insertViewModel.FlightScheduleEnumerable = SchedulePassengerHelper.FromFlightScheduleEnumerable(flightScheduleContextModelEnumerable);

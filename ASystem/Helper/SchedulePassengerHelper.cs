@@ -25,7 +25,16 @@ namespace ASystem.Helper
             IList<SelectListItem> selectListItemList = new List<SelectListItem>();
             foreach (FlightScheduleContextModel contextModel in enumerable)
             {
-                selectListItemList.Add(new SelectListItem() { Text = contextModel.FlightScheduleId.ToString(), Value = contextModel.FlightScheduleId.ToString() });
+                selectListItemList.Add(new SelectListItem()
+                {
+                    Text = contextModel.FlightScheduleId.ToString()
+                + " -AirplaneId " + contextModel.AirplaneId
+                + " -AirportOrigin " + contextModel.AirportIdOrigin
+                + " -AirportDestination " + contextModel.AirportIdDestination
+                + " -DepartureTime " + contextModel.DepartureTime.ToString()
+                + " -ArriveTime " + contextModel.ArriveTime.ToString(),
+                    Value = contextModel.FlightScheduleId.ToString()
+                });
             }
             return selectListItemList;
         }
@@ -34,7 +43,7 @@ namespace ASystem.Helper
             IList<SelectListItem> selectListItemList = new List<SelectListItem>();
             foreach (PassengerContextModel contextModel in enumerable)
             {
-                selectListItemList.Add(new SelectListItem() { Text = contextModel.PassengerId.ToString(), Value = contextModel.PassengerId.ToString() });
+                selectListItemList.Add(new SelectListItem() { Text = contextModel.PassengerId.ToString() + " -PassportId " + contextModel.PassportId, Value = contextModel.PassengerId.ToString() });
             }
             return selectListItemList;
         }
@@ -43,7 +52,7 @@ namespace ASystem.Helper
             IList<SelectListItem> selectListItemList = new List<SelectListItem>();
             foreach (SeatContextModel contextModel in enumerable)
             {
-                selectListItemList.Add(new SelectListItem() { Text = contextModel.SeatId + " " + contextModel.SeatNo, Value = contextModel.SeatId.ToString() });
+                selectListItemList.Add(new SelectListItem() { Text = contextModel.SeatId + " -SeatNo " + contextModel.SeatNo + " -Class " + contextModel.ClassId, Value = contextModel.SeatId.ToString() });
             }
             return selectListItemList;
         }

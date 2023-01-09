@@ -134,12 +134,13 @@ namespace ASystem.Controllers
                 insertViewModel.StatusEnumerable = ScheduleCrewHelper.GetIEnumerableSelectListItem<StatusEnum>();
                 return View(insertViewModel);
             }
+            FlightScheduleContextModel flightScheduleContextModel = _flightScheduleContext.Select(insertViewModel.Form.FlightScheduleId);
             ScheduleCrewBuilder builder = new ScheduleCrewBuilder();
             ScheduleCrewContextModel contextModel = builder
                 .SetFlightScheduleId(insertViewModel.Form.FlightScheduleId)
                 .SetCrewId(insertViewModel.Form.CrewId)
-                .SetTimeIn(insertViewModel.Form.TimeIn)
-                .SetTimeOut(insertViewModel.Form.TimeOut)
+               .SetTimeIn(flightScheduleContextModel.DepartureTime.AddMinutes(-30))
+                .SetTimeOut(flightScheduleContextModel.ArriveTime.AddMinutes(30))
                 .SetStatus(insertViewModel.Form.Status)
                 .Build();
             _scheduleCrewContext.Insert(contextModel);

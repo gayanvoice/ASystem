@@ -79,30 +79,38 @@ namespace ASystem.Models.View
             public FormViewModel Form { get; set; }
             public class FormViewModel
             {
+                [Required]
                 [Display(Name = "Employee Id")]
                 public int EmployeeId { get; set; }
 
+                [Required]
                 [Display(Name = "Job Id")]
                 public int JobId { get; set; }
 
+                [Required]
                 [Display(Name = "Surname")]
                 [StringLength(45)]
                 public string Surname { get; set; }
 
+                [Required]
                 [Display(Name = "Other Name")]
                 [StringLength(45)]
                 public string OtherName { get; set; }
 
+                [Required]
                 [Display(Name = "Date Of Birth")]
                 public DateTime DateOfBirth { get; set; }
 
+                [Required]
                 [Display(Name = "Address")]
                 [StringLength(200)]
                 public string Address { get; set; }
 
+                [Required]
                 [Display(Name = "Phone")]
                 public int Phone { get; set; }
 
+                [Required]
                 [Display(Name = "Status")]
                 public string Status { get; set; }
 
@@ -128,28 +136,34 @@ namespace ASystem.Models.View
             public FormViewModel Form { get; set; }
             public class FormViewModel
             {
-
+                [Required]
                 [Display(Name = "Job Id")]
                 public int JobId { get; set; }
 
+                [Required]
                 [Display(Name = "Surname")]
                 [StringLength(45)]
                 public string Surname { get; set; }
 
+                [Required]
                 [Display(Name = "Other Name")]
                 [StringLength(45)]
                 public string OtherName { get; set; }
 
+                [Required]
                 [Display(Name = "Date Of Birth")]
                 public DateTime DateOfBirth { get; set; }
 
+                [Required]
                 [Display(Name = "Address")]
                 [StringLength(200)]
                 public string Address { get; set; }
 
+                [Required]
                 [Display(Name = "Phone")]
                 public int Phone { get; set; }
 
+                [Required]
                 [Display(Name = "Status")]
                 public string Status { get; set; }
             }

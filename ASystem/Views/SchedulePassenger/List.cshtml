@@ -1,5 +1,6 @@
 ﻿@using System.Reflection;
 @using ASystem.Models.Procedure;
+@using ASystem.Enum.SchedulePassenger;
 @model ASystem.Models.View.SchedulePassengerViewModel.ListViewModel
 @{
     ViewData["Title"] = "List";
@@ -78,7 +79,7 @@
                         <tr>
                             @{
                                 foreach (PropertyInfo propertyInfo in Model.SchedulePassengerProcedureEnumerable
-                                    .First().GetType().GetProperties())
+                                    .First().GetType().GetProperties().Take(8))
                                 {
                                     <th scope="col">@propertyInfo.Name</th>
                                 }
@@ -91,8 +92,10 @@
                             foreach (SchedulePassengerProcedureModel contextModel in Model.SchedulePassengerProcedureEnumerable)
                             {
                                 string id = contextModel.SchedulePassengerId;
-                                <tr>
-                                    @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties())
+                                string rowColor = "table-primary";
+                                if (contextModel.Status.Equals(StatusEnum.DISABLE.ToString())) rowColor = "table-danger";
+                                <tr class="@rowColor">
+                                    @foreach (PropertyInfo propertyInfo in contextModel.GetType().GetProperties().Take(8))
                                     {
                                         <td>@propertyInfo.GetValue(contextModel, null)</td>
                                     }

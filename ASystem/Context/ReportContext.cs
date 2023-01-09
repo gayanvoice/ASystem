@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using static ASystem.Models.View.ReportViewModel;
 
 namespace SASystem.Context
 {
@@ -29,7 +30,7 @@ namespace SASystem.Context
         public IEnumerable<PassengersByFlightScheduleReportModel> GetPassengersByFlightScheduleReport()
         {
             MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
-            string query = "select * from v_NumberOfPassengersByFlight";
+            string query = "select * from v_NumberOfPassengersByFlightSchedule";
             return mySqlSingleton.SelectAll<PassengersByFlightScheduleReportModel>(query);
         }
 
@@ -61,6 +62,8 @@ namespace SASystem.Context
                         left join Employee em on em.EmployeeId = cr.EmployeeId
                         left join Job jb on jb.JobId = em.JobId
                         where sc.TimeIn between @From and @To
+                        and em.Status in ('ENABLE')
+                        and sc.Status in ('ENABLE')
                         order by sc.CrewId) a";
             object param = new { From = From, To = To };
             return mySqlSingleton.SelectAll<PayCrewWeeklyReportModel>(query, param);
@@ -104,16 +107,18 @@ namespace SASystem.Context
                     left join Employee em on em.EmployeeId = pt.EmployeeId
                     left join Job jb on jb.JobId = em.JobId
                     where sp.TimeIn between @From and @To
+                    and em.Status in ('ENABLE')
+                    and sp.Status in ('ENABLE')
                     order by sp.PilotId) a";
             object param = new { From = From, To = To };
             return mySqlSingleton.SelectAll<PayPilotWeeklyReportModel>(query, param);
         }
 
-        public IEnumerable<RemainingSeatsOfFlightScheduleByClassReportModel> GetRemainingSeatsOfFlightScheduleByClassReport()
+        public IEnumerable<RemainingSeatsOfClassByFlightScheduleReportModel> GetRemainingSeatsOfClassByFlightScheduleReport()
         {
             MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
-            string query = "select * from v_NumberOfRemainingSeatsOfFlightScheduleByClass";
-            return mySqlSingleton.SelectAll<RemainingSeatsOfFlightScheduleByClassReportModel>(query);
+            string query = "select * from v_NumberOfRemainingSeatsOfClassByFlightSchedule";
+            return mySqlSingleton.SelectAll<RemainingSeatsOfClassByFlightScheduleReportModel>(query);
         }
 
         public IEnumerable<WorkingHoursOfCrewReportModel> GetWorkingHoursOfCrewReport(DateTime From, DateTime To)
@@ -133,10 +138,12 @@ namespace SASystem.Context
                                                  TIMESTAMPDIFF(second, TimeIn, TimeOut) as Duration
                                           from ScheduleCrew sp
                                                where TimeIn between @From and @To
+                                               and sp.Status in ('ENABLE')
                                           order by CrewId) a
                                     group by CrewId) b) c
                         left join Crew cr on cr.CrewId = c.CrewId
-                        left join Employee em on em.EmployeeId = cr.EmployeeId";
+                        left join Employee em on em.EmployeeId = cr.EmployeeId
+                        where em.Status in ('ENABLE')";
             object param = new { From = From, To = To };
             return mySqlSingleton.SelectAll<WorkingHoursOfCrewReportModel>(query, param);
         }
@@ -157,13 +164,21 @@ namespace SASystem.Context
                                 sum(Duration) Sum from
                                 (select sp.PilotId, TIMESTAMPDIFF(second, TimeIn, TimeOut) as Duration
                                 from SchedulePilot sp
-                                where TimeIn between @From and @To
+                                where TimeIn between @From and @To and
+                                sp.Status in ('ENABLE')
                                 order by PilotId) a
                             group by PilotId) b) c
-                    left join Crew cr on cr.CrewId = c.PilotId
-                    left join Employee em on em.EmployeeId = cr.EmployeeId";
+                     left join Pilot plt on plt.PilotId = c.PilotId
+                    left join Employee em on em.EmployeeId = plt.EmployeeId
+                    and em.Status in ('ENABLE')";
             object param = new { From = From, To = To };
             return mySqlSingleton.SelectAll<WorkingHoursOfPilotReportModel>(query, param);
+        }
+        public IEnumerable<RevenueByFlightScheduleReportModel> GeRevenueByFlightScheduleReport()
+        {
+            MySqlSingleton mySqlSingleton = MySqlSingleton.Instance;
+            string query = "select * from v_RevenueByFlightSchedule";
+            return mySqlSingleton.SelectAll<RevenueByFlightScheduleReportModel>(query);
         }
     }
 }

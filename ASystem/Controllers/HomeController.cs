@@ -324,8 +324,8 @@ namespace ASystem.Controllers
             });
             itemModelList.Add(new ItemComponentModel()
             {
-                Name = "Remaining Seats Of Each Flight Schedule By Class Report",
-                Route = new ItemComponentModel.RouteModel() { Controller = "Report", Action = "RemainingSeatsOfEachFlightScheduleByClassReport" },
+                Name = "Remaining Seats Of Class BY Flight Schedule Report",
+                Route = new ItemComponentModel.RouteModel() { Controller = "Report", Action = "RemainingSeatsOfClassByFlightScheduleReport" },
                 ImageUrl = "/img/report/remaining-seats-of-flight-schedule.jpg"
             });
             itemModelList.Add(new ItemComponentModel()
@@ -339,6 +339,12 @@ namespace ASystem.Controllers
                 Name = "Working Hours Of Pilot Report",
                 Route = new ItemComponentModel.RouteModel() { Controller = "Report", Action = "WorkingHoursOfPilotReport" },
                 ImageUrl = "/img/report/working-hours-of-pilot.jpg"
+            });
+            itemModelList.Add(new ItemComponentModel()
+            {
+                Name = "Revenue By Flight Schedule",
+                Route = new ItemComponentModel.RouteModel() { Controller = "Report", Action = "RevenueByFlightScheduleReport" },
+                ImageUrl = "/img/report/revenue-by-flight-schedule.jpg"
             });
             return itemModelList;
         }

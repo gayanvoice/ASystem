@@ -11,5 +11,6 @@
         public string Origin { get; set; }
         public string Destination { get; set; }
         public string Airplane { get; set; }
+        public string Status { get; set; }
     }
 }

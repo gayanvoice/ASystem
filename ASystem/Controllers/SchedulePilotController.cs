@@ -174,7 +174,7 @@ namespace ASystem.Controllers
                 .SetFlightScheduleId(insertViewModel.Form.FlightScheduleId)
                 .SetPilotId(insertViewModel.Form.PilotId)
                 .SetTimeIn(flightScheduleContextModel.DepartureTime.AddMinutes(-30))
-                .SetTimeOut(flightScheduleContextModel.DepartureTime.AddMinutes(30))
+                .SetTimeOut(flightScheduleContextModel.ArriveTime.AddMinutes(30))
                 .SetStatus(insertViewModel.Form.Status)
                 .Build();
             _schedulePilotContext.Insert(contextModel);

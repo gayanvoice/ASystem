@@ -1,9 +1,9 @@
 ﻿@using System.Reflection;
 @using ASystem.Models.Context;
-@model ASystem.Models.View.ReportViewModel.RemainingSeatsOfFlightScheduleByClassReportViewModel
+@model ASystem.Models.View.ReportViewModel.RemainingSeatsOfClassByFlightScheduleReportViewModel
 @{
-    ViewData["Title"] = "Remaining Seats of Flight Schedule by Class Report";
-    string ReportName = "Remaining Seats of Flight Schedule by Class Report Report";
+    ViewData["Title"] = "Remaining Seats of Class By Flight Schedule";
+    string ReportName = "Remaining Seats of Class By Flight Schedule";
 }
 @section CSS
 {
@@ -26,7 +26,7 @@
                 </thead>
                 <tbody>
                     @{
-                        foreach (RemainingSeatsOfFlightScheduleByClassReportModel reportModel in Model.Enumerable)
+                        foreach (RemainingSeatsOfClassByFlightScheduleReportModel reportModel in Model.Enumerable)
                         {
                             <tr>
                                 @foreach (PropertyInfo propertyInfo in reportModel.GetType().GetProperties())

@@ -12,8 +12,9 @@ namespace ASystem.Context
         IEnumerable<PayCrewWeeklyReportModel> GetPayCrewWeeklyReport(DateTime From, DateTime To);
         IEnumerable<PayPilotWeeklyReportModel> GetPayPilotWeeklyReport(DateTime From, DateTime To);
         IEnumerable<PilotScheduleReportModel> GetPilotScheduleReport(DateTime From, DateTime To);
-        IEnumerable<RemainingSeatsOfFlightScheduleByClassReportModel> GetRemainingSeatsOfFlightScheduleByClassReport();
+        IEnumerable<RemainingSeatsOfClassByFlightScheduleReportModel> GetRemainingSeatsOfClassByFlightScheduleReport();
         IEnumerable<WorkingHoursOfCrewReportModel> GetWorkingHoursOfCrewReport(DateTime From, DateTime To);
         IEnumerable<WorkingHoursOfPilotReportModel> GetWorkingHoursOfPilotReport(DateTime From, DateTime To);
+        IEnumerable<RevenueByFlightScheduleReportModel> GeRevenueByFlightScheduleReport();
     }
 }
