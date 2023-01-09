@@ -1,0 +1,43 @@
+﻿@using System.Reflection;
+@using ASystem.Models.Context;
+@model ASystem.Models.View.ReportViewModel.RevenueByFlightScheduleReportViewModel
+@{
+    ViewData["Title"] = "Revenue By Flight Schedule Report";
+    string ReportName = "Revenue By Flight Schedule Report";
+}
+@section CSS
+{
+    <link href="https://getbootstrap.com/docs/5.0/examples/features/features.css" rel="stylesheet">
+}
+<div class="px-4 py-5" id="custom-cards">
+    <h2 class="pb-2 border-bottom"><a asp-controller="Home" asp-action="Report" class="text-decoration-none">Report</a> / @ReportName</h2>
+    <div class="g-4 py-5">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        @{
+                            foreach (PropertyInfo propertyInfo in Model.Enumerable.First().GetType().GetProperties())
+                            {
+                                <th scope="col">@propertyInfo.Name</th>
+                            }
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (RevenueByFlightScheduleReportModel reportModel in Model.Enumerable)
+                        {
+                            <tr>
+                                @foreach (PropertyInfo propertyInfo in reportModel.GetType().GetProperties())
+                                {
+                                    <td>@propertyInfo.GetValue(reportModel, null)</td>
+                                }
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -15,7 +15,7 @@ namespace ASystem.Models.View
         public PayCrewWeeklyReportViewModel PayCrewWeeklyReport { get; set; }
         public PayPilotWeeklyReportViewModel PayPilotWeeklyReport { get; set; }
         public PilotScheduleReportViewModel PilotScheduleReport { get; set; }
-        public RemainingSeatsOfFlightScheduleByClassReportViewModel RemainingSeatsOfFlightScheduleByClassReport { get; set; }
+        public RemainingSeatsOfClassByFlightScheduleReportViewModel RemainingSeatsOfFlightScheduleByClassReport { get; set; }
         public WorkingHoursOfCrewReportViewModel WorkingHoursOfCrewReport { get; set; }
         public WorkingHoursOfPilotReportModelViewModel WorkingHoursOfPilotReport { get; set; }
         public class CrewScheduleReportViewModel
@@ -78,9 +78,9 @@ namespace ASystem.Models.View
                 public DateTime To { get; set; }
             }
         }
-        public class RemainingSeatsOfFlightScheduleByClassReportViewModel
+        public class RemainingSeatsOfClassByFlightScheduleReportViewModel
         {
-            public IEnumerable<RemainingSeatsOfFlightScheduleByClassReportModel> Enumerable { get; set; }
+            public IEnumerable<RemainingSeatsOfClassByFlightScheduleReportModel> Enumerable { get; set; }
         }
         public class WorkingHoursOfCrewReportViewModel
         {
@@ -111,6 +111,10 @@ namespace ASystem.Models.View
                 [Display(Name = "To")]
                 public DateTime To { get; set; }
             }
+        }
+        public class RevenueByFlightScheduleReportViewModel
+        {
+            public IEnumerable<RevenueByFlightScheduleReportModel> Enumerable { get; set; }
         }
     }
 }
