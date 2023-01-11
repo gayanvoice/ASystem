@@ -29,7 +29,7 @@ namespace ASystem.Singleton
         {
             get
             {
-                string text = File.ReadAllText(@"C:\100638182-data\key_asystem.txt");
+                string text = File.ReadAllText(@"C:\Users\Gayan\Desktop\key_asystem.txt");
                 return new MySqlConnection(text);
             }
         }
