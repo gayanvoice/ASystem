@@ -48,7 +48,8 @@ namespace ASystem.Controllers
             else
             {
                 CipherSingleton cipherSingleton = CipherSingleton.Instance;
-                if (cipherSingleton.Decrypt(userContextModel.Password).Equals(loginViewModel.Password))
+                //if (cipherSingleton.Decrypt(userContextModel.Password).Equals(loginViewModel.Password))
+                if (userContextModel.Password.Equals(loginViewModel.Password))
                 {
                     if (userContextModel.Status.Equals(UserStatusEnum.ACTIVE.ToString()))
                     {

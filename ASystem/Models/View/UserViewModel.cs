@@ -89,7 +89,8 @@ namespace ASystem.Models.View
                     formViewModel.UserId = userContextModel.UserId;
                     formViewModel.Username = userContextModel.Username;
                     formViewModel.Role = userContextModel.Role;
-                    formViewModel.Password = cipherSingleton.Decrypt(userContextModel.Password);
+                    //formViewModel.Password = cipherSingleton.Decrypt(userContextModel.Password);
+                    formViewModel.Password = userContextModel.Password;
                     formViewModel.Status = (UserStatusEnum) System.Enum.Parse(typeof(UserStatusEnum), userContextModel.Status);
                     return formViewModel;
                 }

@@ -38,7 +38,7 @@ namespace ASystem.Builder
         public UserBuilder SetPassword(string password)
         {
             CipherSingleton cipherSingleton = CipherSingleton.Instance;
-            _userContextModel.Password = cipherSingleton.Encrypt(password);
+            _userContextModel.Password = password; //cipherSingleton.Encrypt(password);
             return this;
         }
         public UserBuilder SetStatus(UserStatusEnum userStatusEnum)
