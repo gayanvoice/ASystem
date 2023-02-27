@@ -1,5 +1,5 @@
 # ASystem
-Database Assignment (User - Staff/Management/Admin Pw-1234)
+Database Assignment
 
 | User | Pw    |
 | :---:   | :---: |
